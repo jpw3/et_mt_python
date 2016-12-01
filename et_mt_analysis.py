@@ -19,6 +19,7 @@ subject_data = shelve.open(shelvepath+'mt_data');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data');
 
 ids=['jpw'];
+block_types=['Detect','Discrim'];
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -52,15 +53,24 @@ def computeNT(trial_matrix, id):
 			ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
 			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.nr_targets==n)] for ts in t_matrix];
 			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.nr_targets==n)] for ts in t_matrix];
+			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==n)] for ts in t_matrix];
 			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			#trim matrixed rts of outliers greater than 3 s.d.s from the mean
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; 
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 			#compute and save the relevant data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
-			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
-			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
+			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
+			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
+				#plot the number of targets data via a line plot for more asthetic viewing
+	fig,ax1=subplots(); hold(True); grid(True); #title('Number of Target Data',size=22);
+	ax1.set_ylim(300,1000); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(200,1050,50)); xticks([0.05,0.1],['One','Two'],size=40)
+	styles=['solid','dashed'];     #['dodgerblue','red'];
+	for s,type in zip(styles,block_types):
+		ax1.plot([0.05,0.1],[db['%s_%s_st_mean_rt'%(id,type)],db['%s_%s_mt_mean_rt'%(id,type)]],color='black',lw=6.0,ls=s);
+		#ax1.errorbar(0.05,db['%s_%s_st_mean_rt'%(id,type)],yerr=[[db['%s_%s_st_rt_bs_sems'%(id,type)]],[db['%s_%s_st_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
+		#ax1.errorbar(0.1,db['%s_%s_mt_mean_rt'%(id,type)],yerr=[[db['%s_%s_mt_rt_bs_sems'%(id,type)]],[db['%s_%s_mt_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
 
 def compute_BS_SEM(data_matrix, type):
     #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
