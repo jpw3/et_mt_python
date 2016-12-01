@@ -18,8 +18,47 @@ shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt_data/'; #'/Users/james
 #subject_data = shelve.open(shelvepath+'mt_data');
 #individ_subject_data = shelve.open(shelvepath+'individ_mt_data');
 
-##########################################################################################
+ids=['jpw'];
 
+## Data Analysis Methods ####################################################################################################
+
+def getStats(id='agg'):
+	if id=='agg':
+		blocks=getAllSubjectBlocks();
+	else:
+		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
+	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
+	return trials; #for testing here
+
+
+def computeNT(trial_matrix, id):
+	#tria_matrix should be a list of trials for each subjects
+	trials = [tee for person in trial_matrix for tee in person];
+	
+	
+
+
+
+def compute_BS_SEM(data_matrix, type):
+    #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
+    #should only pass data matrix into this function after segmenting into relevant conditions
+	agg_data = [datum for person in data_matrix for datum in person]; #get all the data together
+	n = len(data_matrix);
+	if type=='time':
+		grand_mean = mean(agg_data);
+		matrix = [[dee for dee in datas] for datas in data_matrix]
+		err = [mean(d) for d in matrix if (len(d)>0)]-grand_mean;
+		squared_err = err**2;
+		MSE = sum(squared_err)/(n-1);
+	elif type=='result':
+		grand_pc = pc(agg_data);
+		matrix = [[dee for dee in datas] for datas in data_matrix]
+		err = [pc(d) for d in matrix if (len(d)>0)]-grand_pc;
+		squared_err = err**2;
+		MSE = sum(squared_err)/(n-1);
+	denom = sqrt(n);
+	standard_error_estimate=sqrt(MSE)/float(denom);
+	return standard_error_estimate;
 
 ## Importing Methods #############################################################################################################
 
@@ -53,9 +92,9 @@ def getAllSubjectBlocks():
 
 def getTrials(all_blocks):
     #do some processing of trials...
-	processed_blocks = [processTrials(b) for blocks in all_blocks for b in blocks];
+	foo = [processTrials(b) for blocks in all_blocks for b in blocks]; #foo is a dummy variable; I'm performing all the operations on all_blocks list
     #then segment the trials all together
-	trial_matrix = [[t for b in blocks for t in b.trials] for blocks in processed_blocks];
+	trial_matrix = [[t for b in blocks for t in b.trials] for blocks in all_blocks];
 	print "Done..\n"
 	return trial_matrix; #trial matrix will be a n by m, n is the number of trials for a subject and m is the number of subjects
 
@@ -64,21 +103,28 @@ def processTrials(b):
 	#go through each trial and add fields as necessary
 	for i,t in enumerate(b.trials):
 	#code which hemifield the target was in
-		#target absent conditions
-		if (size(t.target_coors)==1):
-			t.target_hf1 = 'none';
-			t.target_hf2 = 'none';
-			t.hf_locs = [t.target_hf1,t.target_hf2];
-			continue;
-		#get the first target's side
-		if (t.target_coors[1,1]>0):	 #need to check that this works
-			t.target_hf1 = 'right'; 
-		else:
-			t.target_hf1 = 'left';
-	#code whether the hemifield of second target matched, if applicable
-		if (t.nr_targets==2):
-			if (t.target_loc[2,1]>0): #need to check this works
-				t.target_hf2 = 'right';
+		#target absent 
+		if (t.nr_targets==0):
+			t.target_hf1='none';
+			t.target_hf2='none';
+			t.hf_match=-1;
+		#one target
+		elif (t.nr_targets==1):
+			if (t.target_coors[0]>0):	 
+				t.target_hf1='right'; 
+			else:
+				t.target_hf1='left';
+			t.hf_match = -1; #code for single targets is -1
+			t.target_hf2='none';
+		#multiple targets
+		elif (t.nr_targets==2):
+			if (t.target_coors[0,0]>0):	 
+				t.target_hf1='right'; 
+			else:
+				t.target_hf1='left';
+			#code whether the hemifield of second target matched
+			if (t.target_coors[1,0]>0): 
+				t.target_hf2='right';
 				if t.target_hf1=='right':
 					t.hf_match=1;
 				else:
@@ -89,12 +135,8 @@ def processTrials(b):
 					t.hf_match=1;
 				else:
 					t.hf_match=0;
-		else:
-			t.hf_match = -1; #code for single targets is -1
-			t.target_hf2='none';
 		#get the target hemifields together for easier processing in HF bias function
 		t.hf_locs = [t.target_hf1,t.target_hf2];
-	return b;
 
 
 ## Data Structures ###############################################################################################################
