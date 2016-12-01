@@ -11,8 +11,8 @@ from glob import glob #for use in searching for/ finding data files
 import random #general purpose
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt_data/'; #'/Users/jameswilmott/Documents/Python/et_mt_data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt_data/'; #'/Users/james/Documents/Python/et_mt_data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 #subject_data = shelve.open(shelvepath+'mt_data');
@@ -28,8 +28,8 @@ def loadBlock(subid,block_type,block_nr):
 	#returns a single Block object corresponding to the block number and subject id
 	#block type should be a string corresponding to the task type(e.g. 'Discrim')
 	filename = glob(datapath+'%s'%subid+'/'+'*_%s_%s_%d.mat'%(block_type,subid,block_nr)); #Not sure if this regex will work here, must check
-	matdata = loadmat(filename,struct_as_record=False,squeeze_me=True)['block']; #use scipy loadmat() to load in the files
-	block=Block(matdata,block_nr); #here, create Block object with dictionary of trial data in matdata
+	matdata = loadmat(filename[0],struct_as_record=False,squeeze_me=True)['block']; #use scipy loadmat() to load in the files
+	block=Block(matdata); #here, create Block object with dictionary of trial data in matdata
 	return block;
 
 #define a function to import all .mat data files for a given subject
@@ -133,9 +133,6 @@ class discrimTrial(object):
 		self.distr_dist = [trialData.distractor_distances];
 		self.target_coors = trialData.target_coors;
 		self.dist_coors = trialData.dist_coors;
-		self.target_loc = trialData.target_loc; #1-6
-		self.second_target_loc = trialData.second_target_loc; #0-6, 0 if a single target trial
-		self.target_types = trialData.target_types; #first index is first target, second index is second target
 		self.trial_times = trialData.trial_times;
 		self.initiation_latency = trialData.trial_times.initiation_latency*1000;
 		self.response_time = self.trial_times.response_time*1000; #put every time into seconds
