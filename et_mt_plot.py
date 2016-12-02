@@ -52,7 +52,7 @@ def plotHF(id='agg'):
 		db=individ_subject_data;
 	#plot the number of targets data via a line plot for more asthetic viewing
 	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Multiple Target Hemifield Relationship Data',size=22);
-	ax1.set_ylim(400,900); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.05,0.1],['One','Two'],size=20); 
+	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['Same HF','Different HF'],size=20); 
 	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same HF','Different HF'],size=18);
 	ax1.text(1.825,960,'Percent Correct',size=20);
 	#iterate over each block type and plot the sngle and multiple target data
@@ -68,5 +68,6 @@ def plotHF(id='agg'):
 	#blue_p=patches.Patch(color='dodgerblue',label='Discrimination'); red_p=patches.Patch(color='red',label='Detection');
 	ax1.legend(bbox_to_anchor=[0.97,0.0],ncol=2);
 	show();
+	
 		
 		
