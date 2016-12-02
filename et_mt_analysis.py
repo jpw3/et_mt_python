@@ -11,8 +11,8 @@ from glob import glob #for use in searching for/ finding data files
 import random #general purpose
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath = '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott/Documents/Python/et_mt/data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -31,6 +31,36 @@ def getStats(id='agg'):
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
 	return trials; #for testing here
 
+def computeHF(trial_matrix,id):
+	#trial_matrix should be a list of trials for each subjects
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	#loop through each hemifield name and find the mean, median, and such
+	trials = [tee for person in trial_matrix for tee in person];
+	for type in ['Discrim','Detect']:
+		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
+		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+		for hf,name in zip([0,1],['diff','same']):
+			all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)]; res=[tee.result for tee in t if (tee.same_hf==hf)]; #gets the rts, ils, and results for the relevant data
+			agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils);
+			rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
+			ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
+			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)] for ts in t_matrix];
+			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)] for ts in t_matrix];
+			res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)] for ts in t_matrix];
+			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			if len(rts)==0:
+				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+			#compute and save the data
+			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
+			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
+			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
+			db['%s_%s_%s_hf_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_hf_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
 
 def computeNT(trial_matrix, id):
 	#trial_matrix should be a list of trials for each subjects
@@ -92,6 +122,19 @@ def compute_BS_SEM(data_matrix, type):
 	denom = sqrt(n);
 	standard_error_estimate=sqrt(MSE)/float(denom);
 	return standard_error_estimate;
+
+def compute_CIs(data, func=mean, interval=95):
+    #data should be a list or array, func can be a lambda function (e.g. percent correct)
+    percentiles = [(0+(100-interval)/2.0),(100-(100-interval)/2.0)]; #get the percentiles for use in getting CIs
+    n = len(data);
+    epochs = 1000; #run through the bootstrapping procedure this many times
+    sample_stats = zeros(epochs);# to hold samples
+    for i in range(epochs):
+        sample = choice(data,size=n,replace=True); #randomly sample from distribution
+        sample_stats[i] = func(sample);
+    cis = array([percentile(sample_stats,percentiles[0]),percentile(sample_stats,percentiles[1])]);
+    #print "Finished computing CIs..."
+    return cis;
 
 ## Importing Methods #############################################################################################################
 
