@@ -18,7 +18,7 @@ shelvepath = '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott
 subject_data = shelve.open(shelvepath+'mt_data');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data');
 
-ids=['jpw'];
+ids=['jpw','pilot_3'];
 block_types=['Detect','Discrim'];
 
 ## Data Analysis Methods ####################################################################################################
@@ -29,6 +29,8 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
+	computeHF(trials,id);
+	computeNT(trials,id);
 	return trials; #for testing here
 
 def computeHF(trial_matrix,id):
@@ -94,13 +96,59 @@ def computeNT(trial_matrix, id):
 			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
 				#plot the number of targets data via a line plot for more asthetic viewing
-	fig,ax1=subplots(); hold(True); grid(True); #title('Number of Target Data',size=22);
-	ax1.set_ylim(300,1000); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(200,1050,50)); xticks([0.05,0.1],['One','Two'],size=40)
-	styles=['solid','dashed'];     #['dodgerblue','red'];
-	for s,type in zip(styles,block_types):
-		ax1.plot([0.05,0.1],[db['%s_%s_st_mean_rt'%(id,type)],db['%s_%s_mt_mean_rt'%(id,type)]],color='black',lw=6.0,ls=s);
+	#fig,ax1=subplots(); hold(True); grid(True); #title('Number of Target Data',size=22);
+	#ax1.set_ylim(300,1000); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(200,1050,50)); xticks([0.05,0.1],['One','Two'],size=40)
+	#styles=['solid','dashed'];     #['dodgerblue','red'];
+	#for s,type in zip(styles,block_types):
+	#	ax1.plot([0.05,0.1],[db['%s_%s_st_mean_rt'%(id,type)],db['%s_%s_mt_mean_rt'%(id,type)]],color='black',lw=6.0,ls=s);
 		#ax1.errorbar(0.05,db['%s_%s_st_mean_rt'%(id,type)],yerr=[[db['%s_%s_st_rt_bs_sems'%(id,type)]],[db['%s_%s_st_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
 		#ax1.errorbar(0.1,db['%s_%s_mt_mean_rt'%(id,type)],yerr=[[db['%s_%s_mt_rt_bs_sems'%(id,type)]],[db['%s_%s_mt_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
+		
+def computeDist(trial_matrix, id):
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	trials = [tee for person in trial_matrix for tee in person];
+	#cycle through each type of task
+	for type in ['Discrim','Detect']:
+		#cycle throught the different distances
+		for nombre,dist in zip(['3','5','7'],[3,5,7]):
+			all_dist=[[] for i in range(3)]; #collect the collective rts, ils, and results together across each hemifield match
+			separate_dist = [[[] for i in range(len(trial_matrix))] for j in range(3)]
+			t = [tee for tee in trials if ((tee.block_type==type)&(tee.nr_targets==2))]; #segment the relevant trials
+			t_matrix = [[tee for tee in trs if ((tee.block_type==type)&(tee.nr_targets==2))] for trs in trial_matrix];
+			#loop through the same and different HFs to get those individual measurements of the distnce effects
+			for hf,name in zip([0,1],['diff','same']):
+				all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)]; res=[tee.result for tee in t if (tee.same_hf==hf)&(tee.t_dist==dist)]; #gets the rts, ils, and results for the relevant data
+				agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils); #get s.d.s for the 
+				rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
+				ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
+				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
+				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
+				res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
+				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+				#here, get all the respective RTs, ILs, and PC and partition them to the correct place
+				[all_dist[0].append(rt) for rt in rts]; [all_dist[1].append(il) for il in ils]; [all_dist[2].append(r) for r in res];
+				[[dee.append(r) for r in sep_r] for dee,sep_r in zip(separate_dist[0],rt_matrix)];
+				[[dee.append(i) for i in sep_il] for dee,sep_il in zip(separate_dist[1],il_matrix)];
+				[[dee.append(i) for i in sep_res] for dee,sep_res in zip(separate_dist[2],res_matrix)];
+				if len(rts)==0:
+					print "%s %s %s skipping because rts is len %s"%(type,dist,name,len(rts))
+					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+				db['%s_%s_%s_hf_%s_rt_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_hf_%s_il_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(il_matrix,'time');
+				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
+				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
+				db['%s_%s_%s_hf_%s_pc'%(id,type,name,nombre)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,nombre)] = compute_BS_SEM(res_matrix,'result');
+			db['%s_%s_%s_rt_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[0],'time'); db['%s_%s_%s_il_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[1],'time');
+			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
+			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
+			db['%s_%s_%s_pc'%(id,type,nombre)]=pc(all_dist[2]); db['%s_%s_%s_pc_bs_sems'%(id,type,nombre)] = compute_BS_SEM(separate_dist[2],'result');
+	print "Finished computing distance data...";
+
 
 def compute_BS_SEM(data_matrix, type):
     #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
@@ -163,7 +211,7 @@ def getAllSubjectBlocks():
     for i,sub_id in enumerate(ids):
         blocks[i] = loadAllBlocks(sub_id);
         print "Imported data for subject %s\n"%sub_id;
-    print "Done..\n";
+    print "Done getting all subject blocks..\n";
     return blocks;
 
 def getTrials(all_blocks):
@@ -171,7 +219,7 @@ def getTrials(all_blocks):
 	foo = [processTrials(b) for blocks in all_blocks for b in blocks]; #foo is a dummy variable; I'm performing all the operations on all_blocks list
     #then segment the trials all together
 	trial_matrix = [[t for b in blocks for t in b.trials] for blocks in all_blocks];
-	print "Done..\n"
+	print "Done getting trials together..\n"
 	return trial_matrix; #trial matrix will be a n by m, n is the number of trials for a subject and m is the number of subjects
 
 def processTrials(b):
