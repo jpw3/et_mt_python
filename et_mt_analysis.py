@@ -31,6 +31,7 @@ def getStats(id='agg'):
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
 	computeHF(trials,id);
 	computeNT(trials,id);
+	computeDist(trials,id);
 	return trials; #for testing here
 
 def computeHF(trial_matrix,id):
@@ -55,14 +56,16 @@ def computeHF(trial_matrix,id):
 			res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)] for ts in t_matrix];
 			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
-			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			#compute and save the data
+			1/0
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
 			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
 			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
 			db['%s_%s_%s_hf_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_hf_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
+			print "Finished computing hemifield data....";
 
 def computeNT(trial_matrix, id):
 	#trial_matrix should be a list of trials for each subjects
@@ -95,6 +98,7 @@ def computeNT(trial_matrix, id):
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
 			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
+			print "Finished computing number of target data...";
 				#plot the number of targets data via a line plot for more asthetic viewing
 	#fig,ax1=subplots(); hold(True); grid(True); #title('Number of Target Data',size=22);
 	#ax1.set_ylim(300,1000); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(200,1050,50)); xticks([0.05,0.1],['One','Two'],size=40)
@@ -125,9 +129,9 @@ def computeDist(trial_matrix, id):
 				agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils); #get s.d.s for the 
 				rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
 				ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
-				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
-				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
-				res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&(tee.target_dist==dist)] for ts in t_matrix];
+				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
+				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
+				res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
 				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
 				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
@@ -140,12 +144,12 @@ def computeDist(trial_matrix, id):
 					print "%s %s %s skipping because rts is len %s"%(type,dist,name,len(rts))
 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 				db['%s_%s_%s_hf_%s_rt_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_hf_%s_il_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(il_matrix,'time');
-				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
-				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
+				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); #db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
+				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); #db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
 				db['%s_%s_%s_hf_%s_pc'%(id,type,name,nombre)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,nombre)] = compute_BS_SEM(res_matrix,'result');
 			db['%s_%s_%s_rt_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[0],'time'); db['%s_%s_%s_il_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[1],'time');
-			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
-			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
+			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); #db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
+			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); #db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
 			db['%s_%s_%s_pc'%(id,type,nombre)]=pc(all_dist[2]); db['%s_%s_%s_pc_bs_sems'%(id,type,nombre)] = compute_BS_SEM(separate_dist[2],'result');
 	print "Finished computing distance data...";
 
