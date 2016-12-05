@@ -60,7 +60,6 @@ def computeHF(trial_matrix,id):
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			#compute and save the data
-			1/0
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
 			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
 			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
@@ -92,7 +91,7 @@ def computeNT(trial_matrix, id):
 			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			#trim matrixed rts of outliers greater than 3 s.d.s from the mean
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; 
-			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 			#compute and save the relevant data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
@@ -134,7 +133,7 @@ def computeDist(trial_matrix, id):
 				res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
 				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
-				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(r<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 				#here, get all the respective RTs, ILs, and PC and partition them to the correct place
 				[all_dist[0].append(rt) for rt in rts]; [all_dist[1].append(il) for il in ils]; [all_dist[2].append(r) for r in res];
 				[[dee.append(r) for r in sep_r] for dee,sep_r in zip(separate_dist[0],rt_matrix)];
@@ -306,6 +305,7 @@ class discrimTrial(object):
 		self.trial_times = trialData.trial_times;
 		self.initiation_latency = trialData.trial_times.initiation_latency*1000;
 		self.response_time = self.trial_times.response_time*1000; #put every time into seconds
+		self.movement_time = self.response_time-self.initiation_latency;
 		self.reponse = str(trialData.response); #letter corresponding to presented
 		self.result = trialData.result; #right or wrong, 1 or 0
 		self.selected_type = trialData.selected_type; #precense or absence
@@ -333,6 +333,7 @@ class detectTrial(object):
 		self.trial_times = trialData.trial_times;
 		self.initiation_latency = trialData.trial_times.initiation_latency*1000;
 		self.response_time = self.trial_times.response_time*1000; #time into seconds
+		self.movement_time = self.response_time-self.initiation_latency;
 		self.reponse = str(trialData.response); #letter corresponding to presented
 		self.result = trialData.result; #right or wrong, 1 or 0
 		self.selected_type = trialData.selected_type; #precense or absence
