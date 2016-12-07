@@ -18,7 +18,7 @@ shelvepath = '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott
 subject_data = shelve.open(shelvepath+'mt_data');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data');
 
-ids=['pilot_3','pilot_6']; #'jpw',
+ids=['pilot_3','pilot_6','1']; #'jpw',
 block_types=['Detect','Discrim'];
 
 ## Data Analysis Methods ####################################################################################################
