@@ -17,7 +17,7 @@ shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
 
-ids = ['pilot_3','pilot_6','1']; #'jpw', use 'agg' for aggregate subject data
+ids = ['pilot_3','pilot_6','1','2','3','4','5']; #'jpw', use 'agg' for aggregate subject data
 block_types = ['Discrim','Detect'];
 
 ## Plotting Methods ############################################################################################
