@@ -47,16 +47,18 @@ def computeHF(trial_matrix,id):
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
 		for hf,name in zip([0,1],['diff','same']):
-			all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)]; res=[tee.result for tee in t if (tee.same_hf==hf)]; #gets the rts, ils, and results for the relevant data
-			agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils);
-			rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
-			ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
+			#all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)];
+			res=[tee.result for tee in t if (tee.same_hf==hf)]; #gets the rts, ils, and results for the relevant data
+			#agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils);
+			#rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
+			#ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
 			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)] for ts in t_matrix];
 			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)] for ts in t_matrix];
 			res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)] for ts in t_matrix];
 			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l];
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			#compute and save the data
@@ -81,10 +83,11 @@ def computeNT(trial_matrix, id):
 		for n,name in zip([1,2,0],['st','mt','abs']):
 			if ((type=='Discrim')&(n==0)): #impossible condition
 				continue;
-			all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.nr_targets==n)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.nr_targets==n)]; res=[tee.result for tee in t if (tee.nr_targets==n)]; #gets the rts, ils, and results for the relevant data
-			agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils);
-			rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
-			ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
+			#all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.nr_targets==n)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.nr_targets==n)];
+			res=[tee.result for tee in t if (tee.nr_targets==n)]; #gets the rts, ils, and results for the relevant data
+			#agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils);
+			#rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
+			#ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
 			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.nr_targets==n)] for ts in t_matrix];
 			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.nr_targets==n)] for ts in t_matrix];
 			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==n)] for ts in t_matrix];
@@ -92,6 +95,7 @@ def computeNT(trial_matrix, id):
 			#trim matrixed rts of outliers greater than 3 s.d.s from the mean
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; 
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l];
 			#compute and save the relevant data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
@@ -124,16 +128,18 @@ def computeDist(trial_matrix, id):
 			t_matrix = [[tee for tee in trs if ((tee.block_type==type)&(tee.nr_targets==2))] for trs in trial_matrix];
 			#loop through the same and different HFs to get those individual measurements of the distnce effects
 			for hf,name in zip([0,1],['diff','same']):
-				all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)]; res=[tee.result for tee in t if (tee.same_hf==hf)&(tee.t_dist==dist)]; #gets the rts, ils, and results for the relevant data
-				agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils); #get s.d.s for the 
-				rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
-				ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
+				#all_rts=[tee.response_time for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)]; all_ils=[tee.initiation_latency for tee in t if (tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)];
+				res=[tee.result for tee in t if (tee.same_hf==hf)&(tee.t_dist==dist)]; #gets the rts, ils, and results for the relevant data
+				#agg_rt_sd = std(all_rts); agg_il_sd = std(all_ils); #get s.d.s for the 
+				#rts=[r for r in all_rts if (r>=(mean(all_rts)-(3*agg_rt_sd)))&(r<=(mean(all_rts)+(3*agg_rt_sd)))];#shave the rts, cutting out outliers above 3 s.d.s...
+				#ils=[i for i in all_ils if (i>=(mean(all_ils)-(3*agg_il_sd)))&(i<=(mean(all_ils)+(3*agg_il_sd)))];#shave the ils, cutting out outliers above 3 s.d.s...
 				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
 				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
 				res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&(tee.t_dist==dist)] for ts in t_matrix];
 				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
 				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+				rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l];
 				#here, get all the respective RTs, ILs, and PC and partition them to the correct place
 				[all_dist[0].append(rt) for rt in rts]; [all_dist[1].append(il) for il in ils]; [all_dist[2].append(r) for r in res];
 				[[dee.append(r) for r in sep_r] for dee,sep_r in zip(separate_dist[0],rt_matrix)];
