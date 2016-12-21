@@ -9,10 +9,12 @@ from scipy.io import loadmat #used to load .mat files in as dictionaries
 from scipy import stats
 from glob import glob #for use in searching for/ finding data files
 import random #general purpose
+from collections import namedtuple
+import pyvttbl as pt
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath = '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath = '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -35,6 +37,8 @@ def getStats(id='agg'):
 	return trials; #for testing here
 
 def computeHF(trial_matrix,id):
+	score = namedtuple('score',['id','rt','task','hemifield']); #create a named tuple object for use in dataframe   'il','pc',
+	hf_df = pt.DataFrame();	
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
 	if id=='agg':
@@ -66,9 +70,16 @@ def computeHF(trial_matrix,id):
 			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
 			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
 			db['%s_%s_%s_hf_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_hf_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
-			print "Finished computing hemifield data....";
+			#append all the datae for each subject together in the dataframe for use in ANOVA
+			for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+				hf_df.insert(score(i,mean(r_scores),type,name)._asdict()); #,mean(i_scores),pc(res_scores)
+	print(hf_df.anova('rt',sub='id',wfactors=['task','hemifield']));
+	print "Finished computing hemifield data....";
+	raw_input("Press ENTER to continue...");
 
 def computeNT(trial_matrix, id):
+	score = namedtuple('score',['id','rt','task','nr_targets']); #create a named tuple object for use in dataframe   'il','pc',
+	nt_df = pt.DataFrame();
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
 	if id=='agg':
@@ -101,17 +112,21 @@ def computeNT(trial_matrix, id):
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
 			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
-			print "Finished computing number of target data...";
-				#plot the number of targets data via a line plot for more asthetic viewing
-	#fig,ax1=subplots(); hold(True); grid(True); #title('Number of Target Data',size=22);
-	#ax1.set_ylim(300,1000); ax1.set_xlim([0.04,0.11]); ax1.set_xticks([]);  ax1.set_yticks(arange(200,1050,50)); xticks([0.05,0.1],['One','Two'],size=40)
-	#styles=['solid','dashed'];     #['dodgerblue','red'];
-	#for s,type in zip(styles,block_types):
-	#	ax1.plot([0.05,0.1],[db['%s_%s_st_mean_rt'%(id,type)],db['%s_%s_mt_mean_rt'%(id,type)]],color='black',lw=6.0,ls=s);
-		#ax1.errorbar(0.05,db['%s_%s_st_mean_rt'%(id,type)],yerr=[[db['%s_%s_st_rt_bs_sems'%(id,type)]],[db['%s_%s_st_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
-		#ax1.errorbar(0.1,db['%s_%s_mt_mean_rt'%(id,type)],yerr=[[db['%s_%s_mt_rt_bs_sems'%(id,type)]],[db['%s_%s_mt_rt_bs_sems'%(id,type)]]],color='black',lw=3.0);
+			#append all the datae for each subject together in the dataframe for use in ANOVA
+			for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+				if n==0: #cut out 0 scores because there is no target absent in discrimination
+					continue;
+				nt_df.insert(score(i,mean(r_scores),type,n)._asdict()); #,mean(i_scores),pc(res_scores)			
+	print(nt_df.anova('rt',sub='id',wfactors=['task','nr_targets']));		
+	print 'Finished computing number of target data...'
+	raw_input("Press ENTER to continue...");
+
 		
 def computeDist(trial_matrix, id):
+	score = namedtuple('score',['id','rt','task','distance']); #create a named tuple object for use in dataframe   'il','pc',
+	hf_score = namedtuple('score',['id','rt','task','distance','hemifield']);
+	hf_df = pt.DataFrame();
+	df = pt.DataFrame();
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
@@ -152,11 +167,24 @@ def computeDist(trial_matrix, id):
 				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); #db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
 				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); #db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
 				db['%s_%s_%s_hf_%s_pc'%(id,type,name,nombre)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,nombre)] = compute_BS_SEM(res_matrix,'result');
+				#append all the datae for each subject together in the dataframe for use in ANOVA
+				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+					if dist==3:#don't include distance 3 data, as theis can only exist in the between HF case
+						continue;
+					hf_df.insert(hf_score(i,mean(r_scores),type,dist,name)._asdict()); #,mean(i_scores),pc(res_scores)
 			db['%s_%s_%s_rt_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[0],'time'); db['%s_%s_%s_il_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[1],'time');
 			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); #db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
 			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); #db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
 			db['%s_%s_%s_pc'%(id,type,nombre)]=pc(all_dist[2]); db['%s_%s_%s_pc_bs_sems'%(id,type,nombre)] = compute_BS_SEM(separate_dist[2],'result');
+			#append all the datae for each subject together in the dataframe for use in ANOVA
+			for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+				if dist==3:#don't include distance 3 data, as theis can only exist in the between HF case
+					continue;
+				df.insert(score(i,mean(r_scores),type,dist)._asdict()); #,mean(i_scores),pc(res_scores)	
 	print "Finished computing distance data...";
+	print(hf_df.anova('rt',sub='id',wfactors=['task','distance','hemifield']));
+	raw_input("Press ENTER to continue...");
+	print(df.anova('rt',sub='id',wfactors=['task','distance']));
 
 
 def compute_BS_SEM(data_matrix, type):
