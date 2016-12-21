@@ -11,13 +11,13 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
 
-ids = ['pilot_3','pilot_6','1','2','3','4','5']; #'jpw', use 'agg' for aggregate subject data
+ids = ['pilot_3','pilot_6','1','2','3','4','5','6']; #'jpw', use 'agg' for aggregate subject data
 block_types = ['Discrim','Detect'];
 
 ## Plotting Methods ############################################################################################
