@@ -28,6 +28,16 @@ def plotAll(id='agg'):
 	plotDist(id); print 'Plotted distance data...';
 	plotDistXHF(id); print 'Plotted distance by HF data';
 
+def plotIndividHF():
+	db = individ_subject_data;
+	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Hemifield Difference Plot',size=25);
+	ax1.set_ylim(-200,200); ax1.set_xlim(-200,200); ax1.set_yticks(arange(-200,200,25)); ax1.set_xticks(arange(-200,200,25));
+	ax1.set_ylabel('Detection Hemifield RT Difference (RT Different - RT Same)',size=20,labelpad=40); ax1.set_xlabel('Discrimination Hemifield RT Difference (RT Different - RT Same)',size=20,labelpad=40);
+	for id in ids:
+		detect_diff = db['%s_Detect_diff_hf_mean_rt'%(id)]-db['%s_Detect_same_hf_mean_rt'%(id)];
+		discrim_diff = db['%s_Discrim_diff_hf_mean_rt'%(id)]-db['%s_Discrim_same_hf_mean_rt'%(id)];
+		ax1.plot(discrim_diff,detect_diff,marker='s',markersize=15);
+
 def plotNT(id='agg'):
 	if id=='agg':
 		db=subject_data

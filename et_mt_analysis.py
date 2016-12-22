@@ -28,14 +28,20 @@ block_types=['Detect','Discrim'];
 def getStats(id='agg'):
 	if id=='agg':
 		blocks=getAllSubjectBlocks();
+		getIndividStats();
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
 	computeHF(trials,id);
 	computeNT(trials,id);
 	computeDist(trials,id);
-	return trials; #for testing here
+	#return trials; #for testing here
 
+def getIndividStats():
+	for id in ids:
+		getStats(id);
+	print "Completed individual subject analysis!";
+	
 def computeHF(trial_matrix,id):
 	if id=='agg':
 		score = namedtuple('score',['id','rt','task','hemifield']); #create a named tuple object for use in dataframe   'il','pc',
@@ -77,8 +83,9 @@ def computeHF(trial_matrix,id):
 					hf_df.insert(score(i,mean(r_scores),type,name)._asdict()); #,mean(i_scores),pc(res_scores)
 	if id=='agg':
 		print(hf_df.anova('rt',sub='id',wfactors=['task','hemifield']));
+		raw_input("Press ENTER to continue...");
 	print "Finished computing hemifield data....";
-	raw_input("Press ENTER to continue...");
+	
 
 def computeNT(trial_matrix, id):
 	if id=='agg':
@@ -124,8 +131,9 @@ def computeNT(trial_matrix, id):
 					nt_df.insert(score(i,mean(r_scores),type,n)._asdict()); #,mean(i_scores),pc(res_scores)			
 	if id=='agg':	
 		print(nt_df.anova('rt',sub='id',wfactors=['task','nr_targets']));		
+		raw_input("Press ENTER to continue...");
 	print 'Finished computing number of target data...'
-	raw_input("Press ENTER to continue...");
+
 
 		
 def computeDist(trial_matrix, id):
