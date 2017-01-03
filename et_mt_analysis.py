@@ -28,7 +28,7 @@ block_types=['Detect','Discrim'];
 def getStats(id='agg'):
 	if id=='agg':
 		blocks=getAllSubjectBlocks();
-		getIndividStats();
+		#getIndividStats();
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
