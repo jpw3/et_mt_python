@@ -13,8 +13,8 @@ from collections import namedtuple
 import pyvttbl as pt
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath = '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath = '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -32,6 +32,7 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
+	computeTT(trials,id);
 	computeHF(trials,id);
 	computeNT(trials,id);
 	computeDist(trials,id);
@@ -133,8 +134,6 @@ def computeNT(trial_matrix, id):
 		print(nt_df.anova('rt',sub='id',wfactors=['task','nr_targets']));		
 		raw_input("Press ENTER to continue...");
 	print 'Finished computing number of target data...'
-
-
 		
 def computeDist(trial_matrix, id):
 	if id=='agg':
@@ -203,6 +202,54 @@ def computeDist(trial_matrix, id):
 		print(hf_df.anova('rt',sub='id',wfactors=['task','distance','hemifield']));
 		raw_input("Press ENTER to continue...");
 		print(df.anova('rt',sub='id',wfactors=['task','distance']));
+		
+def computeTT(trial_matrix,id):
+	print "Started the function...";
+	#function to compute the RT difference between same and different target types for discrimination tasks
+	if id=='agg':
+		db=subject_data;
+		score = namedtuple('score',['id','rt','targets_match','hemifield_match','distance']); #create a named tuple object for use in dataframe   'il','pc',
+		df = pt.DataFrame();
+	else:
+		db=individ_subject_data;
+	#loop through for each discrimination task condition with two targets checking if the target types are the same
+	trials = [tee for person in trial_matrix for tee in person];	
+	t = [tee for tee in trials if (tee.block_type=='Discrim')&(tee.nr_targets==2)]; #segment the relevant trials
+	t_matrix = [[tee for tee in trs if (tee.block_type=='Discrim')&(tee.nr_targets==2)] for trs in trial_matrix];
+	for match,m in zip(['yes_match','no_match'],[1,0]): #cycle through whether the targets match or not
+		struct = [[[[] for i in range(3)] for p in range(3)] for j in range(2)];
+		individ_struct = [[[[[] for k in range(len(ids))] for i in range(3)] for p in range(3)] for j in range(2)];
+		for hf_match,hf in zip(['diff','same'],[0,1]): #go through same or different hf
+			en=0;
+			for dist,n in zip(['3','5','7'],[3,5,7]): #go through the distances  ,'d3' ,3
+				#partition the respective statistics
+				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];
+				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];
+				res_matrix = [[tee.result for tee in ts if((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];				
+				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+				rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; res=[s for v in res_matrix for s in v]; #collect the aggregate rt, ils, and pc
+				if len(rts)==0:
+					1/0
+					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+				#save the data into th structure as needed. use hf and n variables to do so, respectively
+				[struct[hf][en-1][0].append(o) for o in rts]; [struct[hf][en-1][1].append(z) for z in ils]; [struct[hf][en-1][2].append(em) for em in res];
+				[individ_struct[hf][en-1][0][y].append(e) for y,u in enumerate(rt_matrix) for e in u]; [individ_struct[hf][en-1][1][y].append(e) for y,u in enumerate(il_matrix) for e in u]; [individ_struct[hf][en-1][2][y].append(e) for y,u in enumerate(res_matrix) for e in u];
+				db['%s_Discrim_%s_%s_hf_%s_rt_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(rt_matrix,'time'); db['%s_Discrim_%s_%s_hf_%s_il_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(il_matrix,'time');
+				db['%s_Discrim_%s_%s_hf_%s_mean_rt'%(id,match,hf_match,dist)]=mean(rts); db['%s_Discrim_%s_%s_hf_%s_median_rt'%(id,match,hf_match,dist)]=median(rts); db['%s_Discrim_%s_%s_hf_%s_rt_cis'%(id,match,hf_match,dist)]=compute_CIs(rts);
+				db['%s_Discrim_%s_%s_hf_%s_mean_il'%(id,match,hf_match,dist)]=mean(ils); db['%s_Discrim_%s_%s_hf_%s_median_il'%(id,match,hf_match,dist)]=median(ils); db['%s_Discrim_%s_%s_hf_%s_il_cis'%(id,match,hf_match,dist)]=compute_CIs(ils);
+				db['%s_Discrim_%s_%s_hf_%s_pc'%(id,match,hf_match,dist)]=pc(res); db['%s_Discrim_%s_%s_hf_%s_pc_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(res_matrix,'result');
+				print "Saved %s %s %s %s data to database..."%(id,match,hf_match,dist);
+				#append rts to the dataframe
+				if id=='agg':
+					for i,scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix):
+						df.insert(score(i,mean(scores),match,hf_match,n)._asdict());
+				en+=1;
+	if id=='agg':		
+		print(df.anova('rt',sub='id',wfactors=['targets_match','hemifield_match','distance']));
+		raw_input("Press ENTER to continue...");
+	print "Finished ctarget type data...";
 
 
 def compute_BS_SEM(data_matrix, type):
@@ -349,7 +396,7 @@ class discrimTrial(object):
 		self.nr_distractors = trialData.nr_distractors;
 		self.target_col = str(trialData.target_col); #red or green
 		self.dist_col = str(trialData.dist_col); #red or green
-		self.dist_col = str(trialData.dist_col); #red or green
+		self.target_types = trialData.t_types;
 		self.target_dist = [trialData.target_distances]; #absolute distances from the origin
 		self.distr_dist = [trialData.distractor_distances];
 		self.target_coors = trialData.target_coors;

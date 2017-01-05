@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #'
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -157,5 +157,42 @@ def plotDistXHF(id='agg'):
 	ax3.text(tix[0],0.78,'Three',size=16); ax3.text(tix[1],0.78,'Five',size=16); ax3.text(tix[2],0.78,'Seven',size=16);
 	dis_same_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='solid',label='Discrimination, Same HF'); dis_diff_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='dashed',label='Discrimination, Diff HF');
 	det_same_line=mlines.Line2D([],[],color='red',ls='solid',lw=6,label='Detection, Same HF'); det_diff_line=mlines.Line2D([],[],color='red',lw=6,ls='dashed',label='Detection, Diff HF');
+	ax1.legend(handles=[dis_same_line,dis_diff_line,det_same_line,det_diff_line],bbox_to_anchor=[1.1,0.56],ncol=2);
+	show();
+	
+def plotTT(id='agg'):
+	if id=='agg':
+		db=subject_data
+	else:
+		db=individ_subject_data;
+	#plot distance effects for multiple target displays
+	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Target Match by HF\n by Distance for Subject %s'%(id.upper()),loc='left',size=22);
+	ax1.set_ylim(400,900); ax1.set_yticks(arange(400,950,50)); ax1.set_xticks([]); ax1.set_xlim([0,5]); ax1.set_ylabel('Response Time',size=20); ax1.set_xlabel('Distance Between Targets (degrees)',size=20,labelpad=40);
+	ax2=axes([0.7,0.6,0.25,0.3]); grid(True); ax3=axes([0.7,0.1,0.25,0.3]); grid(True); #create the smaller subplots using Axes call
+	ax2.set_xticks([]); ax2.set_xlim([0,5]); ax3.set_xticks([]); ax3.set_xlim([0,5]); ax2.set_ylim(200,600); ax2.set_yticks(arange(20,800,50)); ax3.set_ylim(.8,1.0); ax3.set_yticks([0.8,0.85,0.9,0.95,1.0]);
+	ax2.text(3.2,650,'IL',size=16); ax3.text(3.2,0.925,'PC',size=16);
+	#iterate over each block type and plot the same and different multiple target data
+	colors=['dodgerblue','red']; target_types = ['no_match','yes_match']; styles=['solid','dashed'];
+	for c,match in zip(colors,target_types):
+		for s,hf_match in zip(styles,['same','diff']):
+			ax1.plot([0.4,1.4,2.4],[db['%s_Discrim_%s_%s_hf_3_mean_rt'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_5_mean_rt'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_7_mean_rt'%(id,match,hf_match)]],color=c,lw=6,ls=s); #no third distance db['%s_%s_%s_hf_3_mean_rt'%(id,block_type,loc)]],
+			ax2.plot([0.4,1.4,2.4],[db['%s_Discrim_%s_%s_hf_3_mean_il'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_5_mean_il'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_7_mean_il'%(id,match,hf_match)]],color=c,lw=6,ls=s); #no third distance db['%s_%s_%s_hf_3_mean_rt'%(id,block_type,loc)]],
+			ax3.plot([0.4,1.4,2.4],[db['%s_Discrim_%s_%s_hf_3_pc'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_5_pc'%(id,match,hf_match)],db['%s_Discrim_%s_%s_hf_7_pc'%(id,match,hf_match)]],color=c,lw=6,ls=s); #no third distance db['%s_%s_%s_hf_3_mean_rt'%(id,block_type,loc)]],
+			if id=='agg':
+				ax1.errorbar([0.4],db['%s_Discrim_%s_%s_hf_3_mean_rt'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_3_rt_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_3_rt_bs_sems'%(id,match,hf_match)]]],color=c); 
+				ax1.errorbar([1.4],db['%s_Discrim_%s_%s_hf_5_mean_rt'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_5_rt_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_5_rt_bs_sems'%(id,match,hf_match)]]],color=c);
+				ax1.errorbar([2.4],db['%s_Discrim_%s_%s_hf_7_mean_rt'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_7_rt_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_7_rt_bs_sems'%(id,match,hf_match)]]],color=c);
+				ax2.errorbar([0.4],db['%s_Discrim_%s_%s_hf_3_mean_il'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_3_il_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_3_il_bs_sems'%(id,match,hf_match)]]],color=c); 
+				ax2.errorbar([1.4],db['%s_Discrim_%s_%s_hf_5_mean_il'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_5_il_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_5_il_bs_sems'%(id,match,hf_match)]]],color=c);
+				ax2.errorbar([2.4],db['%s_Discrim_%s_%s_hf_7_mean_il'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_7_il_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_7_il_bs_sems'%(id,match,hf_match)]]],color=c);
+				ax3.errorbar([0.4],db['%s_Discrim_%s_%s_hf_3_pc'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_3_pc_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_3_pc_bs_sems'%(id,match,hf_match)]]],color=c); 
+				ax3.errorbar([1.4],db['%s_Discrim_%s_%s_hf_5_pc'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_5_pc_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_5_pc_bs_sems'%(id,match,hf_match)]]],color=c);
+				ax3.errorbar([2.4],db['%s_Discrim_%s_%s_hf_7_pc'%(id,match,hf_match)],yerr=[[db['%s_Discrim_%s_%s_hf_7_pc_bs_sems'%(id,match,hf_match)]],[db['%s_Discrim_%s_%s_hf_7_pc_bs_sems'%(id,match,hf_match)]]],color=c);
+	tix=[0.4,1.4,2.4];
+	ax1.text(0.4,375,'Three',size=20); ax1.text(1.4,375,'Five',size=20); ax1.text(2.4,375,'Seven',size=20);
+	ax2.text(tix[0]+0.1,-20,'Three',size=16);ax2.text(tix[1]+0.1,-20,'Five',size=16); ax2.text(tix[2]+0.1,-20,'Seven',size=16);
+	ax3.text(tix[0],0.78,'Three',size=16); ax3.text(tix[1],0.78,'Five',size=16); ax3.text(tix[2],0.78,'Seven',size=16);
+	dis_same_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='solid',label='Target Shape Doesn"t Match, Same HF'); dis_diff_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='dashed',label='Target Shape Doesn"t Match, Diff HF');
+	det_same_line=mlines.Line2D([],[],color='red',ls='solid',lw=6,label='Target Shape Matches, Same HF'); det_diff_line=mlines.Line2D([],[],color='red',lw=6,ls='dashed',label='Target Shape Matches, Diff HF');
 	ax1.legend(handles=[dis_same_line,dis_diff_line,det_same_line,det_diff_line],bbox_to_anchor=[1.1,0.56],ncol=2);
 	show();
