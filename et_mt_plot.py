@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #	'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #	
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -47,8 +47,8 @@ def plotNT(id='agg'):
 	matplotlib.rcParams['ytick.labelsize']=20;
 	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Number of Targets',size=25);
 	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['One','Two'],size=20); #ax1.set_yticklabels([200,500,1000],[200,500,1000]); 
-	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['One','Two'],size=18);
-	ax1.text(2.3,615,'Percent Correct',size=20);
+	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['One','Two'],size=20);
+	ax1.text(2.3,615,'Percent Correct',size=16);
 	#iterate over each block type and plot the sngle and multiple target data
 	colors=['dodgerblue','red']; #['solid','dashed'];     
 	for c,type in zip(colors,block_types):
