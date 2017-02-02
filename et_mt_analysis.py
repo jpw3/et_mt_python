@@ -13,8 +13,8 @@ from collections import namedtuple
 import pyvttbl as pt
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; # '/Users/james/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -32,10 +32,10 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
-	computeTT(trials,id);
+	#computeTT(trials,id);
 	computeHF(trials,id);
 	computeNT(trials,id);
-	computeDist(trials,id);
+	#computeDist(trials,id);
 	#return trials; #for testing here
 
 def getIndividStats():
@@ -46,7 +46,9 @@ def getIndividStats():
 def computeHF(trial_matrix,id):
 	if id=='agg':
 		score = namedtuple('score',['id','rt','task','hemifield']); #create a named tuple object for use in dataframe   'il','pc',
-		hf_df = pt.DataFrame();	
+		hf_df = pt.DataFrame();
+		disc_df = pt.DataFrame(); det_df = pt.DataFrame(); #create data frames for use in simple effects ANOVAs
+		simp_score = namedtuple('simp_score',['id','rt','hemifield']); #and create a named tuple for this..
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
 	if id=='agg':
@@ -82,8 +84,19 @@ def computeHF(trial_matrix,id):
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
 					hf_df.insert(score(i,mean(r_scores),type,name)._asdict()); #,mean(i_scores),pc(res_scores)
+					if type=='Discrim': #append the sppropriate scores to the simple effects ANOVAs as well
+						disc_df.insert(simp_score(i,mean(r_scores),name)._asdict());
+					elif type=='Detect':
+						det_df.insert(simp_score(i,mean(r_scores),name)._asdict());
 	if id=='agg':
+		print; print('##################### PRINTING OMNIBUS ANOVA RESULTS  #####################');
 		print(hf_df.anova('rt',sub='id',wfactors=['task','hemifield']));
+		raw_input("Press ENTER to continue...");
+		print; print('##################### PRINTING DISCRIMINATION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
+		print(disc_df.anova('rt',sub='id',wfactors=['hemifield']));		
+		raw_input("Press ENTER to continue...");
+		print; print('##################### PRINTING DETECTION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
+		print(det_df.anova('rt',sub='id',wfactors=['hemifield']));		
 		raw_input("Press ENTER to continue...");
 	print "Finished computing hemifield data....";
 	
@@ -92,6 +105,8 @@ def computeNT(trial_matrix, id):
 	if id=='agg':
 		score = namedtuple('score',['id','rt','task','nr_targets']); #create a named tuple object for use in dataframe   'il','pc',
 		nt_df = pt.DataFrame();
+		disc_df = pt.DataFrame(); det_df = pt.DataFrame(); #create data frames for use in simple effects ANOVAs
+		simp_score = namedtuple('simp_score',['id','rt','nr_targets']); #and create a named tuple for this..
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
 	if id=='agg':
@@ -129,9 +144,20 @@ def computeNT(trial_matrix, id):
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
 					if n==0: #cut out 0 scores because there is no target absent in discrimination
 						continue;
-					nt_df.insert(score(i,mean(r_scores),type,n)._asdict()); #,mean(i_scores),pc(res_scores)			
-	if id=='agg':	
+					nt_df.insert(score(i,mean(r_scores),type,n)._asdict()); #,mean(i_scores),pc(res_scores)
+					if type=='Discrim': #append the sppropriate scores to the simple effects ANOVAs as well
+						disc_df.insert(simp_score(i,mean(r_scores),n)._asdict());
+					elif type=='Detect':
+						det_df.insert(simp_score(i,mean(r_scores),n)._asdict());
+	if id=='agg':
+		print; print('##################### PRINTING OMNIBUS ANOVA RESULTS  #####################');
 		print(nt_df.anova('rt',sub='id',wfactors=['task','nr_targets']));		
+		raw_input("Press ENTER to continue...");
+		print; print('##################### PRINTING DISCRIMINATION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
+		print(disc_df.anova('rt',sub='id',wfactors=['nr_targets']));		
+		raw_input("Press ENTER to continue...");
+		print; print('##################### PRINTING DETECTION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
+		print(det_df.anova('rt',sub='id',wfactors=['nr_targets']));		
 		raw_input("Press ENTER to continue...");
 	print 'Finished computing number of target data...'
 		
