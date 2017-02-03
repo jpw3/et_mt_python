@@ -32,9 +32,10 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
+	HF_no_match(trials,id);
 	#computeTT(trials,id);
-	computeHF(trials,id);
-	computeNT(trials,id);
+	#computeHF(trials,id);
+	#computeNT(trials,id);
 	#computeDist(trials,id);
 	#return trials; #for testing here
 
@@ -99,6 +100,46 @@ def computeHF(trial_matrix,id):
 		print(det_df.anova('rt',sub='id',wfactors=['hemifield']));		
 		raw_input("Press ENTER to continue...");
 	print "Finished computing hemifield data....";
+	
+def HF_no_match(trial_matrix,id):
+	print 'Running hemifield analysis with only not matching target trials:'; print;
+	#run the HF analysis but only on trial where the target shape matches 
+	if id=='agg':
+		db=subject_data;
+		score = namedtuple('score',['id','rt','hemifield']); #create a named tuple object for use in dataframe 
+		hf_df = pt.DataFrame();
+	else:
+		db=individ_subject_data;
+	#loop through each hemifield name and find the mean, median, and such
+	trials = [tee for person in trial_matrix for tee in person];
+	for type in ['Discrim']:
+		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
+		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+		for hf,name in zip([0,1],['diff','same']):
+			res=[tee.result for tee in t if (tee.same_hf==hf)&((tee.target_types[0]==tee.target_types[1])==0)]; #gets the rts, ils, and results for the relevant data 
+			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.same_hf==hf)&((tee.target_types[0]==tee.target_types[1])==0)] for ts in t_matrix];
+			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.same_hf==hf)&((tee.target_types[0]==tee.target_types[1])==0)] for ts in t_matrix];
+			res_matrix = [[tee.result for tee in ts if(tee.same_hf==hf)&((tee.target_types[0]==tee.target_types[1])==0)] for ts in t_matrix];
+			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; print 'Number of %s %s trials: %s'%(type,name,len(rts));
+			if len(rts)==0:
+				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+			#if it wasn't an empty array, compute and save relevant data
+			db['%s_%s_%s_%s_rt_bs_sems'%(id,type,name,'no_match')] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_%s_il_bs_sems'%(id,type,name,'no_match')] = compute_BS_SEM(il_matrix,'time');
+			db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,'no_match')]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,'no_match')]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,'no_match')]=compute_CIs(rts);
+			db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,'no_match')]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,'no_match')]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,'no_match')]=compute_CIs(ils);
+			db['%s_%s_%s_hf_%s_pc'%(id,type,name,'no_match')]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,'no_match')] = compute_BS_SEM(res_matrix,'result');
+			if id=='agg':
+				#append all the datae for each subject together in the dataframe for use in ANOVA
+				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+					hf_df.insert(score(i,mean(r_scores),name)._asdict()); #,mean(i_scores),pc(res_scores)
+	if id=='agg':
+		print; print('##################### PRINTING OMNIBUS ANOVA RESULTS  #####################');		
+		print(hf_df.anova('rt',sub='id',wfactors=['hemifield']));
+		raw_input("Press ENTER to continue...");
+	print "Finished computing hemifield data...";
 	
 
 def computeNT(trial_matrix, id):
