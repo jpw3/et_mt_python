@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #	
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -202,44 +202,26 @@ def plotTT(id='agg'):
 	ax1.legend(handles=[dis_same_line,dis_diff_line,det_same_line,det_diff_line],bbox_to_anchor=[1.1,0.56],ncol=2);
 	show();
 	
-def plot_HF_no_match(id='agg'):
-	if id=='agg':
-		db=subject_data
-	else:
-		db=individ_subject_data;
-	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Hemifield Relationship, TARGETS DON"T MATCH ONLY',size=22);
-	ax1.set_ylim(400,950); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,1050,50)); xticks([0.4,1.4],['Same HF','Different HF'],size=20); 
-	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same HF','Different HF'],size=18);
-	ax1.text(2.3,615,'Percent Correct',size=20);
-	#iterate over each block type and plot the sngle and multiple target data
-	colors=['black']; 
-	for c,type in zip(colors,['Discrim']):
-		ax1.plot([0.4,1.4],[db['%s_%s_same_hf_%s_mean_rt'%(id,type,'no_match')],db['%s_%s_diff_hf_%s_mean_rt'%(id,type,'no_match')]],color=c,lw=6.0,ls='solid');
-		ax2.plot([1.0,2.0],[db['%s_%s_same_hf_%s_pc'%(id,type,'no_match')],db['%s_%s_diff_hf_%s_pc'%(id,type,'no_match')]],color=c,lw=4.0,ls='solid');
-		#add errorbars...
-		ax1.errorbar(0.4,db['%s_%s_same_hf_%s_mean_rt'%(id,type,'no_match')],yerr=[[db['%s_%s_same_%s_rt_bs_sems'%(id,type,'no_match')]],[db['%s_%s_same_%s_rt_bs_sems'%(id,type,'no_match')]]],color=c,lw=3.0);
-		ax1.errorbar(1.4,db['%s_%s_diff_hf_%s_mean_rt'%(id,type,'no_match')],yerr=[[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,'no_match')]],[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,'no_match')]]],color=c,lw=3.0);
-		ax2.errorbar(1.0,db['%s_%s_same_hf_%s_pc'%(id,type,'no_match')],yerr=[[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,'no_match')]],[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,'no_match')]]],color=c,lw=3.0);
-		ax2.errorbar(2.0,db['%s_%s_diff_hf_%s_pc'%(id,type,'no_match')],yerr=[[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,'no_match')]],[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,'no_match')]]],color=c,lw=3.0);
-	show();
-	
 def plot_HF_match(id='agg'):
 	if id=='agg':
 		db=subject_data
 	else:
 		db=individ_subject_data;
-	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Hemifield Relationship, TARGETS MATCH ONLY',size=22);
+	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 1: Hemifield Relationship, Target Shape Match',size=22);
 	ax1.set_ylim(400,950); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,1050,50)); xticks([0.4,1.4],['Same HF','Different HF'],size=20); 
 	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same HF','Different HF'],size=18);
 	ax1.text(2.3,615,'Percent Correct',size=20);
 	#iterate over each block type and plot the sngle and multiple target data
-	colors=['black']; 
+	colors=['black']; styles=['solid','dashed'];
 	for c,type in zip(colors,['Discrim']):
-		ax1.plot([0.4,1.4],[db['%s_%s_same_hf_%s_mean_rt'%(id,type,'match')],db['%s_%s_diff_hf_%s_mean_rt'%(id,type,'match')]],color=c,lw=6.0,ls='solid');
-		ax2.plot([1.0,2.0],[db['%s_%s_same_hf_%s_pc'%(id,type,'match')],db['%s_%s_diff_hf_%s_pc'%(id,type,'match')]],color=c,lw=4.0,ls='solid');
-		#add errorbars...
-		ax1.errorbar(0.4,db['%s_%s_same_hf_%s_mean_rt'%(id,type,'match')],yerr=[[db['%s_%s_same_%s_rt_bs_sems'%(id,type,'match')]],[db['%s_%s_same_%s_rt_bs_sems'%(id,type,'match')]]],color=c,lw=3.0);
-		ax1.errorbar(1.4,db['%s_%s_diff_hf_%s_mean_rt'%(id,type,'match')],yerr=[[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,'match')]],[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,'match')]]],color=c,lw=3.0);
-		ax2.errorbar(1.0,db['%s_%s_same_hf_%s_pc'%(id,type,'match')],yerr=[[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,'match')]],[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,'match')]]],color=c,lw=3.0);
-		ax2.errorbar(2.0,db['%s_%s_diff_hf_%s_pc'%(id,type,'match')],yerr=[[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,'match')]],[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,'match')]]],color=c,lw=3.0);
-	show();
+		for s,mat in zip(styles,['match','no_match']):
+			ax1.plot([0.4,1.4],[db['%s_%s_same_hf_%s_mean_rt'%(id,type,mat)],db['%s_%s_diff_hf_%s_mean_rt'%(id,type,mat)]],color=c,lw=6.0,ls=s);
+			ax2.plot([1.0,2.0],[db['%s_%s_same_hf_%s_pc'%(id,type,mat)],db['%s_%s_diff_hf_%s_pc'%(id,type,mat)]],color=c,lw=4.0,ls=s);
+			#add errorbars...
+			ax1.errorbar(0.4,db['%s_%s_same_hf_%s_mean_rt'%(id,type,mat)],yerr=[[db['%s_%s_same_%s_rt_bs_sems'%(id,type,mat)]],[db['%s_%s_same_%s_rt_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
+			ax1.errorbar(1.4,db['%s_%s_diff_hf_%s_mean_rt'%(id,type,mat)],yerr=[[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,mat)]],[db['%s_%s_diff_%s_rt_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
+			ax2.errorbar(1.0,db['%s_%s_same_hf_%s_pc'%(id,type,mat)],yerr=[[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,mat)]],[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
+			ax2.errorbar(2.0,db['%s_%s_diff_hf_%s_pc'%(id,type,mat)],yerr=[[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,mat)]],[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
+	match_line=mlines.Line2D([],[],color='black',ls='solid',lw=6,label='Shapes Match'); no_match_line=mlines.Line2D([],[],color='black',ls='dashed',lw=6,label="Shapes Don't Match");
+	ax1.legend(handles=[match_line,no_match_line],bbox_to_anchor=[0.97,0.0],ncol=2);
+	show();	
