@@ -13,8 +13,8 @@ from collections import namedtuple
 import pyvttbl as pt
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; # '/Users/james/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -391,8 +391,8 @@ def getAllSubjectBlocks():
     blocks = [[] for i in range(len(ids))]; #create a list of empty lists to append the individual blocks to
     for i,sub_id in enumerate(ids):
         blocks[i] = loadAllBlocks(sub_id);
-        print "Imported data for subject %s\n"%sub_id;
-    print "Done getting all subject blocks..\n";
+        #print "Imported data for subject %s\n"%sub_id;
+    #print "Done getting all subject blocks..\n";
     return blocks;
 
 def getTrials(all_blocks):

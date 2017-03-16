@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #	
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #	'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -48,7 +48,7 @@ def plotNT(id='agg'):
 	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Number of Targets',size=25);
 	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['One','Two'],size=20); #ax1.set_yticklabels([200,500,1000],[200,500,1000]); 
 	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['One','Two'],size=20);
-	ax1.text(2.3,615,'Percent Correct',size=16);
+	ax1.text(2.15,600,'Percent Correct',size=16);
 	#iterate over each block type and plot the sngle and multiple target data
 	colors=['dodgerblue','red']; #['solid','dashed'];     
 	for c,type in zip(colors,block_types):
@@ -69,11 +69,11 @@ def plotHF(id='agg'):
 	else:
 		db=individ_subject_data;
 	#plot the number of targets data via a line plot for more asthetic viewing
-	matplotlib.rcParams['ytick.labelsize']=20;
-	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Multiple Target Hemifield Relationship Data',size=22);
-	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['Same HF','Different HF'],size=20); 
-	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same HF','Different HF'],size=18);
-	ax1.text(2.3,615,'Percent Correct',size=20);
+	#matplotlib.rcParams['ytick.labelsize']=20;
+	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Multiple Target Hemifield Relationship Data',size=20);
+	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['Same HF','Diff HF'],size=15); ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemifield Relationship',size=18); 
+	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same','Diff'],size=18);
+	ax1.text(2.2,605,'Percent Correct',size=15);
 	#iterate over each block type and plot the same and different multiple target data
 	colors=['dodgerblue','red'];
 	for c,type in zip(colors,block_types):
@@ -85,7 +85,7 @@ def plotHF(id='agg'):
 		ax2.errorbar(1.0,db['%s_%s_same_hf_pc'%(id,type)],yerr=[[db['%s_%s_same_hf_pc_bs_sems'%(id,type)]],[db['%s_%s_same_hf_pc_bs_sems'%(id,type)]]],color=c,lw=3.0);
 		ax2.errorbar(2.0,db['%s_%s_diff_hf_pc'%(id,type)],yerr=[[db['%s_%s_diff_hf_pc_bs_sems'%(id,type)]],[db['%s_%s_diff_hf_pc_bs_sems'%(id,type)]]],color=c,lw=3.0);
 	discrim_line=mlines.Line2D([],[],color='dodgerblue',lw=6,label='Discrimination'); detect_line=mlines.Line2D([],[],color='red',lw=6,label='Detection');
-	ax1.legend(handles=[discrim_line,detect_line],bbox_to_anchor=[0.97,0.0],ncol=2);
+	ax1.legend(handles=[discrim_line,detect_line],bbox_to_anchor=[1.0,0.3],ncol=2); #bbox_to_anchor=[0.97,0.0]
 	show();
 	
 def plotDist(id='agg'):
@@ -207,10 +207,10 @@ def plot_HF_match(id='agg'):
 		db=subject_data
 	else:
 		db=individ_subject_data;
-	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 1: Hemifield Relationship, Target Shape Match',size=22);
-	ax1.set_ylim(400,950); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,1050,50)); xticks([0.4,1.4],['Same HF','Different HF'],size=20); 
-	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same HF','Different HF'],size=18);
-	ax1.text(2.3,615,'Percent Correct',size=20);
+	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Multiple Target Hemifield Relationship Data',size=20);
+	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['Same HF','Diff HF'],size=15); ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemifield Relationship',size=18); 
+	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['Same','Diff'],size=18);
+	ax1.text(2.1,650,'Percent Correct',size=15);
 	#iterate over each block type and plot the sngle and multiple target data
 	colors=['black']; styles=['solid','dashed'];
 	for c,type in zip(colors,['Discrim']):
@@ -223,5 +223,5 @@ def plot_HF_match(id='agg'):
 			ax2.errorbar(1.0,db['%s_%s_same_hf_%s_pc'%(id,type,mat)],yerr=[[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,mat)]],[db['%s_%s_same_hf_%s_pc_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
 			ax2.errorbar(2.0,db['%s_%s_diff_hf_%s_pc'%(id,type,mat)],yerr=[[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,mat)]],[db['%s_%s_diff_hf_%s_pc_bs_sems'%(id,type,mat)]]],color=c,lw=3.0);
 	match_line=mlines.Line2D([],[],color='black',ls='solid',lw=6,label='Shapes Match'); no_match_line=mlines.Line2D([],[],color='black',ls='dashed',lw=6,label="Shapes Don't Match");
-	ax1.legend(handles=[match_line,no_match_line],bbox_to_anchor=[0.97,0.0],ncol=2);
+	ax1.legend(handles=[match_line,no_match_line],bbox_to_anchor=[1.0,0.3],ncol=1); #[0.97,0.0]
 	show();	
