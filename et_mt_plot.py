@@ -88,6 +88,24 @@ def plotHF(id='agg'):
 	ax1.legend(handles=[discrim_line,detect_line],bbox_to_anchor=[1.0,0.3],ncol=2); #bbox_to_anchor=[0.97,0.0]
 	show();
 	
+def plotHFBar(id='agg'):
+	if id=='agg':
+		db=subject_data
+	else:
+		db=individ_subject_data;
+	matplotlib.rcParams['ytick.labelsize']=20;
+	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
+	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,50)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	colors=['dodgerblue','red']; #styles=['solid','dashed'];
+	ex=1;
+	for c,type in zip(colors,block_types):
+		ax1.bar(ex,db['%s_%s_same_hf_mean_rt'%(id,type)],color=c,width=0.4);
+		ax1.errorbar(ex,db['%s_%s_same_hf_mean_rt'%(id,type)],yerr=[[db['%s_%s_same_rt_bs_sems'%(id,type)]],[db['%s_%s_same_rt_bs_sems'%(id,type)]]],color='black');
+		ax1.bar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],color=c,width=0.4);
+		ax1.errorbar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],yerr=[[db['%s_%s_diff_rt_bs_sems'%(id,type)]],[db['%s_%s_diff_rt_bs_sems'%(id,type)]]],color='black');
+		ex+=0.4
+	show();
+	
 def plotDist(id='agg'):
 	#block_type is Discrim or Detect
 	if id=='agg':
