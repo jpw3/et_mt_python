@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #	
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -38,6 +38,8 @@ def plotIndividHF():
 		detect_diff = db['%s_Detect_diff_hf_mean_rt'%(id)]-db['%s_Detect_same_hf_mean_rt'%(id)];
 		discrim_diff = db['%s_Discrim_diff_hf_mean_rt'%(id)]-db['%s_Discrim_same_hf_mean_rt'%(id)];
 		ax1.plot(discrim_diff,detect_diff,marker='s',markersize=20);
+	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 
 def plotNT(id='agg'):
@@ -97,7 +99,7 @@ def plotHFBar(id='agg'):
 		db=individ_subject_data;
 	matplotlib.rcParams['ytick.labelsize']=20;
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
-	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,50)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 	colors=['dodgerblue','red']; #styles=['solid','dashed'];
 	ex=1;
 	for c,type in zip(colors,block_types):
@@ -106,6 +108,8 @@ def plotHFBar(id='agg'):
 		ax1.bar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],color=c,width=0.4);
 		ax1.errorbar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],yerr=[[db['%s_%s_diff_rt_bs_sems'%(id,type)]],[db['%s_%s_diff_rt_bs_sems'%(id,type)]]],color='black');
 		ex+=0.4
+	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 	
 def plotDist(id='agg'):
