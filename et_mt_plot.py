@@ -112,6 +112,26 @@ def plotHFBar(id='agg'):
 	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 	
+def plotAltHFBar(id='agg'):
+	if id=='agg':
+		db=subject_data
+	else:
+		db=individ_subject_data;
+	matplotlib.rcParams['ytick.labelsize']=20;
+	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);	
+	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	colors=['forestgreen','mediumpurple']; #styles=['solid','dashed'];
+	ex=1;
+	for c,type in zip(colors,['same','diff']):
+		ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,width=0.4);
+		ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black');
+		ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,width=0.4);
+		ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black');
+		ex+=0.4
+	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+	show();
+	
 def plotDist(id='agg'):
 	#block_type is Discrim or Detect
 	if id=='agg':
