@@ -78,8 +78,8 @@ def computeHF(trial_matrix,id):
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			#compute and save the data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
-			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
-			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
+			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_var_rt'%(id,type,name)]=var(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
+			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_var_il'%(id,type,name)]=var(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
 			db['%s_%s_%s_hf_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_hf_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
@@ -130,8 +130,8 @@ def compute_HFMatch(trial_matrix,id):
 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 				#if it wasn't an empty array, compute and save relevant data
 				db['%s_%s_%s_%s_rt_bs_sems'%(id,type,name,mat)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_%s_il_bs_sems'%(id,type,name,mat)] = compute_BS_SEM(il_matrix,'time');
-				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,mat)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,mat)]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,mat)]=compute_CIs(rts);
-				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,mat)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,mat)]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,mat)]=compute_CIs(ils);
+				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,mat)]=mean(rts); db['%s_%s_%s_hf_%s_var_rt'%(id,type,name,mat)]=var(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,mat)]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,mat)]=compute_CIs(rts);
+				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,mat)]=mean(ils); db['%s_%s_%s_hf_%s_var_il'%(id,type,name,mat)]=var(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,mat)]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,mat)]=compute_CIs(ils);
 				db['%s_%s_%s_hf_%s_pc'%(id,type,name,mat)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,mat)] = compute_BS_SEM(res_matrix,'result');
 				if id=='agg':
 					#append all the datae for each subject together in the dataframe for use in ANOVA
@@ -189,8 +189,8 @@ def computeNT(trial_matrix, id):
 			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l];
 			#compute and save the relevant data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
-			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
-			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
+			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_var_rt'%(id,type,name)]=var(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
+			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_var_il'%(id,type,name)]=var(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
@@ -257,8 +257,8 @@ def computeDist(trial_matrix, id):
 					print "%s %s %s skipping because rts is len %s"%(type,dist,name,len(rts))
 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 				db['%s_%s_%s_hf_%s_rt_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_hf_%s_il_bs_sems'%(id,type,name,nombre)]=compute_BS_SEM(il_matrix,'time');
-				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); #db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
-				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); #db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
+				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_%s_var_rt'%(id,type,name,nombre)]=var(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,nombre)]=median(rts); #db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,nombre)]=compute_CIs(rts);
+				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_%s_var_il'%(id,type,name,nombre)]=var(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,nombre)]=median(ils); #db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,nombre)]=compute_CIs(ils);
 				db['%s_%s_%s_hf_%s_pc'%(id,type,name,nombre)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,nombre)] = compute_BS_SEM(res_matrix,'result');
 				if id=='agg':	
 					#append all the datae for each subject together in the dataframe for use in ANOVA
@@ -267,8 +267,8 @@ def computeDist(trial_matrix, id):
 							continue;
 						hf_df.insert(hf_score(i,mean(r_scores),type,dist,name)._asdict()); #,mean(i_scores),pc(res_scores)
 			db['%s_%s_%s_rt_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[0],'time'); db['%s_%s_%s_il_bs_sems'%(id,type,nombre)]=compute_BS_SEM(separate_dist[1],'time');
-			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); #db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
-			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); #db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
+			db['%s_%s_%s_mean_rt'%(id,type,nombre)]=mean(all_dist[0]); db['%s_%s_%s_var_rt'%(id,type,nombre)]=var(all_dist[0]); db['%s_%s_%s_median_rt'%(id,type,nombre)]=median(all_dist[0]); #db['%s_%s_%s_rt_cis'%(id,type,nombre)]=compute_CIs(all_dist[0]);
+			db['%s_%s_%s_mean_il'%(id,type,nombre)]=mean(all_dist[1]); db['%s_%s_%s_var_il'%(id,type,nombre)]=var(all_dist[1]); db['%s_%s_%s_median_il'%(id,type,nombre)]=median(all_dist[1]); #db['%s_%s_%s_il_cis'%(id,type,nombre)]=compute_CIs(all_dist[1]);
 			db['%s_%s_%s_pc'%(id,type,nombre)]=pc(all_dist[2]); db['%s_%s_%s_pc_bs_sems'%(id,type,nombre)] = compute_BS_SEM(separate_dist[2],'result');
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
@@ -316,8 +316,8 @@ def computeTT(trial_matrix,id):
 				[struct[hf][en-1][0].append(o) for o in rts]; [struct[hf][en-1][1].append(z) for z in ils]; [struct[hf][en-1][2].append(em) for em in res];
 				[individ_struct[hf][en-1][0][y].append(e) for y,u in enumerate(rt_matrix) for e in u]; [individ_struct[hf][en-1][1][y].append(e) for y,u in enumerate(il_matrix) for e in u]; [individ_struct[hf][en-1][2][y].append(e) for y,u in enumerate(res_matrix) for e in u];
 				db['%s_Discrim_%s_%s_hf_%s_rt_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(rt_matrix,'time'); db['%s_Discrim_%s_%s_hf_%s_il_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(il_matrix,'time');
-				db['%s_Discrim_%s_%s_hf_%s_mean_rt'%(id,match,hf_match,dist)]=mean(rts); db['%s_Discrim_%s_%s_hf_%s_median_rt'%(id,match,hf_match,dist)]=median(rts); db['%s_Discrim_%s_%s_hf_%s_rt_cis'%(id,match,hf_match,dist)]=compute_CIs(rts);
-				db['%s_Discrim_%s_%s_hf_%s_mean_il'%(id,match,hf_match,dist)]=mean(ils); db['%s_Discrim_%s_%s_hf_%s_median_il'%(id,match,hf_match,dist)]=median(ils); db['%s_Discrim_%s_%s_hf_%s_il_cis'%(id,match,hf_match,dist)]=compute_CIs(ils);
+				db['%s_Discrim_%s_%s_hf_%s_mean_rt'%(id,match,hf_match,dist)]=mean(rts); db['%s_Discrim_%s_%s_hf_%s_var_rt'%(id,match,hf_match,dist)]=var(rts); db['%s_Discrim_%s_%s_hf_%s_median_rt'%(id,match,hf_match,dist)]=median(rts); db['%s_Discrim_%s_%s_hf_%s_rt_cis'%(id,match,hf_match,dist)]=compute_CIs(rts);
+				db['%s_Discrim_%s_%s_hf_%s_mean_il'%(id,match,hf_match,dist)]=mean(ils); db['%s_Discrim_%s_%s_hf_%s_var_il'%(id,match,hf_match,dist)]=var(ils); db['%s_Discrim_%s_%s_hf_%s_median_il'%(id,match,hf_match,dist)]=median(ils); db['%s_Discrim_%s_%s_hf_%s_il_cis'%(id,match,hf_match,dist)]=compute_CIs(ils);
 				db['%s_Discrim_%s_%s_hf_%s_pc'%(id,match,hf_match,dist)]=pc(res); db['%s_Discrim_%s_%s_hf_%s_pc_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(res_matrix,'result');
 				print "Saved %s %s %s %s data to database..."%(id,match,hf_match,dist);
 				#append rts to the dataframe
