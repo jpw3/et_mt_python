@@ -52,14 +52,24 @@ mat_data = loadmat(filename,struct_as_record=False,squeeze_me=True);
 data = Real_data(mat_data);
 
 #create the named tuple for installing, then put all the data together and run the test ANOVA
-score = namedtuple('score',['id','a_param','nr_targets']);
-df = pt.DataFrame();
+#score = namedtuple('score',['id','a_param','nr_targets']);
+#df = pt.DataFrame();
 
-for nt,scores in zip([0,1,2],[data.nt_params_detect_as,data.st_params_detect_as,data.mt_params_detect_as]):
-	for i,a in enumerate(scores):
-		df.insert(score(i,a,nt)._asdict()); #append the params to the dataframe
+#for nt,scores in zip([0,1,2],[data.nt_params_detect_as,data.st_params_detect_as,data.mt_params_detect_as]):
+#	for i,a in enumerate(scores):
+#		df.insert(score(i,a,nt)._asdict()); #append the params to the dataframe
 
 #print the results
-print(df.anova('a_param',sub='id',wfactors=['nr_targets']));
+#print(df.anova('a_param',sub='id',wfactors=['nr_targets']));
 		
+#test the omnibus nr of targets by task anova for drift rate to compare with MATLAB
+score = namedtuple('score',['id','drift_rate','nr_targets','task']);
+df = pt.DataFrame();
+
+for nt,task,scores in zip([1,2,1,2],['Detect','Detect','Discrim','Discrim'],
+	[data.st_params_detect_vs,data.mt_params_detect_vs,data.st_params_discrim_vs,data.mt_params_discrim_vs]):
+	for i,v in enumerate(scores):
+		df.insert(score(i,v,nt,task)._asdict()); #append the params to the dataframe
 		
+#print the results
+print(df.anova('drift_rate',sub='id',wfactors=['nr_targets','task']));
