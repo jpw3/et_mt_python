@@ -44,7 +44,23 @@ class Real_data(object):
 		self.mt_params_detect_ters = object['mt_params'].detect.ters;		
 		self.mt_params_discrim_as = object['mt_params'].discrim.ays; 
 		self.mt_params_discrim_vs = object['mt_params'].discrim.vs;
-		self.mt_params_discrim_ters = object['mt_params'].discrim.ters;			
+		self.mt_params_discrim_ters = object['mt_params'].discrim.ters;
+		#same and different hf stuff
+		self.mt_params_detect_same_hf_as = object['mt_params'].detect.same_hf.ays;
+		self.mt_params_detect_same_hf_vs = object['mt_params'].detect.same_hf.vs;
+		self.mt_params_detect_same_hf_ters = object['mt_params'].detect.same_hf.ters;
+		self.mt_params_detect_diff_hf_as = object['mt_params'].detect.diff_hf.ays;
+		self.mt_params_detect_diff_hf_vs = object['mt_params'].detect.diff_hf.vs;
+		self.mt_params_detect_diff_hf_ters = object['mt_params'].detect.diff_hf.ters;
+		#disc
+		self.mt_params_discrim_same_hf_as = object['mt_params'].discrim.same_hf.ays;
+		self.mt_params_discrim_same_hf_vs = object['mt_params'].discrim.same_hf.vs;
+		self.mt_params_discrim_same_hf_ters = object['mt_params'].discrim.same_hf.ters;
+		self.mt_params_discrim_diff_hf_as = object['mt_params'].discrim.diff_hf.ays;
+		self.mt_params_discrim_diff_hf_vs = object['mt_params'].discrim.diff_hf.vs;
+		self.mt_params_discrim_diff_hf_ters = object['mt_params'].discrim.diff_hf.ters;		
+		
+		
 
 ## Import the data that needs to be confirmed with a repeated measures anova
 filename = '/Users/james/Documents/MATLAB/et_DDM_data.mat';
@@ -63,6 +79,20 @@ data = Real_data(mat_data);
 #print(df.anova('a_param',sub='id',wfactors=['nr_targets']));
 		
 #test the omnibus nr of targets by task anova for drift rate to compare with MATLAB
+
+score = namedtuple('score',['id','a','nr_targets','task']);
+df = pt.DataFrame();
+
+for nt,task,scores in zip([1,2,1,2],['Detect','Detect','Discrim','Discrim'],
+	[data.st_params_detect_as,data.mt_params_detect_as,data.st_params_discrim_as,data.mt_params_discrim_as]):
+	for i,a in enumerate(scores):
+		df.insert(score(i,a,nt,task)._asdict()); #append the params to the dataframe
+		
+print '## Nr Targets * Task ANOVA, Boundary Separation ##'; print;		
+#print the results
+print(df.anova('a',sub='id',wfactors=['nr_targets','task']));
+print ; print;
+
 score = namedtuple('score',['id','drift_rate','nr_targets','task']);
 df = pt.DataFrame();
 
@@ -71,5 +101,66 @@ for nt,task,scores in zip([1,2,1,2],['Detect','Detect','Discrim','Discrim'],
 	for i,v in enumerate(scores):
 		df.insert(score(i,v,nt,task)._asdict()); #append the params to the dataframe
 		
+print '## Nr Targets * Task ANOVA, Drift Rate ##'; print;		
 #print the results
 print(df.anova('drift_rate',sub='id',wfactors=['nr_targets','task']));
+print ; print;
+
+score = namedtuple('score',['id','ter','nr_targets','task']);
+df = pt.DataFrame();
+
+for nt,task,scores in zip([1,2,1,2],['Detect','Detect','Discrim','Discrim'],
+	[data.st_params_detect_ters,data.mt_params_detect_ters,
+	 data.st_params_discrim_ters,data.mt_params_discrim_ters]):
+	for i,ter in enumerate(scores):
+		df.insert(score(i,ter,nt,task)._asdict()); #append the params to the dataframe
+		
+print '## Nr Targets * Task ANOVA, Nondecision Time ##'; print;		
+#print the results
+print(df.anova('ter',sub='id',wfactors=['nr_targets','task']));
+print ; print;
+
+#now do hemifield by task for each parameter
+score = namedtuple('score',['id','a','hemifield','task']);
+df = pt.DataFrame();
+
+for hf,task,scores in zip(['same','diff','same','diff'],['Detect','Detect','Discrim','Discrim'],
+	[data.mt_params_detect_same_hf_as,data.mt_params_detect_diff_hf_as,
+	 data.mt_params_discrim_same_hf_as,data.mt_params_discrim_diff_hf_as]):
+	for i,a in enumerate(scores):
+		df.insert(score(i,a,hf,task)._asdict()); #append the params to the dataframe
+
+print '## Hemifield * Task ANOVA, Boundary Separation ##'; print;		
+#print the results
+print(df.anova('a',sub='id',wfactors=['hemifield','task']));
+print ; print;
+
+#drift rate
+score = namedtuple('score',['id','v','hemifield','task']);
+df = pt.DataFrame();
+
+for hf,task,scores in zip(['same','diff','same','diff'],['Detect','Detect','Discrim','Discrim'],
+	[data.mt_params_detect_same_hf_vs,data.mt_params_detect_diff_hf_vs,
+	 data.mt_params_discrim_same_hf_vs,data.mt_params_discrim_diff_hf_vs]):
+	for i,v in enumerate(scores):
+		df.insert(score(i,v,hf,task)._asdict()); #append the params to the dataframe
+
+print '## Hemifield * Task ANOVA, Drift Rate ##'; print;		
+#print the results
+print(df.anova('v',sub='id',wfactors=['hemifield','task']));
+print ; print;
+
+#nondecision time
+score = namedtuple('score',['id','ter','hemifield','task']);
+df = pt.DataFrame();
+
+for hf,task,scores in zip(['same','diff','same','diff'],['Detect','Detect','Discrim','Discrim'],
+	[data.mt_params_detect_same_hf_ters,data.mt_params_detect_diff_hf_ters,
+	 data.mt_params_discrim_same_hf_ters,data.mt_params_discrim_diff_hf_ters]):
+	for i,ter in enumerate(scores):
+		df.insert(score(i,ter,hf,task)._asdict()); #append the params to the dataframe
+
+print '## Hemifield * Task ANOVA, Nondecision Time ##'; print;		
+#print the results
+print(df.anova('ter',sub='id',wfactors=['hemifield','task']));
+print ; print;
