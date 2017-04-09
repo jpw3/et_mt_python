@@ -12,7 +12,7 @@ import pandas #will use pandas DataFrame.to_csv() function to convert the data t
 datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
 csvpath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
 
-
+ids=['pilot_3','pilot_6','1','2','3','4','5','6','8','9']; #'jpw',
 
 
 def constructNT(trials):
@@ -27,7 +27,7 @@ def constructNT(trials):
 ##### Importing methods #################################################################################################################
 
 #returns all trials in an array of trials for use in fitting segregating into DataFrames
-def getTrials(id):
+def getTrialArray(id):
 	if id=='agg':
 		blocks=getAllSubjectBlocks();
 		#getIndividStats();
