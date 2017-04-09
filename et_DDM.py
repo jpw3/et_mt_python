@@ -115,7 +115,7 @@ for nt,task,scores in zip([1,2,1,2],['Detect','Detect','Discrim','Discrim'],
 	for i,ter in enumerate(scores):
 		df.insert(score(i,ter,nt,task)._asdict()); #append the params to the dataframe
 		
-print '## Nr Targets * Task ANOVA, Nondecision Time ##'; print;		
+print '## Nr Targets * Task ANOVA, Nondecision Timepdb ##'; print;		
 #print the results
 print(df.anova('ter',sub='id',wfactors=['nr_targets','task']));
 print ; print;
