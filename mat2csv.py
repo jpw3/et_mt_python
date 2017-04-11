@@ -15,7 +15,7 @@ csvpath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Do
 ids=['pilot_3','pilot_6','1','2','3','4','5','6','8','9']; #'jpw',
 
 
-def constructNT(trials):
+def constructNT(trials,id):
 	#trials should be an array of all trials
 	#create a dataframe and holder lists
 	df = pandas.DataFrame();
@@ -33,7 +33,7 @@ def constructNT(trials):
 	df['rt'] = array(rts);
 	df['result'] = array(results);
 	df['task'] = array(tasks);
-
+	df.to_csv(csvpath+'et_mt_%s_NTxTask.csv'%id, index=False);
 	print 'Completed constructing and saving .csv for number of targets data'
 	return df
 
