@@ -17,10 +17,25 @@ ids=['pilot_3','pilot_6','1','2','3','4','5','6','8','9']; #'jpw',
 
 def constructNT(trials):
 	#trials should be an array of all trials
-	
-	
-	print 'Completed constructing and saving .csv for number of targets data'
+	#create a dataframe and holder lists
+	df = pandas.DataFrame();
+	ids = []; rts = []; conditions = []; results = []; tasks = [];
+	#first loop through the data, appending the relevant values to lists
+	for t in trials:
+		ids.append(t.sub_id);
+		rts.append(t.response_time/1000.0);
+		conditions.append(t.nr_targets);
+		results.append(t.result);
+		tasks.append(t.block_type);	
+	#then, append the lists to the Dataframe
+	df['id'] = array(ids);
+	df['nr_targets'] = array(conditions);
+	df['rt'] = array(rts);
+	df['result'] = array(results);
+	df['task'] = array(tasks);
 
+	print 'Completed constructing and saving .csv for number of targets data'
+	return df
 
 
 
