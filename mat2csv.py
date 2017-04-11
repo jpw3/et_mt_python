@@ -33,10 +33,32 @@ def constructNT(trials,id):
 	df['rt'] = array(rts);
 	df['result'] = array(results);
 	df['task'] = array(tasks);
-	df.to_csv(csvpath+'et_mt_%s_NTxTask.csv'%id, index=False);
+	df.to_csv(csvpath+'et_mt_%s_NTxTask.csv'%id);
 	print 'Completed constructing and saving .csv for number of targets data'
 	return df
 
+def constructHF(trials,id):
+	#create a dataframe and holder lists
+	df = pandas.DataFrame();
+	ids = []; rts = []; hfs = []; results = []; tasks = [];
+	#first loop through the data, appending the relevant values to lists
+	for t in trials:
+		if not(t.nr_targets==2):
+			continue; #skip all not-two target trials
+		ids.append(t.sub_id);
+		rts.append(t.response_time/1000.0);
+		hfs.append(t.same_hf);
+		results.append(t.result);
+		tasks.append(t.block_type);	
+	#then, append the lists to the Dataframe
+	df['id'] = array(ids);
+	df['hemifield_rel'] = array(hfs);
+	df['rt'] = array(rts);
+	df['result'] = array(results);
+	df['task'] = array(tasks);
+	df.to_csv(csvpath+'et_mt_%s_HFxTask.csv'%id);
+	print 'Completed constructing and saving .csv for Hemifield relation data'
+	return df	
 
 
 ##### Importing methods #################################################################################################################
