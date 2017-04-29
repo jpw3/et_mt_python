@@ -32,11 +32,11 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
-	compute_HFMatch(trials,id);
-	computeTT(trials,id);
-	computeHF(trials,id);
-	computeNT(trials,id);
+	#computeNT(trials,id);
+	#computeHF(trials,id);
 	computeDist(trials,id);
+	#computeTT(trials,id);
+	#compute_HFMatch(trials,id);
 	#return trials; #for testing here
 
 def getIndividStats():
