@@ -17,7 +17,15 @@ All F\'92s are reported with Greenhouse-Geisser correction. ***** = significance
 *******	number of targets: F(DFeffect=1, DFerror=9, Obs=20) = 18.888, p = 0.002, partial eta^2 = 0.022, obs. power = 1\
 *******	task * number of targets: F(DFeffect=1, DFerror=9, Obs=10) = 31.127, p = 0.00034, partial eta^2 = 0.056, obs. power = 0.99\
 \
-Simple Effects- \
+Simple Effects (collapsing over task)- \
+	
+\i RT ~ nr targets (discrimination task)\
+
+\i0 	*******	F(DFeffect=1, DFerror=9, Obs=10) = 27.59, p = 0.0005, partial eta^2 = 0.126, obs. power = 0.998\
+	
+\i RT ~ nr targets (detection task)\
+	*******	
+\i0 F(DFeffect=1, DFerror=9, Obs=10) = 13.865, p = 0.005, partial eta^2 = 0.009, obs. power = 0.936\
 \
 \
 ####################################################################################################################\
@@ -32,7 +40,15 @@ Simple Effects- \
 *******	hemifield relation:  F(DFeffect=1, DFerror=9, Obs=20) = 16.339, p = 0.003, partial eta^2 = 0.02, obs. power = 1\
 *******	task * hemifield relation:  F(DFeffect=1, DFerror=9, Obs=10) = 9.45, p = 0.013, partial eta^2 = 0.014, obs. power = 0.822\
 \
-Simple Effects-\
+Simple Effects (collapsing over each task)-\
+	
+\i RT ~ hemifield (discrimination task)\
+	*******	
+\i0 F(DFeffect=1, DFerror=9, Obs=10) = 14.844, p = 0.004, partial eta^2 = 0.053, obs. power = 0.95\
+	
+\i RT ~ hemifield (detection task)
+\i0 \
+	*******	F(DFeffect=1, DFerror=9, Obs=20) = 0.594, p = 0.461, partial eta^2 = 0.000074, obs. power = 0.113\
 \
 \
 ####################################################################################################################\
@@ -48,4 +64,42 @@ Simple Effects-\
 	task * distance: F(DFeffect=1, DFerror=9, Obs=20) = 1.069, p = 0.328, partial eta^2 = 0.003, obs. power = 0.281\
 *******	task * hemifield: F(DFeffect=1, DFerror=9, Obs=20) = 11.150, p = 0.009, partial eta^2 = 0.015, obs. power = 0.993\
 	distance * hemifield: F(DFeffect=1, DFerror=9, Obs=20) = 0.207, p = 0.66, partial eta^2 = 0.00005, obs. power = 0.093\
-	task * distance * hemifield: F(DFeffect=1, DFerror=9, Obs=10) = 0.367, p = 0.56, partial eta^2 = 0.000056, obs. power = 0.088}
+	task * distance * hemifield: F(DFeffect=1, DFerror=9, Obs=10) = 0.367, p = 0.56, partial eta^2 = 0.000056, obs. power = 0.088\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\i \cf0 RT ~ task * distance\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\i0 \cf0 Omnibus-\
+*******	task: F(DFeffect=1, DFerror=9, Obs=20) = 345.083, p = 0.0000000017, partial eta^2 = 2.652, obs. power = 1\
+	distance:  F(DFeffect=1, DFerror=9, Obs=20) = 0.278, p = 0.611, partial eta^2 = 0.002, obs. power = 0.109\
+	task * distance: F(DFeffect=1, DFerror=9, Obs=10) = 0.179, p = 0.682, partial eta^2 = 0.001, obs. power = 0.069\
+\
+##################################################################################################################\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\i \cf0 RT ~ targets match * hemifield match * distance\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\i0 \cf0 Omnibus-\
+*******	targets match: F(DFeffect=1, DFerror=9, Obs=60) = 4.736, p = 0.058, partial eta^2 = 0.053, obs. power = 0.999\
+*******	hemifield: F(DFeffect=1, DFerror=9, Obs=60) = 13.203, p = 0.005, partial eta^2 = 0.038, obs. power = 1\
+	distance: F(DFeffect=1, DFerror=9, Obs=40) = 0.339, p = 0.699, partial eta^2 = 0.002, obs. power = 0.152,  Greenhouse-Geisser adjusted\
+	targets match * hemifield: F(DFeffect=1, DFerror=9, Obs=30) = 0.1, p = 0.759, partial eta^2 = 0.00001, obs. power = 0.081\
+	hemifield match * distance: F(DFeffect=1, DFerror=9, Obs=20) = 1.661, p = 0.224, partial eta^2 = 0.005, obs. power = 0.294, Greenhouse-Geisser adjusted\
+	targets match * hemifield * distance: F(DFeffect=1, DFerror=9, Obs=10) = 2.379, p = 0.141, partial eta^2 = 0.006, obs. power = 0.21, Greenhouse-Geisser adjusted\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\i \cf0 RT ~ targets match * hemifield match
+\i0 \
+Omnibus-\
+*******	targets match: F(DFeffect=1, DFerror=9, Obs=20) = 5.633, p = 0.042, partial eta^2 = 0.073, obs. power = 0.882\
+*******	hemifield match: F(DFeffect=1, DFerror=9, Obs=20) = 14.571, p = 0.004, partial eta^2 = 0.05, obs. power = 0.999\
+*******	targets match * hf: F(DFeffect=1, DFerror=9, Obs=10) = 0.414, p = 0.536, partial eta^2 = 0.000056, obs. power = 0.093\
+\
+\
+\
+\
+F(DFeffect=1, DFerror=9, Obs=20) = , p = , partial eta^2 = , obs. power = }
