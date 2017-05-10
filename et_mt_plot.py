@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #	'/Users/james/Documents/Python/et_mt/data/'; #
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -31,6 +31,7 @@ def plotAll(id='agg'):
 def plotIndividHF():
 	db = individ_subject_data;
 	matplotlib.rcParams['ytick.labelsize']=20; 	matplotlib.rcParams['xtick.labelsize']=20;
+	matplotlib.pyplot.rc('font',weight='bold');
 	fig,ax1=subplots(); hold(True); grid(True); #title('Experiment 2: Hemifield Difference Plot',size=25);
 	ax1.set_ylim(-200,200); ax1.set_xlim(-200,200); ax1.set_yticks(arange(-200,250,50)); ax1.set_xticks(arange(-200,250,50));
 	#ax1.set_ylabel('Detection Hemifield RT Difference (RT Different - RT Same)',size=20,labelpad=40); ax1.set_xlabel('Discrimination Hemifield RT Difference (RT Different - RT Same)',size=20,labelpad=40);
@@ -97,9 +98,12 @@ def plotHFBar(id='agg'):
 		db=subject_data
 	else:
 		db=individ_subject_data;
-	matplotlib.rcParams['ytick.labelsize']=20;
+	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=20;
+	matplotlib.pyplot.rc('font',weight='bold');
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
-	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]='1'; labels[1]='2'; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+	ax1.set_xticklabels(labels);
 	colors=['dodgerblue','red']; #styles=['solid','dashed'];
 	ex=1;
 	for c,type in zip(colors,block_types):
@@ -117,16 +121,19 @@ def plotAltHFBar(id='agg'):
 		db=subject_data
 	else:
 		db=individ_subject_data;
-	matplotlib.rcParams['ytick.labelsize']=20;
+	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=36;
+	matplotlib.pyplot.rc('font',weight='bold');
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);	
-	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xticks([]); ax1.set_xlim([0.5,2.8]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	ax1.set_ylim(300,900); ax1.set_yticks(arange(300,950,50)); ax1.set_xlim([0.5,2.8]); ax1.set_xticks([1.2,2.2]) #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]='Discrimination'; labels[1]='Detection'; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+	ax1.set_xticklabels(labels);	
 	colors=['forestgreen','mediumpurple']; #styles=['solid','dashed'];
 	ex=1;
 	for c,type in zip(colors,['same','diff']):
 		ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,width=0.4);
-		ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black');
+		ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
 		ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,width=0.4);
-		ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black');
+		ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
 		ex+=0.4
 	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
