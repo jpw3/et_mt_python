@@ -11,8 +11,8 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #	'/Users/james/Documents/Python/et_mt/data/'; #
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 individ_subject_data = shelve.open(shelvepath+'individ_mt_data.db');
@@ -49,23 +49,26 @@ def plotNT(id='agg'):
 	else:
 		db=individ_subject_data;
 	#plot the number of targets data via a line plot for more asthetic viewing
-	matplotlib.rcParams['ytick.labelsize']=20;
-	fig,ax1=subplots(); hold(True); grid(True); title('Experiment 2: Number of Targets',size=25);
-	ax1.set_ylim(400,900); ax1.set_xlim([0,3]); ax1.set_xticks([]);  ax1.set_yticks(arange(400,950,50)); xticks([0.4,1.4],['One','Two'],size=20); #ax1.set_yticklabels([200,500,1000],[200,500,1000]); 
-	ax2=axes([0.65,0.50,0.25,0.35]); grid(True); ax2.set_xlim([0,3]); ax2.set_xticks([]); ax2.set_ylim(.8,1.0); ax2.set_yticks([0.8,0.85,0.9,0.95,1.0]); xticks([1,2],['One','Two'],size=20);
-	ax1.text(2.15,600,'Percent Correct',size=16);
+	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=36;
+	matplotlib.pyplot.rc('font',weight='bold');
+	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
+	ax1.set_ylim(350,1000); ax1.set_yticks(arange(350,1050,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+	ax1.set_xticklabels(labels);
+	ax1.set_yticklabels(['','','','','','','','','','','','','','']);
 	#iterate over each block type and plot the sngle and multiple target data
-	colors=['dodgerblue','red']; #['solid','dashed'];     
-	for c,type in zip(colors,block_types):
-		ax1.plot([0.4,1.4],[db['%s_%s_st_mean_rt'%(id,type)],db['%s_%s_mt_mean_rt'%(id,type)]],color=c,lw=6.0,ls='solid');
-		ax2.plot([1.0,2.0],[db['%s_%s_st_pc'%(id,type)],db['%s_%s_mt_pc'%(id,type)]],color=c,lw=4.0,ls='solid');
-		#add errorbars...
-		ax1.errorbar(0.4,db['%s_%s_st_mean_rt'%(id,type)],yerr=[[db['%s_%s_st_rt_bs_sems'%(id,type)]],[db['%s_%s_st_rt_bs_sems'%(id,type)]]],color=c,lw=3.0);
-		ax1.errorbar(1.4,db['%s_%s_mt_mean_rt'%(id,type)],yerr=[[db['%s_%s_mt_rt_bs_sems'%(id,type)]],[db['%s_%s_mt_rt_bs_sems'%(id,type)]]],color=c,lw=3.0);
-		ax2.errorbar(1.0,db['%s_%s_st_pc'%(id,type)],yerr=[[db['%s_%s_st_pc_bs_sems'%(id,type)]],[db['%s_%s_st_pc_bs_sems'%(id,type)]]],color=c,lw=3.0);
-		ax2.errorbar(2.0,db['%s_%s_mt_pc'%(id,type)],yerr=[[db['%s_%s_mt_pc_bs_sems'%(id,type)]],[db['%s_%s_mt_pc_bs_sems'%(id,type)]]],color=c,lw=3.0);
-		discrim_line=mlines.Line2D([],[],color='dodgerblue',lw=6,label='Discrimination'); detect_line=mlines.Line2D([],[],color='red',lw=6,label='Detection');
-		ax1.legend(handles=[discrim_line,detect_line],bbox_to_anchor=[0.97,0.0],ncol=2);
+	colors=['dodgerblue','red']; #['solid','dashed'];
+	ex=1;
+	for c,type in zip(colors,['st','mt']):
+		#note, already converted this to milliseconds in analysis:
+		ax1.bar(ex,db['%s_Discrim_%s_mean_rt'%(id,type)],color=c,width=0.4,edgecolor='black');
+		ax1.errorbar(ex,db['%s_Discrim_%s_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
+		ax1.bar(ex+1,db['%s_Detect_%s_mean_rt'%(id,type)],color=c,width=0.4,edgecolor='black');
+		ax1.errorbar(ex+1,db['%s_Detect_%s_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
+		ex+=0.4
+	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 	
 def plotHF(id='agg'):
@@ -99,20 +102,23 @@ def plotHFBar(id='agg'):
 	else:
 		db=individ_subject_data;
 	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=20;
+	matplotlib.rcParams['hatch.linewidth']=4.0;
 	matplotlib.pyplot.rc('font',weight='bold');
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
-	ax1.set_ylim(200,1000); ax1.set_yticks(arange(200,1050,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
-	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]='1'; labels[1]='2'; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+	ax1.set_ylim(350,1000); ax1.set_yticks(arange(350,1050,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 	ax1.set_xticklabels(labels);
-	colors=['dodgerblue','red']; #styles=['solid','dashed'];
+	ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+	colors=['lightsteelblue','dimgray']; styles=['solid','dashed'];
 	ex=1;
-	for c,type in zip(colors,block_types):
-		ax1.bar(ex,db['%s_%s_same_hf_mean_rt'%(id,type)],color=c,width=0.4);
-		ax1.errorbar(ex,db['%s_%s_same_hf_mean_rt'%(id,type)],yerr=[[db['%s_%s_same_rt_bs_sems'%(id,type)]],[db['%s_%s_same_rt_bs_sems'%(id,type)]]],color='black');
-		ax1.bar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],color=c,width=0.4);
-		ax1.errorbar(ex+1,db['%s_%s_diff_hf_mean_rt'%(id,type)],yerr=[[db['%s_%s_diff_rt_bs_sems'%(id,type)]],[db['%s_%s_diff_rt_bs_sems'%(id,type)]]],color='black');
+	for hat,type,c in zip(['',''],['same','diff'],colors):
+		ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+		ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
+		ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+		ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
 		ex+=0.4
 	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 	
