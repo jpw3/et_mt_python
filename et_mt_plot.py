@@ -102,6 +102,7 @@ def plotHFBar(id='agg'):
 	else:
 		db=individ_subject_data;
 	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=20;
+	matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
 	matplotlib.rcParams['hatch.linewidth']=4.0;
 	matplotlib.pyplot.rc('font',weight='bold');
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
@@ -109,12 +110,12 @@ def plotHFBar(id='agg'):
 	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 	ax1.set_xticklabels(labels);
 	ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-	colors=['lightsteelblue','dimgray']; styles=['solid','dashed'];
+	colors=['dodgerblue','darkorange']; styles=['solid','dashed'];
 	ex=1;
 	for hat,type,c in zip(['',''],['same','diff'],colors):
-		ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+		ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4);
 		ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
-		ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+		ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4);
 		ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
 		ex+=0.4
 	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
@@ -128,6 +129,7 @@ def plotAltHFBar(id='agg'):
 	else:
 		db=individ_subject_data;
 	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=36;
+	matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
 	matplotlib.pyplot.rc('font',weight='bold');
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);	
 	ax1.set_ylim(300,900); ax1.set_yticks(arange(300,950,50)); ax1.set_xlim([0.5,2.8]); ax1.set_xticks([1.2,2.2]) #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
@@ -219,6 +221,35 @@ def plotDistXHF(id='agg'):
 	dis_same_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='solid',label='Discrimination, Same HF'); dis_diff_line=mlines.Line2D([],[],color='dodgerblue',lw=6,ls='dashed',label='Discrimination, Diff HF');
 	det_same_line=mlines.Line2D([],[],color='red',ls='solid',lw=6,label='Detection, Same HF'); det_diff_line=mlines.Line2D([],[],color='red',lw=6,ls='dashed',label='Detection, Diff HF');
 	ax1.legend(handles=[dis_same_line,dis_diff_line,det_same_line,det_diff_line],bbox_to_anchor=[1.1,0.56],ncol=2);
+	show();
+	
+def plotTTBar(id='agg'):
+	#plot targets match vs. don't match
+	if id=='agg':
+		db=subject_data
+	else:
+		db=individ_subject_data;
+	matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=20;
+	matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
+	matplotlib.rcParams['hatch.linewidth']=4.0;
+	matplotlib.pyplot.rc('font',weight='bold');
+	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
+	ax1.set_ylim(350,1000); ax1.set_yticks(arange(350,1050,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+	ax1.set_xticklabels(labels);
+	ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+	width=0.4; add=0;
+	for h,targ_match in zip(['',''],['no_match','match']):
+		ex=1;
+		for c,hf_match in zip(['dodgerblue','darkorange'],['same','diff']):	
+			ax1.bar(ex+add,db['%s_Discrim_%s_hf_%s_mean_rt'%(id,hf_match,targ_match)],color=c,hatch=h,width=width);
+			ax1.errorbar(ex+add,db['%s_Discrim_%s_hf_%s_mean_rt'%(id,hf_match,targ_match)],yerr=[[db['%s_Discrim_%s_%s_rt_bs_sems'%(id,hf_match,targ_match)]],[db['%s_Discrim_%s_%s_rt_bs_sems'%(id,hf_match,targ_match)]]],color='black',lw=6.0);
+			ex+=0.4;
+			if hf_match=='diff':
+				add=1;
+	ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+	ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+	ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 	show();
 	
 def plotTT(id='agg'):
