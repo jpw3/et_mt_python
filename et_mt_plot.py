@@ -54,8 +54,8 @@ def plotNT(id='agg'):
 	fig = figure(figsize = (4,4)); ax1=gca(); #grid(True);
 	ax1.set_ylim(350,1000); ax1.set_yticks(arange(350,1050,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 	labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-	ax1.set_xticklabels(labels);
-	ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+	#ax1.set_xticklabels(labels);
+	#ax1.set_yticklabels(['','','','','','','','','','','','','','']);
 	#iterate over each block type and plot the sngle and multiple target data
 	colors=['dodgerblue','red']; #['solid','dashed'];
 	ex=1;
