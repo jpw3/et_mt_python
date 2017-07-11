@@ -169,20 +169,22 @@ trials = getTrials(blocks);
 #specify the distinct DataFrames, passing the relevant tuples with column name strings for each
 #do it seperately for discrimination and detection tasks, respectively
 agg_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets','same_hf','task_type'));
+tt_data = pd.DataFrame(columns=('subj_id','rt','response','task_type')); #for task type, discrim vs. detect
 nr_targ_det_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets'));
 hf_det_data = pd.DataFrame(columns=('subj_id','rt','response','same_hf'));
 nr_targ_dis_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets'));
 hf_dis_data = pd.DataFrame(columns=('subj_id','rt','response','same_hf'));
 
 #this seems gross but it'll work: need to incorporate counter variables for each db
-agg_count = 0; det_nr_count = 0; det_hf_count = 0; dis_nr_count = 0; dis_hf_count = 0;
+agg_count = 0; det_nr_count = 0; det_hf_count = 0; dis_nr_count = 0; dis_hf_count = 0; tt_count = 0;
 
 #now do the actual loop
 for t in flatten(trials):
 	#cut out trials where subjects took too long (coded as result = -1)
 	if (t.result==1)|(t.result==0):
 		agg_data.loc[agg_count] = [t.sub_id, t.response_time/1000.0, t.result, t.nr_targets, t.same_hf, t.block_type]; #specify the response time in seconds for the HDDm fit later
-		agg_count+=1;
+		tt_data.loc[tt_count] = [t.sub_id, t.response_time/1000.0, t.result, t.block_type];
+		agg_count+=1; tt_count+=1;
 		if (t.block_type=='Detect'):
 			nr_targ_det_data.loc[det_nr_count] = [t.sub_id, t.response_time/1000.0, t.result, t.nr_targets];
 			det_nr_count+=1;
@@ -196,20 +198,17 @@ for t in flatten(trials):
 				hf_dis_data.loc[dis_hf_count] = [t.sub_id, t.response_time/1000.0, t.result, t.same_hf]
 				dis_hf_count+=1;
 
-#2. save the DFs as csvs using andas' built in features
+#2. save the DFs as csvs using pandas' built in features
 # the index=False argument prevents Pandas from writig the row index to the cvs file
+print 'Starting saving of csv files....';
+
 agg_data.to_csv(savepath+'all_data.csv',index=False);
+tt_data.to_csv(savepath+'task_type_data.csv',index=False);
 nr_targ_det_data.to_csv(savepath+'nr_target_det_data.csv',index=False);
 nr_targ_dis_data.to_csv(savepath+'nr_target_dis_data.csv',index=False);
 hf_det_data.to_csv(savepath+'hf_det_data.csv',index=False);
 hf_dis_data.to_csv(savepath+'hf_dis_data.csv',index=False);
 
-
-
-
-
-
-
-
+print 'Done saving csvs!';
 
 
