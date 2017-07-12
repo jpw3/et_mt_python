@@ -168,12 +168,13 @@ trials = getTrials(blocks);
 #do this for three different DataFrames: an aggregate one, then a 1 vs. 2 targets only and a same vs. different HF only
 #specify the distinct DataFrames, passing the relevant tuples with column name strings for each
 #do it seperately for discrimination and detection tasks, respectively
-agg_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets','same_hf','task_type'));
-tt_data = pd.DataFrame(columns=('subj_id','rt','response','task_type')); #for task type, discrim vs. detect
-nr_targ_det_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets'));
-hf_det_data = pd.DataFrame(columns=('subj_id','rt','response','same_hf'));
-nr_targ_dis_data = pd.DataFrame(columns=('subj_id','rt','response','nr_targets'));
-hf_dis_data = pd.DataFrame(columns=('subj_id','rt','response','same_hf'));
+#ALL csvs must contain 'subj_idx', 'rt', and 'response' columns at minimum
+agg_data = pd.DataFrame(columns=('subj_idx','rt','response','nr_targets','same_hf','task_type'));
+tt_data = pd.DataFrame(columns=('subj_idx','rt','response','task_type')); #for task type, discrim vs. detect
+nr_targ_det_data = pd.DataFrame(columns=('subj_idx','rt','response','nr_targets'));
+hf_det_data = pd.DataFrame(columns=('subj_idx','rt','response','same_hf'));
+nr_targ_dis_data = pd.DataFrame(columns=('subj_idx','rt','response','nr_targets'));
+hf_dis_data = pd.DataFrame(columns=('subj_idx','rt','response','same_hf'));
 
 #this seems gross but it'll work: need to incorporate counter variables for each db
 agg_count = 0; det_nr_count = 0; det_hf_count = 0; dis_nr_count = 0; dis_hf_count = 0; tt_count = 0;

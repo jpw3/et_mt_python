@@ -1,4 +1,4 @@
-subj_id,rt,response,task_type
+subj_idx,rt,response,task_type
 pilot_3,0.609764307646,1.0,Detect
 pilot_3,0.594260770176,1.0,Detect
 pilot_3,0.63613157854,1.0,Detect

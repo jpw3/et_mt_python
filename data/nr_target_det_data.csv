@@ -1,4 +1,4 @@
-subj_id,rt,response,nr_targets
+subj_idx,rt,response,nr_targets
 pilot_3,0.609764307646,1.0,2.0
 pilot_3,0.594260770176,1.0,0.0
 pilot_3,0.63613157854,1.0,1.0
