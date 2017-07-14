@@ -117,184 +117,184 @@ tt_data = hddm.utils.flip_errors(tt_data);
 # print ; print 'Starting # of target contrasts';  print; 
 # print 'Detection task first...'; print ;
 # 
-# #1.0 Detection task first...
-# #1.0.1 load in the data
-# det_nr_data = hddm.load_csv(savepath+'nr_target_det_data.csv');
-# #1.0.2 flip the errors so that error RTs are 'negative'
-# det_nr_data = hddm.utils.flip_errors(det_nr_data);
-# # #1.0.3 plot the distribution of RTs to see what everything looks like..
-# # fig = figure();
-# # ax = fig.add_subplot(111, xlabel = 'RT', ylabel = 'Frequency', title = 'Detection Nr Targets RT Distribution for Correct and Error Trials');
-# # #loop to histogram each subjects' RT distributions
-# # for i,subj in tt_data.groupby('subj_idx'):
-# #      subj.rt.hist(bins=20, histtype = 'step', ax = ax);
-# 
-# # 1.0.4 Fit each model independently, allowing each a,t, and v to vary accordingly
-# 
-# # Fit a model allowing all three parameters to vary, and incorporate the additional sv and st parameters into it
-# print 'Starting the fitting for detection task, number of target HDDM'; print ;
-# det_nr_model = hddm.HDDM(det_nr_data, informative = True, include=('sv', 'st'), depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
-# det_nr_model.find_starting_values(); #find realistic, appropriate starting values
-# det_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
-# print ;  print 'Plotting the posteriors for this model run...'; print ;
-# det_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
-# print ; print '### Parameter fit summary for this model ###'; print; print;
-# det_nr_model.print_stats(); #prints a, v, and t
-# print ; print 'Plotting the posteriors for the fit model'; print ;
-# [v_none_node, v_one_node, v_two_node, a_none_node, a_one_node, a_two_node, t_none_node, t_one_node, t_two_node] = det_nr_model.nodes_db.node[['v(0.0)','v(1.0)','v(2.0)','a(0.0)','a(1.0)','a(2.0)','t(0.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
-# #run through each parameter and plot seperately, saving each
-# hddm.analyze.plot_posterior_nodes([v_none_node, v_one_node, v_two_node]);
-# savefig(savepath+'det_nr_v_includesITV.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([a_none_node, a_one_node, a_two_node]);
-# savefig(savepath+'det_nr_a_includesITV.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([t_none_node, t_one_node, t_two_node]);
-# savefig(savepath+'det_nr_t_includesITV.png', dpi = 200); #save the figure
-# #save the model for use later
-# hddm.save(savepath+'det_nr_all_includesITV');
-# print 'Completed checking out model with intertrial variability parameters...'; print ;
-# 
-# 
-# # Fit a model allowing all three parameters to vary but without the intertrial variability params
-# print 'Starting the fitting for detection task, number of target HDDM'; print ;
-# det_nr_model = hddm.HDDM(det_nr_data, informative = True, depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
-# det_nr_model.find_starting_values(); #find realistic, appropriate starting values
-# det_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
-# print ;  print 'Plotting the posteriors for this model run...'; print ;
-# det_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
-# print ; print '### Parameter fit summary for this model ###'; print; print;
-# det_nr_model.print_stats(); #prints a, v, and t
-# print ; print 'Plotting the posteriors for the fit model'; print ;
-# [v_none_node, v_one_node, v_two_node, a_none_node, a_one_node, a_two_node, t_none_node, t_one_node, t_two_node] = det_nr_model.nodes_db.node[['v(0.0)','v(1.0)','v(2.0)','a(0.0)','a(1.0)','a(2.0)','t(0.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
-# #run through each parameter and plot seperately, saving each
-# hddm.analyze.plot_posterior_nodes([v_none_node, v_one_node, v_two_node]);
-# savefig(savepath+'det_nr_v.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([a_none_node, a_one_node, a_two_node]);
-# savefig(savepath+'det_nr_a.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([t_none_node, t_one_node, t_two_node]);
-# savefig(savepath+'det_nr_t.png', dpi = 200); #save the figure
-# #save the model for use later
-# hddm.save(savepath+'det_nr_all');
-# models.append(tt_model); #append the model to the list
-# print 'Completed checking out model withOUT intertrial variability parameters...'; print ;
-# 
-# 
-# print ; print 'Now Discrimination task...'; print ;
-# 
-# #1.1 Discrimination task...
-# #1.1.1 load in the data
-# dis_nr_data = hddm.load_csv(savepath+'nr_target_dis_data.csv');
-# #1.1.2 flip the errors so that error RTs are 'negative'
-# dis_nr_data = hddm.utils.flip_errors(dis_nr_data);
-# # #1.1.3 plot the distribution of RTs to see what everything looks like..
-# # fig = figure();
-# # ax = fig.add_subplot(111, xlabel = 'RT', ylabel = 'Frequency', title = 'Detection Nr Targets RT Distribution for Correct and Error Trials');
-# # #loop to histogram each subjects' RT distributions
-# # for i,subj in tt_data.groupby('subj_idx'):
-# #      subj.rt.hist(bins=20, histtype = 'step', ax = ax);
-# 
-# # 1.1.4 Fit each model independently, allowing each a,t, and v to vary accordingly
-# 
-# # Fit a model allowing all three parameters to vary, and incorporate the additional sv and st parameters into it
-# print 'Starting the fitting for discrimination task, number of target HDDM'; print ;
-# dis_nr_model = hddm.HDDM(dis_nr_data, informative = True, include=('sv', 'st'), depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
-# dis_nr_model.find_starting_values(); #find realistic, appropriate starting values
-# dis_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
-# print ;  print 'Plotting the posteriors for this model run...'; print ;
-# dis_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
-# print ; print '### Parameter fit summary for this model ###'; print; print;
-# dis_nr_model.print_stats(); #prints a, v, and t
-# print ; print 'Plotting the posteriors for the fit model'; print ;
-# [v_one_node, v_two_node, a_one_node, a_two_node, t_one_node, t_two_node] = dis_nr_model.nodes_db.node[['v(1.0)','v(2.0)','a(1.0)','a(2.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
-# #run through each parameter and plot seperately, saving each
-# hddm.analyze.plot_posterior_nodes([v_one_node, v_two_node]);
-# savefig(savepath+'dis_nr_v_includesITV.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([a_one_node, a_two_node]);
-# savefig(savepath+'dis_nr_a_includesITV.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([t_one_node, t_two_node]);
-# savefig(savepath+'dis_nr_t_includesITV.png', dpi = 200); #save the figure
-# #save the model for use later
-# hddm.save(savepath+'dis_nr_all_includesITV');
-# print 'Completed checking out model with intertrial variability parameters...'; print ;
-# 
-# 
-# # Fit a model allowing all three parameters to vary but without the intertrial variability params
-# print 'Starting the fitting for discrimination task, number of target HDDM'; print ;
-# dis_nr_model = hddm.HDDM(dis_nr_data, informative = True, depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
-# dis_nr_model.find_starting_values(); #find realistic, appropriate starting values
-# dis_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
-# print ;  print 'Plotting the posteriors for this model run...'; print ;
-# dis_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
-# print ; print '### Parameter fit summary for this model ###'; print; print;
-# dis_nr_model.print_stats(); #prints a, v, and t
-# print ; print 'Plotting the posteriors for the fit model'; print ;
-# [v_one_node, v_two_node, a_one_node, a_two_node, t_one_node, t_two_node] = dis_nr_model.nodes_db.node[['v(1.0)','v(2.0)','a(1.0)','a(2.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
-# #run through each parameter and plot seperately, saving each
-# hddm.analyze.plot_posterior_nodes([v_one_node, v_two_node]);
-# savefig(savepath+'dis_nr_v.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([a_one_node, a_two_node]);
-# savefig(savepath+'dis_nr_a.png', dpi = 200); #save the figure
-# hddm.analyze.plot_posterior_nodes([t_one_node, t_two_node]);
-# savefig(savepath+'dis_nr_t.png', dpi = 200); #save the figure
-# #save the model for use later
-# hddm.save(savepath+'dis_nr_all');
-# print 'Completed checking out model withOUT intertrial variability parameters...'; print ;
-	
-	
-# # # 2.0 EDA fitting for the SAME vs. DIFFERENT HF contrast
-# 
-print ; print 'Starting hemifield relation contrasts'; 
-print 'Detection task first...'; print ;
-
-#2.0 Detection task first...
-#2.0.1 load in the data
-det_hf_data = hddm.load_csv(savepath+'hf_det_data.csv');
-#2.0.2 flip the errors so that error RTs are 'negative'
-det_hf_data = hddm.utils.flip_errors(det_hf_data);
-# #2.0.3 plot the distribution of RTs to see what everything looks like..
+#1.0 Detection task first...
+#1.0.1 load in the data
+det_nr_data = hddm.load_csv(savepath+'nr_target_det_data.csv');
+#1.0.2 flip the errors so that error RTs are 'negative'
+det_nr_data = hddm.utils.flip_errors(det_nr_data);
+# #1.0.3 plot the distribution of RTs to see what everything looks like..
 # fig = figure();
 # ax = fig.add_subplot(111, xlabel = 'RT', ylabel = 'Frequency', title = 'Detection Nr Targets RT Distribution for Correct and Error Trials');
 # #loop to histogram each subjects' RT distributions
 # for i,subj in tt_data.groupby('subj_idx'):
 #      subj.rt.hist(bins=20, histtype = 'step', ax = ax);
 
-# 2.0.4 Fit each model independently, allowing each a,t, and v to vary accordingly
+# 1.0.4 Fit each model independently, allowing each a,t, and v to vary accordingly
 
-det_hf_model = hddm.HDDM(det_hf_data, informative = True, include=('sv', 'st'), depends_on = {'v':'same_hf','a':'same_hf','t':'same_hf'}); #allow each parameter to vary
-det_hf_model.find_starting_values(); #find realistic, appropriate starting values
-det_hf_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+# Fit a model allowing all three parameters to vary, and incorporate the additional sv and st parameters into it
+print 'Starting the fitting for detection task, number of target HDDM'; print ;
+det_nr_model = hddm.HDDM(det_nr_data, informative = True, include=('sv', 'st'), depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
+det_nr_model.find_starting_values(); #find realistic, appropriate starting values
+det_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
 print ;  print 'Plotting the posteriors for this model run...'; print ;
-det_hf_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
+det_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
 print ; print '### Parameter fit summary for this model ###'; print; print;
-det_hf_model.print_stats(); #prints a, v, and t
+det_nr_model.print_stats(); #prints a, v, and t
 print ; print 'Plotting the posteriors for the fit model'; print ;
-[v_diff_node, v_same_node, a_diff_node, a_same_node, t_diff_node, t_same_node] = det_hf_model.nodes_db.node[['v(0.0)','v(1.0)','a(0.0)','a(1.0)','t(0.0)','t(1.0)']]; #get the relevant 'nodes' (posteriors?)
+[v_none_node, v_one_node, v_two_node, a_none_node, a_one_node, a_two_node, t_none_node, t_one_node, t_two_node] = det_nr_model.nodes_db.node[['v(0.0)','v(1.0)','v(2.0)','a(0.0)','a(1.0)','a(2.0)','t(0.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
 #run through each parameter and plot seperately, saving each
-hddm.analyze.plot_posterior_nodes([v_diff_node, v_same_node]);
-savefig(savepath+'det_hf_v_includesITV.png', dpi = 200); #save the figure
-hddm.analyze.plot_posterior_nodes([a_diff_node, a_same_node]);
-savefig(savepath+'det_hf_a_includesITV.png', dpi = 200); #save the figure
-hddm.analyze.plot_posterior_nodes([t_diff_node, t_same_node]);
-savefig(savepath+'det_hf_t_includesITV.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([v_none_node, v_one_node, v_two_node]);
+savefig(savepath+'det_nr_v_includesITV.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([a_none_node, a_one_node, a_two_node]);
+savefig(savepath+'det_nr_a_includesITV.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([t_none_node, t_one_node, t_two_node]);
+savefig(savepath+'det_nr_t_includesITV.png', dpi = 200); #save the figure
+#save the model for use later
+#hddm.save(savepath+'det_nr_all_includesITV');
+print 'Completed checking out model with intertrial variability parameters...'; print ;
+
+
+# Fit a model allowing all three parameters to vary but without the intertrial variability params
+print 'Starting the fitting for detection task, number of target HDDM'; print ;
+det_nr_model = hddm.HDDM(det_nr_data, informative = True, depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
+det_nr_model.find_starting_values(); #find realistic, appropriate starting values
+det_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+print ;  print 'Plotting the posteriors for this model run...'; print ;
+det_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
+print ; print '### Parameter fit summary for this model ###'; print; print;
+det_nr_model.print_stats(); #prints a, v, and t
+print ; print 'Plotting the posteriors for the fit model'; print ;
+[v_none_node, v_one_node, v_two_node, a_none_node, a_one_node, a_two_node, t_none_node, t_one_node, t_two_node] = det_nr_model.nodes_db.node[['v(0.0)','v(1.0)','v(2.0)','a(0.0)','a(1.0)','a(2.0)','t(0.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
+#run through each parameter and plot seperately, saving each
+hddm.analyze.plot_posterior_nodes([v_none_node, v_one_node, v_two_node]);
+savefig(savepath+'det_nr_v.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([a_none_node, a_one_node, a_two_node]);
+savefig(savepath+'det_nr_a.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([t_none_node, t_one_node, t_two_node]);
+savefig(savepath+'det_nr_t.png', dpi = 200); #save the figure
+#save the model for use later
+#hddm.save(savepath+'det_nr_all');
+#models.append(tt_model); #append the model to the list
+print 'Completed checking out model withOUT intertrial variability parameters...'; print ;
+
+
+print ; print 'Now Discrimination task...'; print ;
+
+#1.1 Discrimination task...
+#1.1.1 load in the data
+dis_nr_data = hddm.load_csv(savepath+'nr_target_dis_data.csv');
+#1.1.2 flip the errors so that error RTs are 'negative'
+dis_nr_data = hddm.utils.flip_errors(dis_nr_data);
+# #1.1.3 plot the distribution of RTs to see what everything looks like..
+# fig = figure();
+# ax = fig.add_subplot(111, xlabel = 'RT', ylabel = 'Frequency', title = 'Detection Nr Targets RT Distribution for Correct and Error Trials');
+# #loop to histogram each subjects' RT distributions
+# for i,subj in tt_data.groupby('subj_idx'):
+#      subj.rt.hist(bins=20, histtype = 'step', ax = ax);
+
+# 1.1.4 Fit each model independently, allowing each a,t, and v to vary accordingly
+
+# Fit a model allowing all three parameters to vary, and incorporate the additional sv and st parameters into it
+print 'Starting the fitting for discrimination task, number of target HDDM'; print ;
+dis_nr_model = hddm.HDDM(dis_nr_data, informative = True, include=('sv', 'st'), depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
+dis_nr_model.find_starting_values(); #find realistic, appropriate starting values
+dis_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+print ;  print 'Plotting the posteriors for this model run...'; print ;
+dis_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
+print ; print '### Parameter fit summary for this model ###'; print; print;
+dis_nr_model.print_stats(); #prints a, v, and t
+print ; print 'Plotting the posteriors for the fit model'; print ;
+[v_one_node, v_two_node, a_one_node, a_two_node, t_one_node, t_two_node] = dis_nr_model.nodes_db.node[['v(1.0)','v(2.0)','a(1.0)','a(2.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
+#run through each parameter and plot seperately, saving each
+hddm.analyze.plot_posterior_nodes([v_one_node, v_two_node]);
+savefig(savepath+'dis_nr_v_includesITV.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([a_one_node, a_two_node]);
+savefig(savepath+'dis_nr_a_includesITV.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([t_one_node, t_two_node]);
+savefig(savepath+'dis_nr_t_includesITV.png', dpi = 200); #save the figure
+#save the model for use later
+#hddm.save(savepath+'dis_nr_all_includesITV');
+print 'Completed checking out model with intertrial variability parameters...'; print ;
+
+
+# Fit a model allowing all three parameters to vary but without the intertrial variability params
+print 'Starting the fitting for discrimination task, number of target HDDM'; print ;
+dis_nr_model = hddm.HDDM(dis_nr_data, informative = True, depends_on = {'v':'nr_targets','a':'nr_targets','t':'nr_targets'}); #allow each parameter to vary
+dis_nr_model.find_starting_values(); #find realistic, appropriate starting values
+dis_nr_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+print ;  print 'Plotting the posteriors for this model run...'; print ;
+dis_nr_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
+print ; print '### Parameter fit summary for this model ###'; print; print;
+dis_nr_model.print_stats(); #prints a, v, and t
+print ; print 'Plotting the posteriors for the fit model'; print ;
+[v_one_node, v_two_node, a_one_node, a_two_node, t_one_node, t_two_node] = dis_nr_model.nodes_db.node[['v(1.0)','v(2.0)','a(1.0)','a(2.0)','t(1.0)','t(2.0)']]; #get the relevant 'nodes' (posteriors?)
+#run through each parameter and plot seperately, saving each
+hddm.analyze.plot_posterior_nodes([v_one_node, v_two_node]);
+savefig(savepath+'dis_nr_v.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([a_one_node, a_two_node]);
+savefig(savepath+'dis_nr_a.png', dpi = 200); #save the figure
+hddm.analyze.plot_posterior_nodes([t_one_node, t_two_node]);
+savefig(savepath+'dis_nr_t.png', dpi = 200); #save the figure
 #save the model for use later
 #hddm.save(savepath+'dis_nr_all');
-print 'Without ITV params next...'; print ;
-
-det_hf_model = hddm.HDDM(det_hf_data, informative = True, depends_on = {'v':'same_hf','a':'same_hf','t':'same_hf'}); #allow each parameter to vary
-det_hf_model.find_starting_values(); #find realistic, appropriate starting values
-det_hf_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
-print ;  print 'Plotting the posteriors for this model run...'; print ;
-det_hf_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
-print ; print '### Parameter fit summary for this model ###'; print; print;
-det_hf_model.print_stats(); #prints a, v, and t
-print ; print 'Plotting the posteriors for the fit model'; print ;
-[v_diff_node, v_same_node, a_diff_node, a_same_node, t_diff_node, t_same_node] = det_hf_model.nodes_db.node[['v(0.0)','v(1.0)','a(0.0)','a(1.0)','t(0.0)','t(1.0)']]; #get the relevant 'nodes' (posteriors?)
-#run through each parameter and plot seperately, saving each
-hddm.analyze.plot_posterior_nodes([v_diff_node, v_same_node]);
-savefig(savepath+'det_hf_v.png', dpi = 200); #save the figure
-hddm.analyze.plot_posterior_nodes([a_diff_node, a_same_node]);
-savefig(savepath+'det_hf_a.png', dpi = 200); #save the figure
-hddm.analyze.plot_posterior_nodes([t_diff_node, t_same_node]);
-savefig(savepath+'det_hf_t.png', dpi = 200); #save the figure
+print 'Completed checking out model withOUT intertrial variability parameters...'; print ;
+	
+	
+# # # # 2.0 EDA fitting for the SAME vs. DIFFERENT HF contrast
+# # 
+# print ; print 'Starting hemifield relation contrasts'; 
+# print 'Detection task first...'; print ;
+# 
+# #2.0 Detection task first...
+# #2.0.1 load in the data
+# det_hf_data = hddm.load_csv(savepath+'hf_det_data.csv');
+# #2.0.2 flip the errors so that error RTs are 'negative'
+# det_hf_data = hddm.utils.flip_errors(det_hf_data);
+# # #2.0.3 plot the distribution of RTs to see what everything looks like..
+# # fig = figure();
+# # ax = fig.add_subplot(111, xlabel = 'RT', ylabel = 'Frequency', title = 'Detection Nr Targets RT Distribution for Correct and Error Trials');
+# # #loop to histogram each subjects' RT distributions
+# # for i,subj in tt_data.groupby('subj_idx'):
+# #      subj.rt.hist(bins=20, histtype = 'step', ax = ax);
+# 
+# # 2.0.4 Fit each model independently, allowing each a,t, and v to vary accordingly
+# 
+# det_hf_model = hddm.HDDM(det_hf_data, informative = True, include=('sv', 'st'), depends_on = {'v':'same_hf','a':'same_hf','t':'same_hf'}); #allow each parameter to vary
+# det_hf_model.find_starting_values(); #find realistic, appropriate starting values
+# det_hf_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+# print ;  print 'Plotting the posteriors for this model run...'; print ;
+# det_hf_model.plot_posteriors(['a','a_std','v','v_std','t','t_std','sv','st']);
+# print ; print '### Parameter fit summary for this model ###'; print; print;
+# det_hf_model.print_stats(); #prints a, v, and t
+# print ; print 'Plotting the posteriors for the fit model'; print ;
+# [v_diff_node, v_same_node, a_diff_node, a_same_node, t_diff_node, t_same_node] = det_hf_model.nodes_db.node[['v(0.0)','v(1.0)','a(0.0)','a(1.0)','t(0.0)','t(1.0)']]; #get the relevant 'nodes' (posteriors?)
+# #run through each parameter and plot seperately, saving each
+# hddm.analyze.plot_posterior_nodes([v_diff_node, v_same_node]);
+# savefig(savepath+'det_hf_v_includesITV.png', dpi = 200); #save the figure
+# hddm.analyze.plot_posterior_nodes([a_diff_node, a_same_node]);
+# savefig(savepath+'det_hf_a_includesITV.png', dpi = 200); #save the figure
+# hddm.analyze.plot_posterior_nodes([t_diff_node, t_same_node]);
+# savefig(savepath+'det_hf_t_includesITV.png', dpi = 200); #save the figure
+# #save the model for use later
+# #hddm.save(savepath+'dis_nr_all');
+# print 'Without ITV params next...'; print ;
+# 
+# det_hf_model = hddm.HDDM(det_hf_data, informative = True, depends_on = {'v':'same_hf','a':'same_hf','t':'same_hf'}); #allow each parameter to vary
+# det_hf_model.find_starting_values(); #find realistic, appropriate starting values
+# det_hf_model.sample(5000, burn = 25); #sample from the posterior distribution of the model
+# print ;  print 'Plotting the posteriors for this model run...'; print ;
+# det_hf_model.plot_posteriors(['a','a_std','v','v_std','t','t_std']);
+# print ; print '### Parameter fit summary for this model ###'; print; print;
+# det_hf_model.print_stats(); #prints a, v, and t
+# print ; print 'Plotting the posteriors for the fit model'; print ;
+# [v_diff_node, v_same_node, a_diff_node, a_same_node, t_diff_node, t_same_node] = det_hf_model.nodes_db.node[['v(0.0)','v(1.0)','a(0.0)','a(1.0)','t(0.0)','t(1.0)']]; #get the relevant 'nodes' (posteriors?)
+# #run through each parameter and plot seperately, saving each
+# hddm.analyze.plot_posterior_nodes([v_diff_node, v_same_node]);
+# savefig(savepath+'det_hf_v.png', dpi = 200); #save the figure
+# hddm.analyze.plot_posterior_nodes([a_diff_node, a_same_node]);
+# savefig(savepath+'det_hf_a.png', dpi = 200); #save the figure
+# hddm.analyze.plot_posterior_nodes([t_diff_node, t_same_node]);
+# savefig(savepath+'det_hf_t.png', dpi = 200); #save the figure
 #save the model for use later
 #hddm.save(savepath+'dis_nr_all');
 # print 'Now for Discrimination task...'; print ;
