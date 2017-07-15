@@ -13,8 +13,8 @@ from collections import namedtuple
 import pyvttbl as pt
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
-shelvepath =   '/Users/jameswilmott/Documents/Python/et_mt/data/'; # '/Users/james/Documents/Python/et_mt/data/'; #
+datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; # '/Users/jameswilmott/Documents/Python/et_mt/data/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -32,11 +32,11 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
-	#computeNT(trials,id);
-	#computeHF(trials,id);
-	#computeDist(trials,id);
-	#computeTT(trials,id);
-	#compute_HFMatch(trials,id);
+	computeNT(trials,id);
+	computeHF(trials,id);
+	computeDist(trials,id);
+	computeTT(trials,id);
+	compute_HFMatch(trials,id);
 	#return trials; #for testing here
 
 def getIndividStats():
