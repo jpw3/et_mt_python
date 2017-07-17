@@ -8,6 +8,8 @@ from matplotlib import cm
 import matplotlib.lines as mlines
 import shelve #for database writing and reading
 
+#screen dimensions for the office ocmputer = (19.2,10.44)
+
 shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
 savepath = '/Users/james/Documents/Python/et_mt/figures/' #'/Users/jameswilmott/Documents/Python/et_mt/figures/'; #
 
@@ -22,15 +24,15 @@ matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.w
 matplotlib.pyplot.rc('font',weight='bold');
 
 # 0.0 number of targets data
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(350,900); ax1.set_yticks(arange(350,950,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['limegreen','mediumpurple']; ex=1;
 for c,type in zip(colors,['st','mt']):
     #note, already converted this to milliseconds in analysis:
-    ax1.bar(ex,db['%s_Discrim_%s_mean_rt'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex,db['%s_Discrim_%s_mean_rt'%(id,type)],color=c,width=0.4);  #,edgecolor='black'
     ax1.errorbar(ex,db['%s_Discrim_%s_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
-    ax1.bar(ex+1,db['%s_Detect_%s_mean_rt'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex+1,db['%s_Detect_%s_mean_rt'%(id,type)],color=c,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex+1,db['%s_Detect_%s_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
     ex+=0.4
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
@@ -48,15 +50,15 @@ savefig(savepath+filename+'.eps',dpi=400);
 show();
 
 #proportion correct for NT
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['limegreen','mediumpurple']; ex=1;
 for c,type in zip(colors,['st','mt']):
     #note, already converted this to milliseconds in analysis:
-    ax1.bar(ex,db['%s_Discrim_%s_pc'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex,db['%s_Discrim_%s_pc'%(id,type)],color=c,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex,db['%s_Discrim_%s_pc'%(id,type)],yerr=[[db['%s_Discrim_%s_pc_bs_sems'%(id,type)]],[db['%s_Discrim_%s_pc_bs_sems'%(id,type)]]],color='black',lw=6.0);
-    ax1.bar(ex+1,db['%s_Detect_%s_pc'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex+1,db['%s_Detect_%s_pc'%(id,type)],color=c,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex+1,db['%s_Detect_%s_pc'%(id,type)],yerr=[[db['%s_Detect_%s_pc_bs_sems'%(id,type)]],[db['%s_Detect_%s_pc_bs_sems'%(id,type)]]],color='black',lw=6.0);
     ex+=0.4
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
@@ -87,15 +89,15 @@ savefig(savepath+filename+'.png',dpi=400);
 
 # 1.0 Hemifield Relation stuff
 #start with same vs. different HF plot
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(350,900); ax1.set_yticks(arange(350,950,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['dodgerblue','darkorange']; 
 ex=1;
 for hat,type,c in zip(['',''],['same','diff'],colors):
-    ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+    ax1.bar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex,db['%s_Discrim_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
-    ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4,edgecolor='black');
+    ax1.bar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],color=c,hatch=hat,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex+1,db['%s_Detect_%s_hf_mean_rt'%(id,type)],yerr=[[db['%s_Detect_%s_rt_bs_sems'%(id,type)]],[db['%s_Detect_%s_rt_bs_sems'%(id,type)]]],color='black',lw=6.0);
     ex+=0.4
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
@@ -113,15 +115,15 @@ savefig(savepath+filename+'.eps',dpi=400);
 show();
 
 #proportion correct for HF
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['dodgerblue','darkorange'];  ex=1;
 for hat,type,c in zip(['',''],['same','diff'],colors):
     #note, already converted this to milliseconds in analysis:
-    ax1.bar(ex,db['%s_Discrim_%s_hf_pc'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex,db['%s_Discrim_%s_hf_pc'%(id,type)],color=c,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex,db['%s_Discrim_%s_hf_pc'%(id,type)],yerr=[[db['%s_Discrim_%s_hf_pc_bs_sems'%(id,type)]],[db['%s_Discrim_%s_hf_pc_bs_sems'%(id,type)]]],color='black',lw=6.0);
-    ax1.bar(ex+1,db['%s_Detect_%s_hf_pc'%(id,type)],color=c,width=0.4,edgecolor='black');
+    ax1.bar(ex+1,db['%s_Detect_%s_hf_pc'%(id,type)],color=c,width=0.4); #,edgecolor='black'
     ax1.errorbar(ex+1,db['%s_Detect_%s_hf_pc'%(id,type)],yerr=[[db['%s_Detect_%s_hf_pc_bs_sems'%(id,type)]],[db['%s_Detect_%s_hf_pc_bs_sems'%(id,type)]]],color='black',lw=6.0);
     ex+=0.4
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
@@ -139,7 +141,7 @@ savefig(savepath+filename+'.eps',dpi=400);
 show();
 
 # same vs. different by target shape match for discrimination trials
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(350,900); ax1.set_yticks(arange(350,950,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]);
 #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Target Shapes Different','Target Shapes The Same']);
@@ -147,7 +149,7 @@ width=0.4; add=0;
 for h,targ_match in zip(['/','x'],['no_match','match']):
     ex=1;
     for c,hf_match in zip(['dodgerblue','darkorange'],['same','diff']):	
-        ax1.bar(ex+add,db['%s_Discrim_%s_hf_%s_mean_rt'%(id,hf_match,targ_match)],color=c,hatch=h,width=width,edgecolor='black');
+        ax1.bar(ex+add,db['%s_Discrim_%s_hf_%s_mean_rt'%(id,hf_match,targ_match)],color=c,hatch=h,width=width); #,edgecolor='black'
         ax1.errorbar(ex+add,db['%s_Discrim_%s_hf_%s_mean_rt'%(id,hf_match,targ_match)],yerr=[[db['%s_Discrim_%s_%s_rt_bs_sems'%(id,hf_match,targ_match)]],[db['%s_Discrim_%s_%s_rt_bs_sems'%(id,hf_match,targ_match)]]],color='black',lw=6.0);
         ex+=0.4;
         if hf_match=='diff':
@@ -167,14 +169,14 @@ savefig(savepath+filename+'.eps',dpi=400);
 show();
 
 #proportion correct for HF by target types..
-fig = figure(figsize = (19.2,10.44)); ax1=gca(); #grid(True);
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Target Shapes Different','Target Shapes The Same']);  
 width=0.4; add=0;
 for h,targ_match in zip(['/','x'],['no_match','match']):
     ex=1;
     for c,hf_match in zip(['dodgerblue','darkorange'],['same','diff']):	
-        ax1.bar(ex+add,db['%s_Discrim_%s_hf_%s_pc'%(id,hf_match,targ_match)],color=c,hatch=h,width=width,edgecolor='black');
+        ax1.bar(ex+add,db['%s_Discrim_%s_hf_%s_pc'%(id,hf_match,targ_match)],color=c,hatch=h,width=width); #,edgecolor='black'
         ax1.errorbar(ex+add,db['%s_Discrim_%s_hf_%s_pc'%(id,hf_match,targ_match)],yerr=[[db['%s_Discrim_%s_hf_%s_pc_bs_sems'%(id,hf_match,targ_match)]],[db['%s_Discrim_%s_hf_%s_pc_bs_sems'%(id,hf_match,targ_match)]]],color='black',lw=6.0);
         ex+=0.4;
         if hf_match=='diff':
