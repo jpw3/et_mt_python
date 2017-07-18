@@ -159,7 +159,6 @@ class detectTrial(object):
 
 #######################################################################################################################################################################
 
-
 #0. load in all the data for all subjects.
 blocks=getAllSubjectBlocks(); #use this local function to import all the MATLAB data, saving them as local Block objects with individual Trial object instances as well
 trials = getTrials(blocks);
