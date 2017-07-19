@@ -21,6 +21,9 @@ db = subject_data; id = 'agg';
 #set parameters for plots
 matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=30;
 matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
+matplotlib.rcParams['xtick.major.size']=10.0; matplotlib.rcParams['ytick.major.size']=10.0; #increase the length of the ticks
+matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger than the default case
+matplotlib.rcParams['hatch.color'] = 'black';
 matplotlib.pyplot.rc('font',weight='bold');
 
 # # 0.0 number of targets data
