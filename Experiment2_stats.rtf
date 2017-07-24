@@ -1,105 +1,1672 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
 {\colortbl;\red255\green255\blue255;}
 \margl1440\margr1440\vieww25400\viewh13220\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\b\fs24 \cf0 Multiple Targets- Experiment 2 Statistics\
 N=10\
-All F\'92s are reported with Greenhouse-Geisser correction. ***** = significance\
 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\i\b0 \ul RT ~ number of targets * task\ulnone \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i0 \cf0 Omnibus-\
-*******	task: F(DFeffect=1, DFerror=9, Obs=20) = 123.043, p = 0.00000015, partial eta^2 = 1.57, obs. power = 1 \
-*******	number of targets: F(DFeffect=1, DFerror=9, Obs=20) = 18.888, p = 0.002, partial eta^2 = 0.022, obs. power = 1\
-*******	task * number of targets: F(DFeffect=1, DFerror=9, Obs=10) = 31.127, p = 0.00034, partial eta^2 = 0.056, obs. power = 0.99\
+\f1\b0\fs22 \cf0 \CocoaLigature0 \
+##################### PRINTING OMNIBUS NR TARGETS ANOVA RESULTS  #####################\
+/Users/jameswilmott/miniconda2/lib/python2.7/site-packages/pyvttbl/stats/_anova.py:1240: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future\
+  return list(array(list(zeros((p-len(b))))+b)+1.)\
+rt ~ task * nr_targets\
 \
-Simple Effects (collapsing over task)- \
-	
-\i RT ~ nr targets (discrimination task)\
-
-\i0 	*******	F(DFeffect=1, DFerror=9, Obs=10) = 27.59, p = 0.0005, partial eta^2 = 0.126, obs. power = 0.998\
-	
-\i RT ~ nr targets (detection task)\
-	*******	
-\i0 F(DFeffect=1, DFerror=9, Obs=10) = 13.865, p = 0.005, partial eta^2 = 0.009, obs. power = 0.936\
+TESTS OF WITHIN SUBJECTS EFFECTS\
 \
+Measure: rt\
+     Source                               Type III    eps   df       MS          F        Sig.      et2_G   Obs.     SE     95% CI   lambda    Obs.  \
+                                             SS                                                                                                Power \
+====================================================================================================================================================\
+task                Sphericity Assumed   286118.126     -    1   286118.126   123.043   1.500e-06   1.573     20   12.445   24.392   273.429       1 \
+                    Greenhouse-Geisser   286118.126     1    1   286118.126   123.043   1.500e-06   1.573     20   12.445   24.392   273.429       1 \
+                    Huynh-Feldt          286118.126     1    1   286118.126   123.043   1.500e-06   1.573     20   12.445   24.392   273.429       1 \
+                    Box                  286118.126     1    1   286118.126   123.043   1.500e-06   1.573     20   12.445   24.392   273.429       1 \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)         Sphericity Assumed    20928.178     -    9     2325.353                                                                          \
+                    Greenhouse-Geisser    20928.178     1    9     2325.353                                                                          \
+                    Huynh-Feldt           20928.178     1    9     2325.353                                                                          \
+                    Box                   20928.178     1    9     2325.353                                                                          \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+nr_targets          Sphericity Assumed     4010.882     -    1     4010.882    18.888       0.002   0.022     20    3.761    7.371    41.973   1.000 \
+                    Greenhouse-Geisser     4010.882     1    1     4010.882    18.888       0.002   0.022     20    3.761    7.371    41.973   1.000 \
+                    Huynh-Feldt            4010.882     1    1     4010.882    18.888       0.002   0.022     20    3.761    7.371    41.973   1.000 \
+                    Box                    4010.882     1    1     4010.882    18.888       0.002   0.022     20    3.761    7.371    41.973   1.000 \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed     1911.156     -    9      212.351                                                                          \
+                    Greenhouse-Geisser     1911.156     1    9      212.351                                                                          \
+                    Huynh-Feldt            1911.156     1    9      212.351                                                                          \
+                    Box                    1911.156     1    9      212.351                                                                          \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+task *              Sphericity Assumed    10155.141     -    1    10155.141    31.127   3.433e-04   0.056     10    6.592   12.921    34.585   0.999 \
+nr_targets          Greenhouse-Geisser    10155.141     1    1    10155.141    31.127   3.433e-04   0.056     10    6.592   12.921    34.585   0.999 \
+                    Huynh-Feldt           10155.141     1    1    10155.141    31.127   3.433e-04   0.056     10    6.592   12.921    34.585   0.999 \
+                    Box                   10155.141     1    1    10155.141    31.127   3.433e-04   0.056     10    6.592   12.921    34.585   0.999 \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *        Sphericity Assumed     2936.262     -    9      326.251                                                                          \
+nr_targets)         Greenhouse-Geisser     2936.262     1    9      326.251                                                                          \
+                    Huynh-Feldt            2936.262     1    9      326.251                                                                          \
+                    Box                    2936.262     1    9      326.251                                                                          \
 \
-####################################################################################################################\
+TABLES OF ESTIMATED MARGINAL MEANS\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i \cf0 \ul \ulc0 RT ~ task * hemifield relation\ulnone \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i0 \cf0 Omnibus-\
-*******	task:  F(DFeffect=1, DFerror=9, Obs=20) = 134.298, p = 0.0000001, partial eta^2 = 1.886, obs. power = 1\
-*******	hemifield relation:  F(DFeffect=1, DFerror=9, Obs=20) = 16.339, p = 0.003, partial eta^2 = 0.02, obs. power = 1\
-*******	task * hemifield relation:  F(DFeffect=1, DFerror=9, Obs=10) = 9.45, p = 0.013, partial eta^2 = 0.014, obs. power = 0.822\
+Estimated Marginal Means for task\
+ task      Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+Detect    507.695       14.122           480.016           535.375 \
+Discrim   676.846       17.791           641.975           711.716 \
 \
-Simple Effects (collapsing over each task)-\
-	
-\i RT ~ hemifield (discrimination task)\
-	*******	
-\i0 F(DFeffect=1, DFerror=9, Obs=10) = 14.844, p = 0.004, partial eta^2 = 0.053, obs. power = 0.95\
-	
-\i RT ~ hemifield (detection task)
-\i0 \
-		F(DFeffect=1, DFerror=9, Obs=20) = 0.594, p = 0.461, partial eta^2 = 0.000074, obs. power = 0.113\
+Estimated Marginal Means for nr_targets\
+nr_targets    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=====================================================================\
+1            582.257       21.033           541.033           623.481 \
+2            602.284       28.565           546.296           658.272 \
 \
-\
-####################################################################################################################\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i \cf0 RT~ task * hf relation * distance\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i0 \cf0 Omnibus-\
-*******	task: F(DFeffect=1, DFerror=9, Obs=40) = 198.169, p = 0.00000001, partial eta^2 = 1.815, obs. power = 1\
-	distance: F(DFeffect=1, DFerror=9, Obs=40) = 0.082, p = 0.781, partial eta^2 = 0.000021, obs. power = 0.084\
-*******	hemifield: F(DFeffect=1, DFerror=9, Obs=40) = 4.886, p = 0.054, partial eta^2 = 0.006, obs. power = 0.985\
-	task * distance: F(DFeffect=1, DFerror=9, Obs=20) = 1.069, p = 0.328, partial eta^2 = 0.003, obs. power = 0.281\
-*******	task * hemifield: F(DFeffect=1, DFerror=9, Obs=20) = 11.150, p = 0.009, partial eta^2 = 0.015, obs. power = 0.993\
-	distance * hemifield: F(DFeffect=1, DFerror=9, Obs=20) = 0.207, p = 0.66, partial eta^2 = 0.00005, obs. power = 0.093\
-	task * distance * hemifield: F(DFeffect=1, DFerror=9, Obs=10) = 0.367, p = 0.56, partial eta^2 = 0.000056, obs. power = 0.088\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i \cf0 RT ~ task * distance\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i0 \cf0 Omnibus-\
-*******	task: F(DFeffect=1, DFerror=9, Obs=20) = 345.083, p = 0.0000000017, partial eta^2 = 2.652, obs. power = 1\
-	distance:  F(DFeffect=1, DFerror=9, Obs=20) = 0.278, p = 0.611, partial eta^2 = 0.002, obs. power = 0.109\
-	task * distance: F(DFeffect=1, DFerror=9, Obs=10) = 0.179, p = 0.682, partial eta^2 = 0.001, obs. power = 0.069\
-\
-##################################################################################################################\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i \cf0 RT ~ targets match * hemifield match * distance\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i0 \cf0 Omnibus-\
-*******	targets match: F(DFeffect=1, DFerror=9, Obs=60) = 4.736, p = 0.058, partial eta^2 = 0.053, obs. power = 0.999\
-*******	hemifield: F(DFeffect=1, DFerror=9, Obs=60) = 13.203, p = 0.005, partial eta^2 = 0.038, obs. power = 1\
-	distance: F(DFeffect=1, DFerror=9, Obs=40) = 0.339, p = 0.699, partial eta^2 = 0.002, obs. power = 0.152,  Greenhouse-Geisser adjusted\
-	targets match * hemifield: F(DFeffect=1, DFerror=9, Obs=30) = 0.1, p = 0.759, partial eta^2 = 0.00001, obs. power = 0.081\
-	hemifield match * distance: F(DFeffect=1, DFerror=9, Obs=20) = 1.661, p = 0.224, partial eta^2 = 0.005, obs. power = 0.294, Greenhouse-Geisser adjusted\
-	targets match * hemifield * distance: F(DFeffect=1, DFerror=9, Obs=10) = 2.379, p = 0.141, partial eta^2 = 0.006, obs. power = 0.21, Greenhouse-Geisser adjusted\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-
-\i \cf0 RT ~ targets match * hemifield match
-\i0 \
-Omnibus-\
-*******	targets match: F(DFeffect=1, DFerror=9, Obs=20) = 5.633, p = 0.042, partial eta^2 = 0.073, obs. power = 0.882\
-*******	hemifield match: F(DFeffect=1, DFerror=9, Obs=20) = 14.571, p = 0.004, partial eta^2 = 0.05, obs. power = 0.999\
-	targets match * hf: F(DFeffect=1, DFerror=9, Obs=10) = 0.414, p = 0.536, partial eta^2 = 0.000056, obs. power = 0.093\
+Estimated Marginal Means for task * nr_targets\
+ task     nr_targets    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================================\
+Detect    1            513.615       20.212           474.001           553.230 \
+Detect    2            501.775       20.635           461.332           542.219 \
+Discrim   1            650.898       20.303           611.104           690.693 \
+Discrim   2            702.793       27.831           648.244           757.342 \
 \
 \
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION-TASK NR TARGETS SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ nr_targets\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                              Type III    eps   df      MS         F        Sig.      et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                            SS                                                                                            Power \
+===============================================================================================================================================\
+nr_targets          Sphericity Assumed   13465.101     -    1   13465.101   27.590   5.259e-04   0.126     10   8.063   15.804   30.655   0.998 \
+                    Greenhouse-Geisser   13465.101     1    1   13465.101   27.590   5.259e-04   0.126     10   8.063   15.804   30.655   0.998 \
+                    Huynh-Feldt          13465.101     1    1   13465.101   27.590   5.259e-04   0.126     10   8.063   15.804   30.655   0.998 \
+                    Box                  13465.101     1    1   13465.101   27.590   5.259e-04   0.126     10   8.063   15.804   30.655   0.998 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed    4392.442     -    9     488.049                                                                       \
+                    Greenhouse-Geisser    4392.442     1    9     488.049                                                                       \
+                    Huynh-Feldt           4392.442     1    9     488.049                                                                       \
+                    Box                   4392.442     1    9     488.049                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for nr_targets\
+nr_targets    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=====================================================================\
+1            650.898       20.303           611.104           690.693 \
+2            702.793       27.831           648.244           757.342 \
 \
 \
-F(DFeffect=1, DFerror=9, Obs=20) = , p = , partial eta^2 = , obs. power = }
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION-TASK NR TARGETS SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ nr_targets\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                              Type III     eps     df        MS         F        Sig.      et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                            SS                                                                                                 Power \
+====================================================================================================================================================\
+nr_targets          Sphericity Assumed   18914.849       -       2    9457.424   39.761   2.486e-07   0.171     10   5.228   10.246   44.179   1.000 \
+                    Greenhouse-Geisser   18914.849   0.528   1.056   17915.844   39.761   9.800e-05   0.171     10   5.228   10.246   44.179   0.989 \
+                    Huynh-Feldt          18914.849   0.528   1.056   17915.844   39.761   9.800e-05   0.171     10   5.228   10.246   44.179   0.989 \
+                    Box                  18914.849   0.500       1   18914.849   39.761   1.400e-04   0.171     10   5.228   10.246   44.179   0.986 \
+----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed    4281.400       -      18     237.856                                                                       \
+                    Greenhouse-Geisser    4281.400   0.528   9.502     450.586                                                                       \
+                    Huynh-Feldt           4281.400   0.528   9.502     450.586                                                                       \
+                    Box                   4281.400   0.500       9     475.711                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for nr_targets\
+nr_targets    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=====================================================================\
+0            559.965       19.915           520.931           598.999 \
+1            513.615       20.212           474.001           553.230 \
+2            501.775       20.635           461.332           542.219 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING OMNIBUS NR TARGETS PC ANOVA REESULTS ##############################\
+\
+pc ~ task * nr_targets\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                              Type III    eps   df      MS         F      Sig.      et2_G     Obs.    SE     95% CI   lambda   Obs.  \
+                                            SS                                                                                            Power \
+===============================================================================================================================================\
+task                Sphericity Assumed       0.012     -    1       0.012   22.312   0.001       0.774     20   0.006    0.012   49.582   1.000 \
+                    Greenhouse-Geisser       0.012     1    1       0.012   22.312   0.001       0.774     20   0.006    0.012   49.582   1.000 \
+                    Huynh-Feldt              0.012     1    1       0.012   22.312   0.001       0.774     20   0.006    0.012   49.582   1.000 \
+                    Box                      0.012     1    1       0.012   22.312   0.001       0.774     20   0.006    0.012   49.582   1.000 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)         Sphericity Assumed       0.005     -    9   5.490e-04                                                                       \
+                    Greenhouse-Geisser       0.005     1    9   5.490e-04                                                                       \
+                    Huynh-Feldt              0.005     1    9   5.490e-04                                                                       \
+                    Box                      0.005     1    9   5.490e-04                                                                       \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+nr_targets          Sphericity Assumed   3.735e-04     -    1   3.735e-04    2.951   0.120       0.024     20   0.003    0.006    6.558   0.627 \
+                    Greenhouse-Geisser   3.735e-04     1    1   3.735e-04    2.951   0.120       0.024     20   0.003    0.006    6.558   0.627 \
+                    Huynh-Feldt          3.735e-04     1    1   3.735e-04    2.951   0.120       0.024     20   0.003    0.006    6.558   0.627 \
+                    Box                  3.735e-04     1    1   3.735e-04    2.951   0.120       0.024     20   0.003    0.006    6.558   0.627 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed       0.001     -    9   1.265e-04                                                                       \
+                    Greenhouse-Geisser       0.001     1    9   1.265e-04                                                                       \
+                    Huynh-Feldt              0.001     1    9   1.265e-04                                                                       \
+                    Box                      0.001     1    9   1.265e-04                                                                       \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+task *              Sphericity Assumed   3.086e-06     -    1   3.086e-06    0.043   0.840   1.950e-04     10   0.003    0.006    0.048   0.054 \
+nr_targets          Greenhouse-Geisser   3.086e-06     1    1   3.086e-06    0.043   0.840   1.950e-04     10   0.003    0.006    0.048   0.054 \
+                    Huynh-Feldt          3.086e-06     1    1   3.086e-06    0.043   0.840   1.950e-04     10   0.003    0.006    0.048   0.054 \
+                    Box                  3.086e-06     1    1   3.086e-06    0.043   0.840   1.950e-04     10   0.003    0.006    0.048   0.054 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *        Sphericity Assumed   6.451e-04     -    9   7.167e-05                                                                       \
+nr_targets)         Greenhouse-Geisser   6.451e-04     1    9   7.167e-05                                                                       \
+                    Huynh-Feldt          6.451e-04     1    9   7.167e-05                                                                       \
+                    Box                  6.451e-04     1    9   7.167e-05                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task     Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+================================================================\
+Detect    0.993        0.002             0.989             0.996 \
+Discrim   0.958        0.006             0.946             0.970 \
+\
+Estimated Marginal Means for nr_targets\
+nr_targets   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+1            0.972        0.006             0.960             0.985 \
+2            0.978        0.006             0.967             0.989 \
+\
+Estimated Marginal Means for task * nr_targets\
+ task     nr_targets   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+Detect    1            0.989        0.003             0.983             0.996 \
+Detect    2            0.996        0.001             0.993             0.999 \
+Discrim   1            0.955        0.010             0.935             0.975 \
+Discrim   2            0.961        0.008             0.945             0.976 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS NR TARGETS PC ANOVA REESULTS ##############################\
+\
+pc ~ nr_targets\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                              Type III    eps   df      MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                            SS                                                                                       Power \
+==========================================================================================================================================\
+nr_targets          Sphericity Assumed   1.543e-04     -    1   1.543e-04   0.978   0.348   0.010     10   0.005    0.009    1.087   0.155 \
+                    Greenhouse-Geisser   1.543e-04     1    1   1.543e-04   0.978   0.348   0.010     10   0.005    0.009    1.087   0.155 \
+                    Huynh-Feldt          1.543e-04     1    1   1.543e-04   0.978   0.348   0.010     10   0.005    0.009    1.087   0.155 \
+                    Box                  1.543e-04     1    1   1.543e-04   0.978   0.348   0.010     10   0.005    0.009    1.087   0.155 \
+------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed       0.001     -    9   1.578e-04                                                                  \
+                    Greenhouse-Geisser       0.001     1    9   1.578e-04                                                                  \
+                    Huynh-Feldt              0.001     1    9   1.578e-04                                                                  \
+                    Box                      0.001     1    9   1.578e-04                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for nr_targets\
+nr_targets   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+1            0.955        0.010             0.935             0.975 \
+2            0.961        0.008             0.945             0.976 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS NR TARGETS PC ANOVA REESULTS ##############################\
+\
+pc ~ nr_targets\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                              Type III    eps     df        MS         F        Sig.      et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                            SS                                                                                                Power \
+===================================================================================================================================================\
+nr_targets          Sphericity Assumed      0.006       -       2       0.003   15.720   1.124e-04   0.954     10   0.005    0.009   17.466   0.939 \
+                    Greenhouse-Geisser      0.006   0.524   1.048       0.005   15.720       0.003   0.954     10   0.005    0.009   17.466   0.764 \
+                    Huynh-Feldt             0.006   0.524   1.048       0.005   15.720       0.003   0.954     10   0.005    0.009   17.466   0.764 \
+                    Box                     0.006   0.500       1       0.006   15.720       0.003   0.954     10   0.005    0.009   17.466   0.749 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(nr_targets)   Sphericity Assumed      0.003       -      18   1.773e-04                                                                       \
+                    Greenhouse-Geisser      0.003   0.524   9.429   3.385e-04                                                                       \
+                    Huynh-Feldt             0.003   0.524   9.429   3.385e-04                                                                       \
+                    Box                     0.003   0.500       9   3.546e-04                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for nr_targets\
+nr_targets   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+0            0.964        0.007             0.950             0.979 \
+1            0.989        0.003             0.983             0.996 \
+2            0.996        0.001             0.993             0.999 \
+\
+\
+Finished computing number of target data...\
+\
+##################### PRINTING OMNIBUS HEMIFIELD RELATION RT ANOVA RESULTS  #####################\
+rt ~ task * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                              Type III    eps   df       MS          F        Sig.      et2_G   Obs.     SE     95% CI   lambda    Obs.  \
+                                            SS                                                                                                Power \
+===================================================================================================================================================\
+task               Sphericity Assumed   416676.154     -    1   416676.154   134.298   1.036e-06   1.886     20   14.375   28.176   298.440       1 \
+                   Greenhouse-Geisser   416676.154     1    1   416676.154   134.298   1.036e-06   1.886     20   14.375   28.176   298.440       1 \
+                   Huynh-Feldt          416676.154     1    1   416676.154   134.298   1.036e-06   1.886     20   14.375   28.176   298.440       1 \
+                   Box                  416676.154     1    1   416676.154   134.298   1.036e-06   1.886     20   14.375   28.176   298.440       1 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)        Sphericity Assumed    27923.589     -    9     3102.621                                                                          \
+                   Greenhouse-Geisser    27923.589     1    9     3102.621                                                                          \
+                   Huynh-Feldt           27923.589     1    9     3102.621                                                                          \
+                   Box                   27923.589     1    9     3102.621                                                                          \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed     4474.999     -    1     4474.999    16.339       0.003   0.020     20    4.271    8.371    36.310   1.000 \
+                   Greenhouse-Geisser     4474.999     1    1     4474.999    16.339       0.003   0.020     20    4.271    8.371    36.310   1.000 \
+                   Huynh-Feldt            4474.999     1    1     4474.999    16.339       0.003   0.020     20    4.271    8.371    36.310   1.000 \
+                   Box                    4474.999     1    1     4474.999    16.339       0.003   0.020     20    4.271    8.371    36.310   1.000 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed     2464.892     -    9      273.877                                                                          \
+                   Greenhouse-Geisser     2464.892     1    9      273.877                                                                          \
+                   Huynh-Feldt            2464.892     1    9      273.877                                                                          \
+                   Box                    2464.892     1    9      273.877                                                                          \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed     3151.159     -    1     3151.159     9.450       0.013   0.014     10    6.665   13.063    10.500   0.822 \
+hemifield          Greenhouse-Geisser     3151.159     1    1     3151.159     9.450       0.013   0.014     10    6.665   13.063    10.500   0.822 \
+                   Huynh-Feldt            3151.159     1    1     3151.159     9.450       0.013   0.014     10    6.665   13.063    10.500   0.822 \
+                   Box                    3151.159     1    1     3151.159     9.450       0.013   0.014     10    6.665   13.063    10.500   0.822 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed     3001.214     -    9      333.468                                                                          \
+hemifield)         Greenhouse-Geisser     3001.214     1    9      333.468                                                                          \
+                   Huynh-Feldt            3001.214     1    9      333.468                                                                          \
+                   Box                    3001.214     1    9      333.468                                                                          \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task      Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+Detect    501.529       14.368           473.368           529.690 \
+Discrim   705.656       19.878           666.694           744.617 \
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        593.015       28.151           537.839           648.191 \
+same        614.169       29.897           555.571           672.768 \
+\
+Estimated Marginal Means for task * hemifield\
+ task     hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==============================================================================\
+Detect    diff        499.828       20.837           458.987           540.669 \
+Detect    same        503.230       20.899           462.269           544.192 \
+Discrim   diff        686.203       31.338           624.779           747.626 \
+Discrim   same        725.108       24.540           677.010           773.207 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                             Type III   eps   df      MS        F      Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                      Power \
+========================================================================================================================================\
+hemifield          Sphericity Assumed   7568.267     -    1   7568.267   14.844   0.004   0.053     10   8.241   16.153   16.494   0.950 \
+                   Greenhouse-Geisser   7568.267     1    1   7568.267   14.844   0.004   0.053     10   8.241   16.153   16.494   0.950 \
+                   Huynh-Feldt          7568.267     1    1   7568.267   14.844   0.004   0.053     10   8.241   16.153   16.494   0.950 \
+                   Box                  7568.267     1    1   7568.267   14.844   0.004   0.053     10   8.241   16.153   16.494   0.950 \
+----------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed   4588.573     -    9    509.841                                                                   \
+                   Greenhouse-Geisser   4588.573     1    9    509.841                                                                   \
+                   Huynh-Feldt          4588.573     1    9    509.841                                                                   \
+                   Box                  4588.573     1    9    509.841                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        686.203       31.338           624.779           747.626 \
+same        725.108       24.540           677.010           773.207 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                             Type III   eps   df     MS       F     Sig.      et2_G     Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                       Power \
+=========================================================================================================================================\
+hemifield          Sphericity Assumed     57.891     -    1   57.891   0.594   0.461   7.386e-04     10   3.604    7.064    0.660   0.113 \
+                   Greenhouse-Geisser     57.891     1    1   57.891   0.594   0.461   7.386e-04     10   3.604    7.064    0.660   0.113 \
+                   Huynh-Feldt            57.891     1    1   57.891   0.594   0.461   7.386e-04     10   3.604    7.064    0.660   0.113 \
+                   Box                    57.891     1    1   57.891   0.594   0.461   7.386e-04     10   3.604    7.064    0.660   0.113 \
+-----------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed    877.533     -    9   97.504                                                                      \
+                   Greenhouse-Geisser    877.533     1    9   97.504                                                                      \
+                   Huynh-Feldt           877.533     1    9   97.504                                                                      \
+                   Box                   877.533     1    9   97.504                                                                      \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        499.828       20.837           458.987           540.669 \
+same        503.230       20.899           462.269           544.192 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING OMNIBUS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ task * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III    eps   df      MS         F      Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                        Power \
+==========================================================================================================================================\
+task               Sphericity Assumed       0.013     -    1       0.013   20.898   0.001   0.759     20   0.006    0.012   46.440   1.000 \
+                   Greenhouse-Geisser       0.013     1    1       0.013   20.898   0.001   0.759     20   0.006    0.012   46.440   1.000 \
+                   Huynh-Feldt              0.013     1    1       0.013   20.898   0.001   0.759     20   0.006    0.012   46.440   1.000 \
+                   Box                      0.013     1    1       0.013   20.898   0.001   0.759     20   0.006    0.012   46.440   1.000 \
+------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)        Sphericity Assumed       0.005     -    9   6.049e-04                                                                   \
+                   Greenhouse-Geisser       0.005     1    9   6.049e-04                                                                   \
+                   Huynh-Feldt              0.005     1    9   6.049e-04                                                                   \
+                   Box                      0.005     1    9   6.049e-04                                                                   \
+------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed   1.975e-04     -    1   1.975e-04    0.689   0.428   0.012     20   0.004    0.009    1.531   0.198 \
+                   Greenhouse-Geisser   1.975e-04     1    1   1.975e-04    0.689   0.428   0.012     20   0.004    0.009    1.531   0.198 \
+                   Huynh-Feldt          1.975e-04     1    1   1.975e-04    0.689   0.428   0.012     20   0.004    0.009    1.531   0.198 \
+                   Box                  1.975e-04     1    1   1.975e-04    0.689   0.428   0.012     20   0.004    0.009    1.531   0.198 \
+------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed       0.003     -    9   2.867e-04                                                                   \
+                   Greenhouse-Geisser       0.003     1    9   2.867e-04                                                                   \
+                   Huynh-Feldt              0.003     1    9   2.867e-04                                                                   \
+                   Box                      0.003     1    9   2.867e-04                                                                   \
+------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed   1.111e-04     -    1   1.111e-04    0.460   0.515   0.007     10   0.006    0.011    0.511   0.098 \
+hemifield          Greenhouse-Geisser   1.111e-04     1    1   1.111e-04    0.460   0.515   0.007     10   0.006    0.011    0.511   0.098 \
+                   Huynh-Feldt          1.111e-04     1    1   1.111e-04    0.460   0.515   0.007     10   0.006    0.011    0.511   0.098 \
+                   Box                  1.111e-04     1    1   1.111e-04    0.460   0.515   0.007     10   0.006    0.011    0.511   0.098 \
+------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed       0.002     -    9   2.414e-04                                                                   \
+hemifield)         Greenhouse-Geisser       0.002     1    9   2.414e-04                                                                   \
+                   Huynh-Feldt              0.002     1    9   2.414e-04                                                                   \
+                   Box                      0.002     1    9   2.414e-04                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task     Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+================================================================\
+Detect    0.996        0.001             0.993             0.999 \
+Discrim   0.961        0.007             0.948             0.973 \
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.981        0.006             0.969             0.992 \
+same        0.976        0.007             0.963             0.989 \
+\
+Estimated Marginal Means for task * hemifield\
+ task     hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+============================================================================\
+Detect    diff        0.997        0.002             0.993             1.000 \
+Detect    same        0.996        0.002             0.991             1.000 \
+Discrim   diff        0.964        0.009             0.947             0.982 \
+Discrim   same        0.957        0.010             0.937             0.976 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III    eps   df      MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                       Power \
+=========================================================================================================================================\
+hemifield          Sphericity Assumed   3.025e-04     -    1   3.025e-04   0.629   0.448   0.019     10   0.008    0.016    0.699   0.117 \
+                   Greenhouse-Geisser   3.025e-04     1    1   3.025e-04   0.629   0.448   0.019     10   0.008    0.016    0.699   0.117 \
+                   Huynh-Feldt          3.025e-04     1    1   3.025e-04   0.629   0.448   0.019     10   0.008    0.016    0.699   0.117 \
+                   Box                  3.025e-04     1    1   3.025e-04   0.629   0.448   0.019     10   0.008    0.016    0.699   0.117 \
+-----------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed       0.004     -    9   4.808e-04                                                                  \
+                   Greenhouse-Geisser       0.004     1    9   4.808e-04                                                                  \
+                   Huynh-Feldt              0.004     1    9   4.808e-04                                                                  \
+                   Box                      0.004     1    9   4.808e-04                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.964        0.009             0.947             0.982 \
+same        0.957        0.010             0.937             0.976 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III    eps   df      MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                       Power \
+=========================================================================================================================================\
+hemifield          Sphericity Assumed   6.173e-06     -    1   6.173e-06   0.130   0.726   0.008     10   0.003    0.005    0.145   0.063 \
+                   Greenhouse-Geisser   6.173e-06     1    1   6.173e-06   0.130   0.726   0.008     10   0.003    0.005    0.145   0.063 \
+                   Huynh-Feldt          6.173e-06     1    1   6.173e-06   0.130   0.726   0.008     10   0.003    0.005    0.145   0.063 \
+                   Box                  6.173e-06     1    1   6.173e-06   0.130   0.726   0.008     10   0.003    0.005    0.145   0.063 \
+-----------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed   4.259e-04     -    9   4.733e-05                                                                  \
+                   Greenhouse-Geisser   4.259e-04     1    9   4.733e-05                                                                  \
+                   Huynh-Feldt          4.259e-04     1    9   4.733e-05                                                                  \
+                   Box                  4.259e-04     1    9   4.733e-05                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.997        0.002             0.993             1.000 \
+same        0.996        0.002             0.991             1.000 \
+\
+\
+Finished computing hemifield data....\
+\
+##################### PRINTING OMNIBUS DISTANCE RT ANOVA REESULTS ##############################\
+\
+rt ~ task * distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+    Source                              Type III     eps      df         MS          F        Sig.        et2_G     Obs.     SE     95% CI   lambda    Obs.  \
+                                           SS                                                                                                          Power \
+============================================================================================================================================================\
+task              Sphericity Assumed   608179.488       -        1   608179.488   125.611   1.375e-06       1.743     30   14.663   28.739   418.703       1 \
+                  Greenhouse-Geisser   608179.488       1        1   608179.488   125.611   1.375e-06       1.743     30   14.663   28.739   418.703       1 \
+                  Huynh-Feldt          608179.488       1        1   608179.488   125.611   1.375e-06       1.743     30   14.663   28.739   418.703       1 \
+                  Box                  608179.488       1        1   608179.488   125.611   1.375e-06       1.743     30   14.663   28.739   418.703       1 \
+------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)       Sphericity Assumed    43575.981       -        9     4841.776                                                                              \
+                  Greenhouse-Geisser    43575.981       1        9     4841.776                                                                              \
+                  Huynh-Feldt           43575.981       1        9     4841.776                                                                              \
+                  Box                   43575.981       1        9     4841.776                                                                              \
+------------------------------------------------------------------------------------------------------------------------------------------------------------\
+distance          Sphericity Assumed       92.273       -        2       46.136     0.083       0.921   2.644e-04     20    5.663   11.100     0.184   0.062 \
+                  Greenhouse-Geisser       92.273   0.959    1.917       48.130     0.083       0.914   2.644e-04     20    5.663   11.100     0.184   0.062 \
+                  Huynh-Feldt              92.273   0.959    1.917       48.130     0.083       0.914   2.644e-04     20    5.663   11.100     0.184   0.062 \
+                  Box                      92.273   0.500        1       92.273     0.083       0.780   2.644e-04     20    5.663   11.100     0.184   0.059 \
+------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed    10049.705       -       18      558.317                                                                              \
+                  Greenhouse-Geisser    10049.705   0.959   17.254      582.447                                                                              \
+                  Huynh-Feldt           10049.705   0.959   17.254      582.447                                                                              \
+                  Box                   10049.705   0.500        9     1116.634                                                                              \
+------------------------------------------------------------------------------------------------------------------------------------------------------------\
+task *            Sphericity Assumed      795.856       -        2      397.928     0.592       0.564       0.002     10    8.787   17.223     0.658   0.095 \
+distance          Greenhouse-Geisser      795.856   0.982    1.965      405.025     0.592       0.561       0.002     10    8.787   17.223     0.658   0.094 \
+                  Huynh-Feldt             795.856   0.982    1.965      405.025     0.592       0.561       0.002     10    8.787   17.223     0.658   0.094 \
+                  Box                     795.856   0.500        1      795.856     0.592       0.461       0.002     10    8.787   17.223     0.658   0.081 \
+------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *      Sphericity Assumed    12097.348       -       18      672.075                                                                              \
+distance)         Greenhouse-Geisser    12097.348   0.982   17.685      684.062                                                                              \
+                  Huynh-Feldt           12097.348   0.982   17.685      684.062                                                                              \
+                  Box                   12097.348   0.500        9     1344.150                                                                              \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task      Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+Detect    501.340       11.559           478.684           523.995 \
+Discrim   702.698       16.386           670.581           734.815 \
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          603.531       29.262           546.177           660.884 \
+5          602.032       28.020           547.113           656.952 \
+7          600.493       29.656           542.368           658.618 \
+\
+Estimated Marginal Means for task * distance\
+ task     distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+Detect    3          505.359       20.045           466.070           544.648 \
+Detect    5          503.996       21.771           461.324           546.667 \
+Detect    7          494.664       20.204           455.064           534.264 \
+Discrim   3          701.703       32.739           637.535           765.870 \
+Discrim   5          700.069       26.556           648.020           752.118 \
+Discrim   7          706.323       28.569           650.327           762.318 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE RT ANOVA REESULTS ##############################\
+\
+rt ~ distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+    Source                             Type III     eps      df        MS        F     Sig.      et2_G     Obs.     SE     95% CI   lambda   Obs.  \
+                                          SS                                                                                                 Power \
+==================================================================================================================================================\
+distance          Sphericity Assumed     210.388       -        2    105.194   0.089   0.915   9.014e-04     10   11.626   22.786    0.099   0.056 \
+                  Greenhouse-Geisser     210.388   0.985    1.971    106.745   0.089   0.913   9.014e-04     10   11.626   22.786    0.099   0.056 \
+                  Huynh-Feldt            210.388   0.985    1.971    106.745   0.089   0.913   9.014e-04     10   11.626   22.786    0.099   0.056 \
+                  Box                    210.388   0.500        1    210.388   0.089   0.772   9.014e-04     10   11.626   22.786    0.099   0.055 \
+--------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed   21173.513       -       18   1176.306                                                                       \
+                  Greenhouse-Geisser   21173.513   0.985   17.738   1193.655                                                                       \
+                  Huynh-Feldt          21173.513   0.985   17.738   1193.655                                                                       \
+                  Box                  21173.513   0.500        9   2352.613                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          701.703       32.739           637.535           765.870 \
+5          700.069       26.556           648.020           752.118 \
+7          706.323       28.569           650.327           762.318 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE RT ANOVA REESULTS ##############################\
+\
+rt ~ distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+    Source                             Type III    eps      df       MS        F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                          SS                                                                                          Power \
+===========================================================================================================================================\
+distance          Sphericity Assumed    677.741       -        2   338.871   6.265   0.009   0.006     10   2.493    4.886    6.962   0.575 \
+                  Greenhouse-Geisser    677.741   0.818    1.636   414.242   6.265   0.014   0.006     10   2.493    4.886    6.962   0.512 \
+                  Huynh-Feldt           677.741   0.818    1.636   414.242   6.265   0.014   0.006     10   2.493    4.886    6.962   0.512 \
+                  Box                   677.741   0.500        1   677.741   6.265   0.034   0.006     10   2.493    4.886    6.962   0.385 \
+-------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed    973.541       -       18    54.086                                                                  \
+                  Greenhouse-Geisser    973.541   0.818   14.725    66.115                                                                  \
+                  Huynh-Feldt           973.541   0.818   14.725    66.115                                                                  \
+                  Box                   973.541   0.500        9   108.171                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          505.359       20.045           466.070           544.648 \
+5          503.996       21.771           461.324           546.667 \
+7          494.664       20.204           455.064           534.264 \
+\
+\
+\
+##################### PRINTING OMNIBUS DISTANCE PC ANOVA REESULTS ##############################\
+\
+pc ~ task * distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+    Source                             Type III    eps      df        MS         F      Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                          SS                                                                                             Power \
+==============================================================================================================================================\
+task              Sphericity Assumed      0.019       -        1       0.019   20.898   0.001   0.634     30   0.006    0.012   69.660   1.000 \
+                  Greenhouse-Geisser      0.019       1        1       0.019   20.898   0.001   0.634     30   0.006    0.012   69.660   1.000 \
+                  Huynh-Feldt             0.019       1        1       0.019   20.898   0.001   0.634     30   0.006    0.012   69.660   1.000 \
+                  Box                     0.019       1        1       0.019   20.898   0.001   0.634     30   0.006    0.012   69.660   1.000 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)       Sphericity Assumed      0.008       -        9   9.074e-04                                                                   \
+                  Greenhouse-Geisser      0.008       1        9   9.074e-04                                                                   \
+                  Huynh-Feldt             0.008       1        9   9.074e-04                                                                   \
+                  Box                     0.008       1        9   9.074e-04                                                                   \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+distance          Sphericity Assumed      0.001       -        2   5.972e-04    1.656   0.219   0.040     20   0.005    0.009    3.680   0.333 \
+                  Greenhouse-Geisser      0.001   0.657    1.313   9.094e-04    1.656   0.229   0.040     20   0.005    0.009    3.680   0.263 \
+                  Huynh-Feldt             0.001   0.657    1.313   9.094e-04    1.656   0.229   0.040     20   0.005    0.009    3.680   0.263 \
+                  Box                     0.001   0.500        1       0.001    1.656   0.230   0.040     20   0.005    0.009    3.680   0.229 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed      0.006       -       18   3.606e-04                                                                   \
+                  Greenhouse-Geisser      0.006   0.657   11.821   5.491e-04                                                                   \
+                  Huynh-Feldt             0.006   0.657   11.821   5.491e-04                                                                   \
+                  Box                     0.006   0.500        9   7.212e-04                                                                   \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+task *            Sphericity Assumed      0.001       -        2   6.157e-04    2.005   0.164   0.041     10   0.006    0.012    2.228   0.215 \
+distance          Greenhouse-Geisser      0.001   0.669    1.337   9.209e-04    2.005   0.182   0.041     10   0.006    0.012    2.228   0.178 \
+                  Huynh-Feldt             0.001   0.669    1.337   9.209e-04    2.005   0.182   0.041     10   0.006    0.012    2.228   0.178 \
+                  Box                     0.001   0.500        1       0.001    2.005   0.190   0.041     10   0.006    0.012    2.228   0.157 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *      Sphericity Assumed      0.006       -       18   3.071e-04                                                                   \
+distance)         Greenhouse-Geisser      0.006   0.669   12.035   4.593e-04                                                                   \
+                  Huynh-Feldt             0.006   0.669   12.035   4.593e-04                                                                   \
+                  Box                     0.006   0.500        9   6.142e-04                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task     Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+================================================================\
+Detect    0.996        0.001             0.994             0.999 \
+Discrim   0.961        0.006             0.949             0.972 \
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.972        0.009             0.955             0.990 \
+5          0.979        0.006             0.968             0.991 \
+7          0.983        0.005             0.974             0.993 \
+\
+Estimated Marginal Means for task * distance\
+ task     distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+===========================================================================\
+Detect    3          0.997        0.002             0.992             1.001 \
+Detect    5          0.993        0.003             0.988             0.999 \
+Detect    7          0.998        0.002             0.995             1.002 \
+Discrim   3          0.948        0.014             0.921             0.975 \
+Discrim   5          0.965        0.009             0.946             0.984 \
+Discrim   7          0.968        0.006             0.956             0.981 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE PC ANOVA REESULTS ##############################\
+\
+pc ~ distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+    Source                             Type III    eps      df        MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                          SS                                                                                            Power \
+=============================================================================================================================================\
+distance          Sphericity Assumed      0.002       -        2       0.001   1.842   0.187   0.080     10   0.008    0.017    2.046   0.200 \
+                  Greenhouse-Geisser      0.002   0.662    1.325       0.002   1.842   0.203   0.080     10   0.008    0.017    2.046   0.166 \
+                  Huynh-Feldt             0.002   0.662    1.325       0.002   1.842   0.203   0.080     10   0.008    0.017    2.046   0.166 \
+                  Box                     0.002   0.500        1       0.002   1.842   0.208   0.080     10   0.008    0.017    2.046   0.148 \
+---------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed      0.011       -       18   6.235e-04                                                                  \
+                  Greenhouse-Geisser      0.011   0.662   11.923   9.412e-04                                                                  \
+                  Huynh-Feldt             0.011   0.662   11.923   9.412e-04                                                                  \
+                  Box                     0.011   0.500        9       0.001                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.948        0.014             0.921             0.975 \
+5          0.965        0.009             0.946             0.984 \
+7          0.968        0.006             0.956             0.981 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE PC ANOVA REESULTS ##############################\
+\
+pc ~ distance\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+    Source                             Type III     eps      df        MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                          SS                                                                                             Power \
+==============================================================================================================================================\
+distance          Sphericity Assumed   1.296e-04       -        2   6.481e-05   1.465   0.257   0.095     10   0.002    0.004    1.628   0.167 \
+                  Greenhouse-Geisser   1.296e-04   0.962    1.923   6.741e-05   1.465   0.258   0.095     10   0.002    0.004    1.628   0.165 \
+                  Huynh-Feldt          1.296e-04   0.962    1.923   6.741e-05   1.465   0.258   0.095     10   0.002    0.004    1.628   0.165 \
+                  Box                  1.296e-04   0.500        1   1.296e-04   1.465   0.257   0.095     10   0.002    0.004    1.628   0.128 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)   Sphericity Assumed   7.963e-04       -       18   4.424e-05                                                                  \
+                  Greenhouse-Geisser   7.963e-04   0.962   17.308   4.601e-05                                                                  \
+                  Huynh-Feldt          7.963e-04   0.962   17.308   4.601e-05                                                                  \
+                  Box                  7.963e-04   0.500        9   8.848e-05                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.997        0.002             0.992             1.001 \
+5          0.993        0.003             0.988             0.999 \
+7          0.998        0.002             0.995             1.002 \
+\
+\
+Finished computing distance data...\
+\
+##################### PRINTING OMNIBUS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################\
+\
+rt ~ task * distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                              Type III      eps      df         MS           F        Sig.        et2_G     Obs.     SE     95% CI   lambda    Obs.  \
+                                            SS                                                                                                            Power \
+===============================================================================================================================================================\
+task               Sphericity Assumed   1198740.742       -        1   1198740.742   134.205   1.039e-06       1.645     60   14.082   27.601   894.698       1 \
+                   Greenhouse-Geisser   1198740.742       1        1   1198740.742   134.205   1.039e-06       1.645     60   14.082   27.601   894.698       1 \
+                   Huynh-Feldt          1198740.742       1        1   1198740.742   134.205   1.039e-06       1.645     60   14.082   27.601   894.698       1 \
+                   Box                  1198740.742       1        1   1198740.742   134.205   1.039e-06       1.645     60   14.082   27.601   894.698       1 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)        Sphericity Assumed     80389.596       -        9      8932.177                                                                              \
+                   Greenhouse-Geisser     80389.596       1        9      8932.177                                                                              \
+                   Huynh-Feldt            80389.596       1        9      8932.177                                                                              \
+                   Box                    80389.596       1        9      8932.177                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+distance           Sphericity Assumed       228.557       -        2       114.279     0.106       0.900   3.137e-04     40    5.556   10.890     0.473   0.081 \
+                   Greenhouse-Geisser       228.557   0.957    1.914       119.386     0.106       0.892   3.137e-04     40    5.556   10.890     0.473   0.081 \
+                   Huynh-Feldt              228.557   0.957    1.914       119.386     0.106       0.892   3.137e-04     40    5.556   10.890     0.473   0.081 \
+                   Box                      228.557   0.500        1       228.557     0.106       0.752   3.137e-04     40    5.556   10.890     0.473   0.072 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed     19345.528       -       18      1074.752                                                                              \
+                   Greenhouse-Geisser     19345.528   0.957   17.230      1122.788                                                                              \
+                   Huynh-Feldt            19345.528   0.957   17.230      1122.788                                                                              \
+                   Box                    19345.528   0.500        9      2149.503                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed     12940.524       -        1     12940.524    19.474       0.002       0.018     60    3.841    7.528   129.826   1.000 \
+                   Greenhouse-Geisser     12940.524       1        1     12940.524    19.474       0.002       0.018     60    3.841    7.528   129.826   1.000 \
+                   Huynh-Feldt            12940.524       1        1     12940.524    19.474       0.002       0.018     60    3.841    7.528   129.826   1.000 \
+                   Box                    12940.524       1        1     12940.524    19.474       0.002       0.018     60    3.841    7.528   129.826   1.000 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed      5980.557       -        9       664.506                                                                              \
+                   Greenhouse-Geisser      5980.557       1        9       664.506                                                                              \
+                   Huynh-Feldt             5980.557       1        9       664.506                                                                              \
+                   Box                     5980.557       1        9       664.506                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed      1678.800       -        2       839.400     0.717       0.502       0.002     20    8.202   16.076     1.593   0.165 \
+distance           Greenhouse-Geisser      1678.800   0.992    1.984       846.087     0.717       0.501       0.002     20    8.202   16.076     1.593   0.164 \
+                   Huynh-Feldt             1678.800   0.992    1.984       846.087     0.717       0.501       0.002     20    8.202   16.076     1.593   0.164 \
+                   Box                     1678.800   0.500        1      1678.800     0.717       0.419       0.002     20    8.202   16.076     1.593   0.126 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed     21079.262       -       18      1171.070                                                                              \
+distance)          Greenhouse-Geisser     21079.262   0.992   17.858      1180.400                                                                              \
+                   Huynh-Feldt            21079.262   0.992   17.858      1180.400                                                                              \
+                   Box                    21079.262   0.500        9      2342.140                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed     10113.694       -        1     10113.694    15.042       0.004       0.014     30    5.464   10.710    50.139   1.000 \
+hemifield          Greenhouse-Geisser     10113.694       1        1     10113.694    15.042       0.004       0.014     30    5.464   10.710    50.139   1.000 \
+                   Huynh-Feldt            10113.694       1        1     10113.694    15.042       0.004       0.014     30    5.464   10.710    50.139   1.000 \
+                   Box                    10113.694       1        1     10113.694    15.042       0.004       0.014     30    5.464   10.710    50.139   1.000 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed      6051.418       -        9       672.380                                                                              \
+hemifield)         Greenhouse-Geisser      6051.418       1        9       672.380                                                                              \
+                   Huynh-Feldt             6051.418       1        9       672.380                                                                              \
+                   Box                     6051.418       1        9       672.380                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed      5266.627       -        2      2633.313     3.868       0.040       0.007     20    6.254   12.258     8.595   0.672 \
+hemifield          Greenhouse-Geisser      5266.627   0.892    1.784      2951.929     3.868       0.047       0.007     20    6.254   12.258     8.595   0.633 \
+                   Huynh-Feldt             5266.627   0.892    1.784      2951.929     3.868       0.047       0.007     20    6.254   12.258     8.595   0.633 \
+                   Box                     5266.627   0.500        1      5266.627     3.868       0.081       0.007     20    6.254   12.258     8.595   0.457 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed     12255.327       -       18       680.852                                                                              \
+hemifield)         Greenhouse-Geisser     12255.327   0.892   16.057       763.230                                                                              \
+                   Huynh-Feldt            12255.327   0.892   16.057       763.230                                                                              \
+                   Box                    12255.327   0.500        9      1361.703                                                                              \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed       252.822       -        2       126.411     0.209       0.813   3.470e-04     10    8.338   16.343     0.232   0.065 \
+distance *         Greenhouse-Geisser       252.822   0.934    1.868       135.380     0.209       0.799   3.470e-04     10    8.338   16.343     0.232   0.065 \
+hemifield          Huynh-Feldt              252.822       1        2       126.411     0.209       0.813   3.470e-04     10    8.338   16.343     0.232   0.065 \
+                   Box                      252.822   0.500        1       252.822     0.209       0.658   3.470e-04     10    8.338   16.343     0.232   0.061 \
+---------------------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed     10891.753       -       18       605.097                                                                              \
+distance *         Greenhouse-Geisser     10891.753   0.934   16.808       648.027                                                                              \
+hemifield)         Huynh-Feldt            10891.753       1       18       605.097                                                                              \
+                   Box                    10891.753   0.500        9      1210.195                                                                              \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task      Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+Detect    502.793        8.471           486.190           519.396 \
+Discrim   702.688       11.945           679.276           726.099 \
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          604.222       20.817           563.420           645.024 \
+5          603.100       19.733           564.424           641.776 \
+7          600.899       20.788           560.156           641.643 \
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        592.356       16.006           560.984           623.728 \
+same        613.125       17.123           579.563           646.687 \
+\
+Estimated Marginal Means for task * distance\
+ task     distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+Detect    3          506.742       14.553           478.219           535.265 \
+Detect    5          505.970       15.562           475.468           536.473 \
+Detect    7          495.666       14.507           467.232           524.101 \
+Discrim   3          701.702       23.813           655.029           748.375 \
+Discrim   5          700.229       19.059           662.874           737.584 \
+Discrim   7          706.133       19.946           667.039           745.227 \
+\
+Estimated Marginal Means for task * hemifield\
+ task     hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==============================================================================\
+Detect    diff        501.589       12.308           477.465           525.713 \
+Detect    same        503.997       11.848           480.774           527.220 \
+Discrim   diff        683.123       17.966           647.910           718.336 \
+Discrim   same        722.253       15.210           692.440           752.065 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================================\
+3          diff        584.659       28.016           529.747           639.570 \
+3          same        623.785       30.885           563.251           684.320 \
+5          diff        595.678       27.750           541.288           650.068 \
+5          same        610.521       28.681           554.306           666.737 \
+7          diff        596.731       28.757           540.366           653.095 \
+7          same        605.068       30.744           544.810           665.326 \
+\
+Estimated Marginal Means for task * distance * hemifield\
+ task     distance   hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=========================================================================================\
+Detect    3          diff        496.245       20.205           456.643           535.848 \
+Detect    3          same        517.239       21.481           475.136           559.342 \
+Detect    5          diff        509.561       24.245           462.040           557.082 \
+Detect    5          same        502.379       20.781           461.648           543.111 \
+Detect    7          diff        498.960       21.384           457.047           540.873 \
+Detect    7          same        492.372       20.711           451.779           532.965 \
+Discrim   3          diff        673.072       34.186           606.068           740.077 \
+Discrim   3          same        730.332       32.302           667.020           793.644 \
+Discrim   5          diff        681.795       31.867           619.335           744.255 \
+Discrim   5          same        718.663       21.038           677.428           759.899 \
+Discrim   7          diff        694.502       30.170           635.369           753.634 \
+Discrim   7          same        717.764       27.194           664.464           771.064 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################\
+\
+rt ~ distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                             Type III     eps      df        MS         F      Sig.      et2_G     Obs.     SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                                   Power \
+=====================================================================================================================================================\
+distance           Sphericity Assumed     377.679       -        2     188.840    0.088   0.917   7.888e-04     20   11.134   21.822    0.194   0.063 \
+                   Greenhouse-Geisser     377.679   0.981    1.962     192.474    0.088   0.914   7.888e-04     20   11.134   21.822    0.194   0.063 \
+                   Huynh-Feldt            377.679   0.981    1.962     192.474    0.088   0.914   7.888e-04     20   11.134   21.822    0.194   0.063 \
+                   Box                    377.679   0.500        1     377.679    0.088   0.774   7.888e-04     20   11.134   21.822    0.194   0.059 \
+-----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed   38840.928       -       18    2157.829                                                                        \
+                   Greenhouse-Geisser   38840.928   0.981   17.660    2199.364                                                                        \
+                   Huynh-Feldt          38840.928   0.981   17.660    2199.364                                                                        \
+                   Box                  38840.928   0.500        9    4315.659                                                                        \
+-----------------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed   22967.236       -        1   22967.236   21.157   0.001       0.048     30    6.943   13.608   70.523   1.000 \
+                   Greenhouse-Geisser   22967.236       1        1   22967.236   21.157   0.001       0.048     30    6.943   13.608   70.523   1.000 \
+                   Huynh-Feldt          22967.236       1        1   22967.236   21.157   0.001       0.048     30    6.943   13.608   70.523   1.000 \
+                   Box                  22967.236       1        1   22967.236   21.157   0.001       0.048     30    6.943   13.608   70.523   1.000 \
+-----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed    9770.130       -        9    1085.570                                                                        \
+                   Greenhouse-Geisser    9770.130       1        9    1085.570                                                                        \
+                   Huynh-Feldt           9770.130       1        9    1085.570                                                                        \
+                   Box                   9770.130       1        9    1085.570                                                                        \
+-----------------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed    2927.858       -        2    1463.929    1.481   0.254       0.006     10   10.657   20.887    1.646   0.169 \
+hemifield          Greenhouse-Geisser    2927.858   0.833    1.666    1757.384    1.481   0.256       0.006     10   10.657   20.887    1.646   0.156 \
+                   Huynh-Feldt           2927.858   0.833    1.666    1757.384    1.481   0.256       0.006     10   10.657   20.887    1.646   0.156 \
+                   Box                   2927.858   0.500        1    2927.858    1.481   0.255       0.006     10   10.657   20.887    1.646   0.129 \
+-----------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed   17791.817       -       18     988.434                                                                        \
+hemifield)         Greenhouse-Geisser   17791.817   0.833   14.994    1186.573                                                                        \
+                   Huynh-Feldt          17791.817   0.833   14.994    1186.573                                                                        \
+                   Box                  17791.817   0.500        9    1976.869                                                                        \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          701.702       23.813           655.029           748.375 \
+5          700.229       19.059           662.874           737.584 \
+7          706.133       19.946           667.039           745.227 \
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        683.123       17.966           647.910           718.336 \
+same        722.253       15.210           692.440           752.065 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================================\
+3          diff        673.072       34.186           606.068           740.077 \
+3          same        730.332       32.302           667.020           793.644 \
+5          diff        681.795       31.867           619.335           744.255 \
+5          same        718.663       21.038           677.428           759.899 \
+7          diff        694.502       30.170           635.369           753.634 \
+7          same        717.764       27.194           664.464           771.064 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################\
+\
+rt ~ distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+     Source                             Type III    eps      df        MS        F     Sig.      et2_G     Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                               Power \
+=================================================================================================================================================\
+distance           Sphericity Assumed   1529.677       -        2    764.839   8.692   0.002       0.006     20   2.248    4.407   19.316   0.959 \
+                   Greenhouse-Geisser   1529.677   0.719    1.437   1064.453   8.692   0.007       0.006     20   2.248    4.407   19.316   0.895 \
+                   Huynh-Feldt          1529.677   0.719    1.437   1064.453   8.692   0.007       0.006     20   2.248    4.407   19.316   0.895 \
+                   Box                  1529.677   0.500        1   1529.677   8.692   0.016       0.006     20   2.248    4.407   19.316   0.790 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed   1583.862       -       18     87.992                                                                      \
+                   Greenhouse-Geisser   1583.862   0.719   12.933    122.462                                                                      \
+                   Huynh-Feldt          1583.862   0.719   12.933    122.462                                                                      \
+                   Box                  1583.862   0.500        9    175.985                                                                      \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed     86.982       -        1     86.982   0.346   0.571   3.482e-04     30   3.341    6.547    1.154   0.161 \
+                   Greenhouse-Geisser     86.982       1        1     86.982   0.346   0.571   3.482e-04     30   3.341    6.547    1.154   0.161 \
+                   Huynh-Feldt            86.982       1        1     86.982   0.346   0.571   3.482e-04     30   3.341    6.547    1.154   0.161 \
+                   Box                    86.982       1        1     86.982   0.346   0.571   3.482e-04     30   3.341    6.547    1.154   0.161 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed   2261.845       -        9    251.316                                                                      \
+                   Greenhouse-Geisser   2261.845       1        9    251.316                                                                      \
+                   Huynh-Feldt          2261.845       1        9    251.316                                                                      \
+                   Box                  2261.845       1        9    251.316                                                                      \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed   2591.591       -        2   1295.795   4.355   0.029       0.010     10   5.847   11.459    4.839   0.424 \
+hemifield          Greenhouse-Geisser   2591.591   0.934    1.868   1387.546   4.355   0.032       0.010     10   5.847   11.459    4.839   0.407 \
+                   Huynh-Feldt          2591.591   0.934    1.868   1387.546   4.355   0.032       0.010     10   5.847   11.459    4.839   0.407 \
+                   Box                  2591.591   0.500        1   2591.591   4.355   0.067       0.010     10   5.847   11.459    4.839   0.285 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed   5355.263       -       18    297.515                                                                      \
+hemifield)         Greenhouse-Geisser   5355.263   0.934   16.810    318.581                                                                      \
+                   Huynh-Feldt          5355.263   0.934   16.810    318.581                                                                      \
+                   Box                  5355.263   0.500        9    595.029                                                                      \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===================================================================\
+3          506.742       14.553           478.219           535.265 \
+5          505.970       15.562           475.468           536.473 \
+7          495.666       14.507           467.232           524.101 \
+\
+Estimated Marginal Means for hemifield\
+hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+====================================================================\
+diff        501.589       12.308           477.465           525.713 \
+same        503.997       11.848           480.774           527.220 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================================\
+3          diff        496.245       20.205           456.643           535.848 \
+3          same        517.239       21.481           475.136           559.342 \
+5          diff        509.561       24.245           462.040           557.082 \
+5          same        502.379       20.781           461.648           543.111 \
+7          diff        498.960       21.384           457.047           540.873 \
+7          same        492.372       20.711           451.779           532.965 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING OMNIBUS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################\
+\
+pc ~ task * distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III     eps      df        MS         F      Sig.    et2_G   Obs.    SE     95% CI   lambda    Obs.  \
+                                           SS                                                                                               Power \
+=================================================================================================================================================\
+task               Sphericity Assumed       0.038       -        1       0.038   20.898   0.001   0.380     60   0.006    0.012   139.320   1.000 \
+                   Greenhouse-Geisser       0.038       1        1       0.038   20.898   0.001   0.380     60   0.006    0.012   139.320   1.000 \
+                   Huynh-Feldt              0.038       1        1       0.038   20.898   0.001   0.380     60   0.006    0.012   139.320   1.000 \
+                   Box                      0.038       1        1       0.038   20.898   0.001   0.380     60   0.006    0.012   139.320   1.000 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task)        Sphericity Assumed       0.016       -        9       0.002                                                                    \
+                   Greenhouse-Geisser       0.016       1        9       0.002                                                                    \
+                   Huynh-Feldt              0.016       1        9       0.002                                                                    \
+                   Box                      0.016       1        9       0.002                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+distance           Sphericity Assumed       0.002       -        2       0.001    1.656   0.219   0.024     40   0.005    0.009     7.361   0.600 \
+                   Greenhouse-Geisser       0.002   0.657    1.313       0.002    1.656   0.229   0.024     40   0.005    0.009     7.361   0.472 \
+                   Huynh-Feldt              0.002   0.657    1.313       0.002    1.656   0.229   0.024     40   0.005    0.009     7.361   0.472 \
+                   Box                      0.002   0.500        1       0.002    1.656   0.230   0.024     40   0.005    0.009     7.361   0.403 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed       0.013       -       18   7.212e-04                                                                    \
+                   Greenhouse-Geisser       0.013   0.657   11.821       0.001                                                                    \
+                   Huynh-Feldt              0.013   0.657   11.821       0.001                                                                    \
+                   Box                      0.013   0.500        9       0.001                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed   5.926e-04       -        1   5.926e-04    0.689   0.428   0.006     60   0.004    0.009     4.593   0.482 \
+                   Greenhouse-Geisser   5.926e-04       1        1   5.926e-04    0.689   0.428   0.006     60   0.004    0.009     4.593   0.482 \
+                   Huynh-Feldt          5.926e-04       1        1   5.926e-04    0.689   0.428   0.006     60   0.004    0.009     4.593   0.482 \
+                   Box                  5.926e-04       1        1   5.926e-04    0.689   0.428   0.006     60   0.004    0.009     4.593   0.482 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed       0.008       -        9   8.601e-04                                                                    \
+                   Greenhouse-Geisser       0.008       1        9   8.601e-04                                                                    \
+                   Huynh-Feldt              0.008       1        9   8.601e-04                                                                    \
+                   Box                      0.008       1        9   8.601e-04                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed       0.002       -        2       0.001    2.005   0.164   0.025     20   0.006    0.012     4.456   0.394 \
+distance           Greenhouse-Geisser       0.002   0.669    1.337       0.002    2.005   0.182   0.025     20   0.006    0.012     4.456   0.312 \
+                   Huynh-Feldt              0.002   0.669    1.337       0.002    2.005   0.182   0.025     20   0.006    0.012     4.456   0.312 \
+                   Box                      0.002   0.500        1       0.002    2.005   0.190   0.025     20   0.006    0.012     4.456   0.267 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed       0.011       -       18   6.142e-04                                                                    \
+distance)          Greenhouse-Geisser       0.011   0.669   12.035   9.186e-04                                                                    \
+                   Huynh-Feldt              0.011   0.669   12.035   9.186e-04                                                                    \
+                   Box                      0.011   0.500        9       0.001                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed   3.333e-04       -        1   3.333e-04    0.460   0.515   0.003     30   0.006    0.011     1.534   0.199 \
+hemifield          Greenhouse-Geisser   3.333e-04       1        1   3.333e-04    0.460   0.515   0.003     30   0.006    0.011     1.534   0.199 \
+                   Huynh-Feldt          3.333e-04       1        1   3.333e-04    0.460   0.515   0.003     30   0.006    0.011     1.534   0.199 \
+                   Box                  3.333e-04       1        1   3.333e-04    0.460   0.515   0.003     30   0.006    0.011     1.534   0.199 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed       0.007       -        9   7.243e-04                                                                    \
+hemifield)         Greenhouse-Geisser       0.007       1        9   7.243e-04                                                                    \
+                   Huynh-Feldt              0.007       1        9   7.243e-04                                                                    \
+                   Box                      0.007       1        9   7.243e-04                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed       0.004       -        2       0.002    2.345   0.124   0.040     20   0.007    0.014     5.210   0.452 \
+hemifield          Greenhouse-Geisser       0.004   0.731    1.462       0.003    2.345   0.143   0.040     20   0.007    0.014     5.210   0.376 \
+                   Huynh-Feldt              0.004   0.731    1.462       0.003    2.345   0.143   0.040     20   0.007    0.014     5.210   0.376 \
+                   Box                      0.004   0.500        1       0.004    2.345   0.160   0.040     20   0.007    0.014     5.210   0.303 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed       0.015       -       18   8.570e-04                                                                    \
+hemifield)         Greenhouse-Geisser       0.015   0.731   13.162       0.001                                                                    \
+                   Huynh-Feldt              0.015   0.731   13.162       0.001                                                                    \
+                   Box                      0.015   0.500        9       0.002                                                                    \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+task *             Sphericity Assumed       0.005       -        2       0.003    4.411   0.028   0.051     10   0.008    0.016     4.901   0.429 \
+distance *         Greenhouse-Geisser       0.005   0.912    1.825       0.003    4.411   0.032   0.051     10   0.008    0.016     4.901   0.406 \
+hemifield          Huynh-Feldt              0.005       1        2       0.003    4.411   0.028   0.051     10   0.008    0.016     4.901   0.429 \
+                   Box                      0.005   0.500        1       0.005    4.411   0.065   0.051     10   0.008    0.016     4.901   0.288 \
+-------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(task *       Sphericity Assumed       0.010       -       18   5.730e-04                                                                    \
+distance *         Greenhouse-Geisser       0.010   0.912   16.424   6.280e-04                                                                    \
+hemifield)         Huynh-Feldt              0.010       1       18   5.730e-04                                                                    \
+                   Box                      0.010   0.500        9       0.001                                                                    \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for task\
+ task     Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+================================================================\
+Detect    0.996        0.001             0.993             0.999 \
+Discrim   0.961        0.006             0.950             0.971 \
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.973        0.007             0.958             0.987 \
+5          0.979        0.005             0.970             0.989 \
+7          0.983        0.004             0.975             0.991 \
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.981        0.004             0.973             0.988 \
+same        0.976        0.005             0.966             0.986 \
+\
+Estimated Marginal Means for task * distance\
+ task     distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+===========================================================================\
+Detect    3          0.997        0.002             0.992             1.001 \
+Detect    5          0.993        0.003             0.987             0.999 \
+Detect    7          0.998        0.002             0.995             1.002 \
+Discrim   3          0.948        0.013             0.923             0.973 \
+Discrim   5          0.965        0.008             0.949             0.981 \
+Discrim   7          0.968        0.007             0.955             0.981 \
+\
+Estimated Marginal Means for task * hemifield\
+ task     hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+============================================================================\
+Detect    diff        0.997        0.002             0.993             1.000 \
+Detect    same        0.996        0.002             0.991             1.000 \
+Discrim   diff        0.964        0.006             0.952             0.977 \
+Discrim   same        0.957        0.009             0.939             0.974 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+3          diff        0.982        0.007             0.969             0.995 \
+3          same        0.963        0.013             0.937             0.989 \
+5          diff        0.982        0.007             0.968             0.995 \
+5          same        0.977        0.007             0.963             0.990 \
+7          diff        0.978        0.007             0.965             0.992 \
+7          same        0.988        0.004             0.980             0.997 \
+\
+Estimated Marginal Means for task * distance * hemifield\
+ task     distance   hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=======================================================================================\
+Detect    3          diff        0.997        0.003             0.990             1.003 \
+Detect    3          same        0.997        0.003             0.990             1.003 \
+Detect    5          diff        0.993        0.004             0.985             1.002 \
+Detect    5          same        0.993        0.004             0.985             1.002 \
+Detect    7          diff            1            0                 1                 1 \
+Detect    7          same        0.997        0.003             0.990             1.003 \
+Discrim   3          diff        0.967        0.011             0.945             0.988 \
+Discrim   3          same        0.930        0.022             0.887             0.973 \
+Discrim   5          diff        0.970        0.013             0.945             0.995 \
+Discrim   5          same        0.960        0.011             0.939             0.981 \
+Discrim   7          diff        0.957        0.010             0.937             0.976 \
+Discrim   7          same        0.980        0.007             0.966             0.994 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################\
+\
+pc ~ distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III     eps      df        MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                             Power \
+===============================================================================================================================================\
+distance           Sphericity Assumed       0.005       -        2       0.002   1.842   0.187   0.049     20   0.008    0.017    4.092   0.366 \
+                   Greenhouse-Geisser       0.005   0.662    1.325       0.003   1.842   0.203   0.049     20   0.008    0.017    4.092   0.289 \
+                   Huynh-Feldt              0.005   0.662    1.325       0.003   1.842   0.203   0.049     20   0.008    0.017    4.092   0.289 \
+                   Box                      0.005   0.500        1       0.005   1.842   0.208   0.049     20   0.008    0.017    4.092   0.249 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed       0.022       -       18       0.001                                                                  \
+                   Greenhouse-Geisser       0.022   0.662   11.923       0.002                                                                  \
+                   Huynh-Feldt              0.022   0.662   11.923       0.002                                                                  \
+                   Box                      0.022   0.500        9       0.002                                                                  \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed   9.074e-04       -        1   9.074e-04   0.629   0.448   0.010     30   0.008    0.016    2.097   0.254 \
+                   Greenhouse-Geisser   9.074e-04       1        1   9.074e-04   0.629   0.448   0.010     30   0.008    0.016    2.097   0.254 \
+                   Huynh-Feldt          9.074e-04       1        1   9.074e-04   0.629   0.448   0.010     30   0.008    0.016    2.097   0.254 \
+                   Box                  9.074e-04       1        1   9.074e-04   0.629   0.448   0.010     30   0.008    0.016    2.097   0.254 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed       0.013       -        9       0.001                                                                  \
+                   Greenhouse-Geisser       0.013       1        9       0.001                                                                  \
+                   Huynh-Feldt              0.013       1        9       0.001                                                                  \
+                   Box                      0.013       1        9       0.001                                                                  \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed       0.009       -        2       0.005   3.508   0.052   0.097     10   0.012    0.024    3.898   0.350 \
+hemifield          Greenhouse-Geisser       0.009   0.819    1.639       0.006   3.508   0.064   0.097     10   0.012    0.024    3.898   0.312 \
+                   Huynh-Feldt              0.009   0.819    1.639       0.006   3.508   0.064   0.097     10   0.012    0.024    3.898   0.312 \
+                   Box                      0.009   0.500        1       0.009   3.508   0.094   0.097     10   0.012    0.024    3.898   0.240 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed       0.023       -       18       0.001                                                                  \
+hemifield)         Greenhouse-Geisser       0.023   0.819   14.750       0.002                                                                  \
+                   Huynh-Feldt              0.023   0.819   14.750       0.002                                                                  \
+                   Box                      0.023   0.500        9       0.003                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.948        0.013             0.923             0.973 \
+5          0.965        0.008             0.949             0.981 \
+7          0.968        0.007             0.955             0.981 \
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.964        0.006             0.952             0.977 \
+same        0.957        0.009             0.939             0.974 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+3          diff        0.967        0.011             0.945             0.988 \
+3          same        0.930        0.022             0.887             0.973 \
+5          diff        0.970        0.013             0.945             0.995 \
+5          same        0.960        0.011             0.939             0.981 \
+7          diff        0.957        0.010             0.937             0.976 \
+7          same        0.980        0.007             0.966             0.994 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################\
+\
+pc ~ distance * hemifield\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+     Source                             Type III     eps      df        MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                           SS                                                                                             Power \
+===============================================================================================================================================\
+distance           Sphericity Assumed   2.593e-04       -        2   1.296e-04   1.465   0.257   0.040     20   0.002    0.004    3.256   0.298 \
+                   Greenhouse-Geisser   2.593e-04   0.962    1.923   1.348e-04   1.465   0.258   0.040     20   0.002    0.004    3.256   0.292 \
+                   Huynh-Feldt          2.593e-04   0.962    1.923   1.348e-04   1.465   0.258   0.040     20   0.002    0.004    3.256   0.292 \
+                   Box                  2.593e-04   0.500        1   2.593e-04   1.465   0.257   0.040     20   0.002    0.004    3.256   0.208 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance)    Sphericity Assumed       0.002       -       18   8.848e-05                                                                  \
+                   Greenhouse-Geisser       0.002   0.962   17.308   9.202e-05                                                                  \
+                   Huynh-Feldt              0.002   0.962   17.308   9.202e-05                                                                  \
+                   Box                      0.002   0.500        9   1.770e-04                                                                  \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+hemifield          Sphericity Assumed   1.852e-05       -        1   1.852e-05   0.130   0.726   0.003     30   0.003    0.005    0.435   0.091 \
+                   Greenhouse-Geisser   1.852e-05       1        1   1.852e-05   0.130   0.726   0.003     30   0.003    0.005    0.435   0.091 \
+                   Huynh-Feldt          1.852e-05       1        1   1.852e-05   0.130   0.726   0.003     30   0.003    0.005    0.435   0.091 \
+                   Box                  1.852e-05       1        1   1.852e-05   0.130   0.726   0.003     30   0.003    0.005    0.435   0.091 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(hemifield)   Sphericity Assumed       0.001       -        9   1.420e-04                                                                  \
+                   Greenhouse-Geisser       0.001       1        9   1.420e-04                                                                  \
+                   Huynh-Feldt              0.001       1        9   1.420e-04                                                                  \
+                   Box                      0.001       1        9   1.420e-04                                                                  \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+distance *         Sphericity Assumed   3.704e-05       -        2   1.852e-05   0.130   0.879   0.006     10   0.004    0.008    0.145   0.059 \
+hemifield          Greenhouse-Geisser   3.704e-05   0.662    1.324   2.797e-05   0.130   0.793   0.006     10   0.004    0.008    0.145   0.058 \
+                   Huynh-Feldt          3.704e-05   0.662    1.324   2.797e-05   0.130   0.793   0.006     10   0.004    0.008    0.145   0.058 \
+                   Box                  3.704e-05   0.500        1   3.704e-05   0.130   0.726   0.006     10   0.004    0.008    0.145   0.057 \
+-----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(distance *   Sphericity Assumed       0.003       -       18   1.420e-04                                                                  \
+hemifield)         Greenhouse-Geisser       0.003   0.662   11.919   2.144e-04                                                                  \
+                   Huynh-Feldt              0.003   0.662   11.919   2.144e-04                                                                  \
+                   Box                      0.003   0.500        9   2.840e-04                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for distance\
+distance   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=================================================================\
+3          0.997        0.002             0.992             1.001 \
+5          0.993        0.003             0.987             0.999 \
+7          0.998        0.002             0.995             1.002 \
+\
+Estimated Marginal Means for hemifield\
+hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+==================================================================\
+diff        0.997        0.002             0.993             1.000 \
+same        0.996        0.002             0.991             1.000 \
+\
+Estimated Marginal Means for distance * hemifield\
+distance   hemifield   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================================\
+3          diff        0.997        0.003             0.990             1.003 \
+3          same        0.997        0.003             0.990             1.003 \
+5          diff        0.993        0.004             0.985             1.002 \
+5          same        0.993        0.004             0.985             1.002 \
+7          diff        1.000    3.701e-17             1.000             1.000 \
+7          same        0.997        0.003             0.990             1.003 \
+\
+\
+Finished computing distance by hemifield relation data...\
+Running hemifield analysis by target shape analysis:\
+\
+Number of Discrim diff trials: 417\
+Number of Discrim diff trials: 436\
+Number of Discrim same trials: 433\
+Number of Discrim same trials: 418\
+\
+##################### PRINTING TARGETS MATCH OR NOT HEMIFIELD RELATION OMNIBUS RT ANOVA RESULTS  #####################\
+rt ~ target_match * HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+       Source                               Type III    eps   df      MS         F      Sig.      et2_G     Obs.     SE     95% CI   lambda   Obs.  \
+                                               SS                                                                                             Power \
+===================================================================================================================================================\
+target_match           Sphericity Assumed   24704.950     -    1   24704.950    5.633   0.042       0.073     20   17.091   33.499   12.518   0.882 \
+                       Greenhouse-Geisser   24704.950     1    1   24704.950    5.633   0.042       0.073     20   17.091   33.499   12.518   0.882 \
+                       Huynh-Feldt          24704.950     1    1   24704.950    5.633   0.042       0.073     20   17.091   33.499   12.518   0.882 \
+                       Box                  24704.950     1    1   24704.950    5.633   0.042       0.073     20   17.091   33.499   12.518   0.882 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match)    Sphericity Assumed   39472.656     -    9    4385.851                                                                        \
+                       Greenhouse-Geisser   39472.656     1    9    4385.851                                                                        \
+                       Huynh-Feldt          39472.656     1    9    4385.851                                                                        \
+                       Box                  39472.656     1    9    4385.851                                                                        \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+HF                     Sphericity Assumed   16814.983     -    1   16814.983   14.571   0.004       0.050     20    8.767   17.183   32.380   0.999 \
+                       Greenhouse-Geisser   16814.983     1    1   16814.983   14.571   0.004       0.050     20    8.767   17.183   32.380   0.999 \
+                       Huynh-Feldt          16814.983     1    1   16814.983   14.571   0.004       0.050     20    8.767   17.183   32.380   0.999 \
+                       Box                  16814.983     1    1   16814.983   14.571   0.004       0.050     20    8.767   17.183   32.380   0.999 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(HF)              Sphericity Assumed   10385.967     -    9    1153.996                                                                        \
+                       Greenhouse-Geisser   10385.967     1    9    1153.996                                                                        \
+                       Huynh-Feldt          10385.967     1    9    1153.996                                                                        \
+                       Box                  10385.967     1    9    1153.996                                                                        \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+target_match *         Sphericity Assumed     189.902     -    1     189.902    0.414   0.536   5.648e-04     10    7.815   15.318    0.460   0.093 \
+HF                     Greenhouse-Geisser     189.902     1    1     189.902    0.414   0.536   5.648e-04     10    7.815   15.318    0.460   0.093 \
+                       Huynh-Feldt            189.902     1    1     189.902    0.414   0.536   5.648e-04     10    7.815   15.318    0.460   0.093 \
+                       Box                    189.902     1    1     189.902    0.414   0.536   5.648e-04     10    7.815   15.318    0.460   0.093 \
+---------------------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match *   Sphericity Assumed    4126.668     -    9     458.519                                                                        \
+HF)                    Greenhouse-Geisser    4126.668     1    9     458.519                                                                        \
+                       Huynh-Feldt           4126.668     1    9     458.519                                                                        \
+                       Box                   4126.668     1    9     458.519                                                                        \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for target_match\
+target_match    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=======================================================================\
+match          680.613       16.185           648.891           712.335 \
+no_match       730.317       25.837           679.676           780.958 \
+\
+Estimated Marginal Means for HF\
+ HF     Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================\
+diff   684.962       23.585           638.735           731.189 \
+same   725.968       19.850           687.063           764.873 \
+\
+Estimated Marginal Means for target_match * HF\
+target_match    HF     Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+==============================================================================\
+match          diff   662.289       26.870           609.623           714.954 \
+match          same   698.937       17.589           664.462           733.412 \
+no_match       diff   707.635       38.890           631.410           783.860 \
+no_match       same   752.999       34.523           685.334           820.664 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING TARGET MATCH HEMIFIELD RELATION SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+ Source                          Type III    eps   df      MS        F     Sig.    et2_G   Obs.     SE     95% CI   lambda   Obs.  \
+                                    SS                                                                                       Power \
+==================================================================================================================================\
+HF          Sphericity Assumed    6715.491     -    1   6715.491   5.388   0.045   0.072     10   12.885   25.255    5.987   0.588 \
+            Greenhouse-Geisser    6715.491     1    1   6715.491   5.388   0.045   0.072     10   12.885   25.255    5.987   0.588 \
+            Huynh-Feldt           6715.491     1    1   6715.491   5.388   0.045   0.072     10   12.885   25.255    5.987   0.588 \
+            Box                   6715.491     1    1   6715.491   5.388   0.045   0.072     10   12.885   25.255    5.987   0.588 \
+----------------------------------------------------------------------------------------------------------------------------------\
+Error(HF)   Sphericity Assumed   11217.126     -    9   1246.347                                                                   \
+            Greenhouse-Geisser   11217.126     1    9   1246.347                                                                   \
+            Huynh-Feldt          11217.126     1    9   1246.347                                                                   \
+            Box                  11217.126     1    9   1246.347                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for HF\
+ HF     Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================\
+diff   662.289       26.870           609.623           714.954 \
+same   698.937       17.589           664.462           733.412 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING TARGET DOESN"T MATCH HEMIFIELD RELATION SIMPLE EFFECTS ANOVA RESULTS  #####################\
+rt ~ HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+ Source                          Type III    eps   df      MS         F        Sig.      et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                    SS                                                                                            Power \
+=======================================================================================================================================\
+HF          Sphericity Assumed   10289.393     -    1   10289.393   28.100   4.932e-04   0.042     10   6.984   13.689   31.222   0.998 \
+            Greenhouse-Geisser   10289.393     1    1   10289.393   28.100   4.932e-04   0.042     10   6.984   13.689   31.222   0.998 \
+            Huynh-Feldt          10289.393     1    1   10289.393   28.100   4.932e-04   0.042     10   6.984   13.689   31.222   0.998 \
+            Box                  10289.393     1    1   10289.393   28.100   4.932e-04   0.042     10   6.984   13.689   31.222   0.998 \
+---------------------------------------------------------------------------------------------------------------------------------------\
+Error(HF)   Sphericity Assumed    3295.509     -    9     366.168                                                                       \
+            Greenhouse-Geisser    3295.509     1    9     366.168                                                                       \
+            Huynh-Feldt           3295.509     1    9     366.168                                                                       \
+            Box                   3295.509     1    9     366.168                                                                       \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for HF\
+ HF     Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+===============================================================\
+diff   707.635       38.890           631.410           783.860 \
+same   752.999       34.523           685.334           820.664 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING OMNIBUS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ target_match * HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+       Source                               Type III    eps   df      MS         F      Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                               SS                                                                                        Power \
+==============================================================================================================================================\
+target_match           Sphericity Assumed       0.047     -    1       0.047   17.923   0.002   0.691     20   0.013    0.026   39.829   1.000 \
+                       Greenhouse-Geisser       0.047     1    1       0.047   17.923   0.002   0.691     20   0.013    0.026   39.829   1.000 \
+                       Huynh-Feldt              0.047     1    1       0.047   17.923   0.002   0.691     20   0.013    0.026   39.829   1.000 \
+                       Box                      0.047     1    1       0.047   17.923   0.002   0.691     20   0.013    0.026   39.829   1.000 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match)    Sphericity Assumed       0.024     -    9       0.003                                                                   \
+                       Greenhouse-Geisser       0.024     1    9       0.003                                                                   \
+                       Huynh-Feldt              0.024     1    9       0.003                                                                   \
+                       Box                      0.024     1    9       0.003                                                                   \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+HF                     Sphericity Assumed   7.141e-04     -    1   7.141e-04    0.652   0.440   0.010     20   0.009    0.017    1.448   0.190 \
+                       Greenhouse-Geisser   7.141e-04     1    1   7.141e-04    0.652   0.440   0.010     20   0.009    0.017    1.448   0.190 \
+                       Huynh-Feldt          7.141e-04     1    1   7.141e-04    0.652   0.440   0.010     20   0.009    0.017    1.448   0.190 \
+                       Box                  7.141e-04     1    1   7.141e-04    0.652   0.440   0.010     20   0.009    0.017    1.448   0.190 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(HF)              Sphericity Assumed       0.010     -    9       0.001                                                                   \
+                       Greenhouse-Geisser       0.010     1    9       0.001                                                                   \
+                       Huynh-Feldt              0.010     1    9       0.001                                                                   \
+                       Box                      0.010     1    9       0.001                                                                   \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+target_match *         Sphericity Assumed       0.002     -    1       0.002    1.652   0.231   0.026     10   0.012    0.024    1.835   0.228 \
+HF                     Greenhouse-Geisser       0.002     1    1       0.002    1.652   0.231   0.026     10   0.012    0.024    1.835   0.228 \
+                       Huynh-Feldt              0.002     1    1       0.002    1.652   0.231   0.026     10   0.012    0.024    1.835   0.228 \
+                       Box                      0.002     1    1       0.002    1.652   0.231   0.026     10   0.012    0.024    1.835   0.228 \
+----------------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match *   Sphericity Assumed       0.010     -    9       0.001                                                                   \
+HF)                    Greenhouse-Geisser       0.010     1    9       0.001                                                                   \
+                       Huynh-Feldt              0.010     1    9       0.001                                                                   \
+                       Box                      0.010     1    9       0.001                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for target_match\
+target_match   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=====================================================================\
+match          0.927        0.014             0.900             0.953 \
+no_match       0.995        0.002             0.991             1.000 \
+\
+Estimated Marginal Means for HF\
+ HF    Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================\
+diff   0.965        0.010             0.945             0.985 \
+same   0.957        0.014             0.929             0.985 \
+\
+Estimated Marginal Means for target_match * HF\
+target_match    HF    Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+============================================================================\
+match          diff   0.938        0.016             0.906             0.969 \
+match          same   0.916        0.022             0.873             0.959 \
+no_match       diff   0.993        0.004             0.986             1.000 \
+no_match       same   0.998        0.002             0.994             1.002 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING TARGET MATCH SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+ Source                          Type III   eps   df    MS       F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                    SS                                                                                  Power \
+=============================================================================================================================\
+HF          Sphericity Assumed      0.002     -    1   0.002   1.117   0.318   0.036     10   0.017    0.033    1.241   0.170 \
+            Greenhouse-Geisser      0.002     1    1   0.002   1.117   0.318   0.036     10   0.017    0.033    1.241   0.170 \
+            Huynh-Feldt             0.002     1    1   0.002   1.117   0.318   0.036     10   0.017    0.033    1.241   0.170 \
+            Box                     0.002     1    1   0.002   1.117   0.318   0.036     10   0.017    0.033    1.241   0.170 \
+-----------------------------------------------------------------------------------------------------------------------------\
+Error(HF)   Sphericity Assumed      0.019     -    9   0.002                                                                  \
+            Greenhouse-Geisser      0.019     1    9   0.002                                                                  \
+            Huynh-Feldt             0.019     1    9   0.002                                                                  \
+            Box                     0.019     1    9   0.002                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for HF\
+ HF    Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================\
+diff   0.938        0.016             0.906             0.969 \
+same   0.916        0.022             0.873             0.959 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING TARGET DOESN"T MATCH SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################\
+\
+pc ~ HF\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+ Source                          Type III    eps   df      MS         F     Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                    SS                                                                                       Power \
+==================================================================================================================================\
+HF          Sphericity Assumed   1.212e-04     -    1   1.212e-04   2.615   0.140   0.077     10   0.002    0.005    2.905   0.332 \
+            Greenhouse-Geisser   1.212e-04     1    1   1.212e-04   2.615   0.140   0.077     10   0.002    0.005    2.905   0.332 \
+            Huynh-Feldt          1.212e-04     1    1   1.212e-04   2.615   0.140   0.077     10   0.002    0.005    2.905   0.332 \
+            Box                  1.212e-04     1    1   1.212e-04   2.615   0.140   0.077     10   0.002    0.005    2.905   0.332 \
+----------------------------------------------------------------------------------------------------------------------------------\
+Error(HF)   Sphericity Assumed   4.173e-04     -    9   4.637e-05                                                                  \
+            Greenhouse-Geisser   4.173e-04     1    9   4.637e-05                                                                  \
+            Huynh-Feldt          4.173e-04     1    9   4.637e-05                                                                  \
+            Box                  4.173e-04     1    9   4.637e-05                                                                  \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for HF\
+ HF    Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=============================================================\
+diff   0.993        0.004             0.986             1.000 \
+same   0.998        0.002             0.994             1.002 \
+\
+\
+Finished computing target's match by hemifield relation data...\
+Running hemifield analysis by target shape analysis for the simple effect of yes match vs. no match:\
+\
+Number of no_match trials: 848\
+Number of match trials: 856\
+\
+##################### PRINTING TARGETS MATCH ONLY RT ANOVA RESULTS  #####################\
+rt ~ target_match\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: rt\
+      Source                               Type III    eps   df      MS         F     Sig.    et2_G   Obs.     SE     95% CI   lambda   Obs.  \
+                                              SS                                                                                        Power \
+=============================================================================================================================================\
+target_match          Sphericity Assumed   11260.978     -    1   11260.978   5.093   0.050   0.070     10   17.162   33.637    5.659   0.564 \
+                      Greenhouse-Geisser   11260.978     1    1   11260.978   5.093   0.050   0.070     10   17.162   33.637    5.659   0.564 \
+                      Huynh-Feldt          11260.978     1    1   11260.978   5.093   0.050   0.070     10   17.162   33.637    5.659   0.564 \
+                      Box                  11260.978     1    1   11260.978   5.093   0.050   0.070     10   17.162   33.637    5.659   0.564 \
+---------------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match)   Sphericity Assumed   19898.939     -    9    2210.993                                                                   \
+                      Greenhouse-Geisser   19898.939     1    9    2210.993                                                                   \
+                      Huynh-Feldt          19898.939     1    9    2210.993                                                                   \
+                      Box                  19898.939     1    9    2210.993                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for target_match\
+target_match    Mean     Std. Error   95% Lower Bound   95% Upper Bound \
+=======================================================================\
+match          682.115       21.759           639.467           724.763 \
+no_match       729.573       36.386           658.255           800.890 \
+\
+\
+Press ENTER to continue...\
+\
+##################### PRINTING TARGETS MATCH ONLY PC ANOVA RESULTS  #####################\
+pc ~ target_match\
+\
+TESTS OF WITHIN SUBJECTS EFFECTS\
+\
+Measure: pc\
+      Source                               Type III   eps   df    MS       F      Sig.    et2_G   Obs.    SE     95% CI   lambda   Obs.  \
+                                              SS                                                                                   Power \
+========================================================================================================================================\
+target_match          Sphericity Assumed      0.023     -    1   0.023   18.011   0.002   0.968     10   0.013    0.026   20.012   0.977 \
+                      Greenhouse-Geisser      0.023     1    1   0.023   18.011   0.002   0.968     10   0.013    0.026   20.012   0.977 \
+                      Huynh-Feldt             0.023     1    1   0.023   18.011   0.002   0.968     10   0.013    0.026   20.012   0.977 \
+                      Box                     0.023     1    1   0.023   18.011   0.002   0.968     10   0.013    0.026   20.012   0.977 \
+----------------------------------------------------------------------------------------------------------------------------------------\
+Error(target_match)   Sphericity Assumed      0.012     -    9   0.001                                                                   \
+                      Greenhouse-Geisser      0.012     1    9   0.001                                                                   \
+                      Huynh-Feldt             0.012     1    9   0.001                                                                   \
+                      Box                     0.012     1    9   0.001                                                                   \
+\
+TABLES OF ESTIMATED MARGINAL MEANS\
+\
+Estimated Marginal Means for target_match\
+target_match   Mean    Std. Error   95% Lower Bound   95% Upper Bound \
+=====================================================================\
+match          0.927        0.016             0.896             0.959 \
+no_match       0.995        0.003             0.991             1.000 \
+\
+\
+Press ENTER to continue...\
+Finished computing targets match simple data...\
+\
+}

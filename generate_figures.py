@@ -10,8 +10,8 @@ import shelve #for database writing and reading
 
 #screen dimensions for the office ocmputer = (19.2,10.44)
 
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #	
-savepath = '/Users/james/Documents/Python/et_mt/figures/' #'/Users/jameswilmott/Documents/Python/et_mt/figures/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #	'/Users/james/Documents/Python/et_mt/data/'; #
+savepath = '/Users/jameswilmott/Documents/Python/et_mt/figures/'; #'/Users/james/Documents/Python/et_mt/figures/' #
 
 subject_data = shelve.open(shelvepath+'mt_data.db');
 db = subject_data; id = 'agg';
