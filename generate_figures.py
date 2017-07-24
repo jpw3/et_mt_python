@@ -28,7 +28,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 
 # 0.0 number of targets data
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,900); ax1.set_yticks(arange(400,950,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['limegreen','mediumpurple']; ex=1;
 for c,type in zip(colors,['st','mt']):
@@ -93,7 +93,7 @@ savefig(savepath+filename+'.png',dpi=400);
 # 1.0 Hemifield Relation stuff
 #start with same vs. different HF plot
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,900); ax1.set_yticks(arange(400,950,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['dodgerblue','darkorange']; 
 ex=1;
@@ -148,14 +148,14 @@ show();
 #simple effect of distance- for discrimination and detection tasks
 #reaction time first!
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,900); ax1.set_yticks(arange(400,950,100)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
-ax1.set_xticklabels(['1','2','3']);
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
+ax1.set_xticklabels(['3','5','7']);
 for type,style,mark in zip(['Discrim','Detect'],['solid','dotted'],['o','o']):
-	ax1.plot(array([1.2,2.2,3.2]),array([db['%s_%s_dist_1_mean_rt'%(id,type)],db['%s_%s_dist_2_mean_rt'%(id,type)],db['%s_%s_dist_3_mean_rt'%(id,type)]]), marker = mark, color = 'black',ls = style, lw = 8, markersize = 14);
+	ax1.plot(array([1.2,2.2,3.2]),array([db['%s_%s_dist_3_mean_rt'%(id,type)],db['%s_%s_dist_5_mean_rt'%(id,type)],db['%s_%s_dist_7_mean_rt'%(id,type)]]), marker = mark, color = 'black',ls = style, lw = 8, markersize = 14);
 	#plotting the errorbars separately to prevent the line being drawn that overshaows the line drawn in the above plotting commands
-	ax1.errorbar(1.2,db['%s_%s_dist_1_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_1_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_1_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
-	ax1.errorbar(2.2,db['%s_%s_dist_2_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_2_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_2_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);				 
-	ax1.errorbar(3.2,db['%s_%s_dist_3_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_3_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_3_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
+	ax1.errorbar(1.2,db['%s_%s_dist_3_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_3_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_3_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
+	ax1.errorbar(2.2,db['%s_%s_dist_5_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_5_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_5_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);				 
+	ax1.errorbar(3.2,db['%s_%s_dist_7_mean_rt'%(id,type)], yerr = [[db['%s_%s_dist_7_rt_bs_sems'%(id,type)]],[db['%s_%s_dist_7_rt_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
@@ -172,14 +172,14 @@ show();
 
 #then the percent correct
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
-ax1.set_xticklabels(['1','2','3']);
+ax1.set_ylim(0.75,1.02); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
+ax1.set_xticklabels(['3','5','7']);
 for type,style,mark in zip(['Discrim','Detect'],['solid','dotted'],['o','o']):
-	ax1.plot(array([1.2,2.2,3.2]),array([db['%s_%s_dist_1_pc'%(id,type)],db['%s_%s_dist_2_pc'%(id,type)],db['%s_%s_dist_3_pc'%(id,type)]]), marker = mark, color = 'black',ls = style, lw = 8, markersize = 14);
+	ax1.plot(array([1.2,2.2,3.2]),array([db['%s_%s_dist_3_pc'%(id,type)],db['%s_%s_dist_5_pc'%(id,type)],db['%s_%s_dist_7_pc'%(id,type)]]), marker = mark, color = 'black',ls = style, lw = 8, markersize = 14);
 	#plotting the errorbars separately to prevent the line being drawn that overshaows the line drawn in the above plotting commands
-	ax1.errorbar(1.2,db['%s_%s_dist_1_pc'%(id,type)], yerr = [[db['%s_%s_dist_1_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_1_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
-	ax1.errorbar(2.2,db['%s_%s_dist_2_pc'%(id,type)], yerr = [[db['%s_%s_dist_2_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_2_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);				 
-	ax1.errorbar(3.2,db['%s_%s_dist_3_pc'%(id,type)], yerr = [[db['%s_%s_dist_3_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_3_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
+	ax1.errorbar(1.2,db['%s_%s_dist_3_pc'%(id,type)], yerr = [[db['%s_%s_dist_3_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_3_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
+	ax1.errorbar(2.2,db['%s_%s_dist_5_pc'%(id,type)], yerr = [[db['%s_%s_dist_5_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_5_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);				 
+	ax1.errorbar(3.2,db['%s_%s_dist_7_pc'%(id,type)], yerr = [[db['%s_%s_dist_7_pc_bs_sems'%(id,type)]],[db['%s_%s_dist_7_pc_bs_sems'%(id,type)]]], color = 'black',lw = 6.0);
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
@@ -203,26 +203,26 @@ show();
 for type in ['Discrim','Detect']:
     colors=['dodgerblue','darkorange'];
     fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-    ax1.set_ylim(350,900); ax1.set_yticks(arange(400,950,100)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
-    ax1.set_xticklabels(['1','2','3']);
-    for dist,ex in zip([1,2,3],[1.0,2.0,3.0]):
+    ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
+    ax1.set_xticklabels(['3','5','7']);
+    for dist,ex in zip([3,5,7],[1.0,2.0,3.0]):
         add = 0;
         for hf, c in zip(['same','diff'], colors):
-            ax1.bar(ex+add, db['%s_%s_dist_%s_mean_rt'%(id,type,dist)], color = c, width = 0.4);
+            ax1.bar(ex+add, db['%s_%s_%s_hf_dist_%s_mean_rt'%(id,type,hf,dist)], color = c, width = 0.4);
             #plotting the errorbars separately to prevent the line being drawn that overshaows the line drawn in the above plotting commands
-            ax1.errorbar(ex+add,db['%s_%s_dist_%s_mean_rt'%(id,type,dist)], yerr = [[db['%s_%s_dist_%s_rt_bs_sems'%(id,type,dist)]],[db['%s_%s_dist_%s_rt_bs_sems'%(id,type,dist)]]], color = 'black',lw = 6.0);
+            ax1.errorbar(ex+add,db['%s_%s_%s_hf_dist_%s_mean_rt'%(id,type,hf,dist)], yerr = [[db['%s_%s_%s_hf_dist_%s_rt_bs_sems'%(id,type,hf,dist)]],[db['%s_%s_%s_hf_dist_%s_rt_bs_sems'%(id,type,hf,dist)]]], color = 'black',lw = 6.0);
             add+=0.4;
     ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
     ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
     ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
     #save the labeled figure as a .png	
-    filename = 'exp2_distance_hf_labeled'; show();
+    filename = 'exp2_%s_distance_hf_labeled'%type; show();
     savefig(savepath+filename+'.png',dpi=400);
     #then get rid of labels and save as a .eps
     labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
     ax1.set_xticklabels(labels);
     ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-    filename = 'exp2_distance_hf';
+    filename = 'exp2_%s_distance_hf'%type;
     savefig(savepath+filename+'.eps',dpi=400);
     show();
 
@@ -230,26 +230,26 @@ for type in ['Discrim','Detect']:
 for type in ['Discrim','Detect']:
     colors=['dodgerblue','darkorange'];
     fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-    ax1.set_ylim(0.75); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
-    ax1.set_xticklabels(['1','2','3']);
-    for dist,ex in zip([1,2,3],[1.0,2.0,3.0]):
+    ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
+    ax1.set_xticklabels(['3','5','7']);
+    for dist,ex in zip([3,5,7],[1.0,2.0,3.0]):
         add = 0;
         for hf, c in zip(['same','diff'], colors):
-            ax1.bar(ex+add, db['%s_%s_dist_%s_mean_rt'%(id,type,dist)], color = c, width = 0.4);
+            ax1.bar(ex+add, db['%s_%s_%s_hf_dist_%s_mean_rt'%(id,type,hf,dist)], color = c, width = 0.4);
             #plotting the errorbars separately to prevent the line being drawn that overshaows the line drawn in the above plotting commands
-            ax1.errorbar(ex+add,db['%s_%s_dist_%s_mean_rt'%(id,type,dist)], yerr = [[db['%s_%s_dist_%s_rt_bs_sems'%(id,type,dist)]],[db['%s_%s_dist_%s_rt_bs_sems'%(id,type,dist)]]], color = 'black',lw = 6.0);
+            ax1.errorbar(ex+add,db['%s_%s_%s_hf_dist_%s_mean_rt'%(id,type,hf,dist)], yerr = [[db['%s_%s_%s_hf_dist_%s_rt_bs_sems'%(id,type,hf,dist)]],[db['%s_%s_%s_hf_dist_%s_rt_bs_sems'%(id,type,hf,dist)]]], color = 'black',lw = 6.0);
             add+=0.4;
     ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
     ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
     ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
     #save the labeled figure as a .png	
-    filename = 'exp2_distance_hf_pc_labeled'; show();
+    filename = 'exp2_%s_distance_hf_pc_labeled'%type; show();
     savefig(savepath+filename+'.png',dpi=400);
     #then get rid of labels and save as a .eps
     labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
     ax1.set_xticklabels(labels);
     ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-    filename = 'exp2_distance_hf_pc';
+    filename = 'exp2_%s_distance_hf_pc'%type;
     savefig(savepath+filename+'.eps',dpi=400);
     show();
 
@@ -258,13 +258,13 @@ for type in ['Discrim','Detect']:
 
 # target shapes match vs. don't match for discrimination trials
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(550,900); ax1.set_yticks(arange(600,950,50)); ax1.set_xlim([0.5,2.6]);  ax1.set_xticks([1.0,2.0]);
-ax1.set_xticklabels(['Different Shape','Same Shape']);
-width=0.4;
-for h,targ_match in zip(['',''],['no_match','match']):
-        ax1.bar(ex+add,db['%s_Discrim_%s_mean_rt'%(id,targ_match)],color=c,hatch=h,width=width); 
-        ax1.errorbar(ex+add,db['%s_Discrim_%s_mean_rt'%(id,targ_match)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,targ_match)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,targ_match)]]],color='black',lw=6.0);
-        ex+=1.0;  
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,2.6]);  ax1.set_xticks([1.0,2.0]);
+#ax1.set_xticklabels(['Different Shape','Same Shape']);
+width=0.4; ex = 1.0;
+for targ_match,c in zip(['no_match','match'],['lightsteelblue','dimgrey']):
+        ax1.bar(ex,db['%s_Discrim_%s_mean_rt'%(id,targ_match)],color=c,width=width); 
+        ax1.errorbar(ex,db['%s_Discrim_%s_mean_rt'%(id,targ_match)],yerr=[[db['%s_Discrim_%s_rt_bs_sems'%(id,targ_match)]],[db['%s_Discrim_%s_rt_bs_sems'%(id,targ_match)]]],color='black',lw=6.0);
+        ex+=1.0;
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 #save the labeled figure as a .png	
@@ -274,7 +274,7 @@ savefig(savepath+filename+'.png',dpi=400);
 labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 ax1.set_xticklabels(labels);
 ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-filename = 'exp_tt_pc';
+filename = 'exp2_tt';
 savefig(savepath+filename+'.eps',dpi=400);
 show();    
 
@@ -283,7 +283,7 @@ show();
 
 # same vs. different by target shape match for discrimination trials
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,900); ax1.set_yticks(arange(400,950,50)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]);
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]);
 #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Different Shape','Same Shape']);
 width=0.4; add=0;

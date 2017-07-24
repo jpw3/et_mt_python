@@ -84,6 +84,7 @@ def computeHF(trial_matrix,id):
 			db['%s_%s_%s_hf_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_hf_var_rt'%(id,type,name)]=var(rts); db['%s_%s_%s_hf_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_hf_rt_cis'%(id,type,name)]=compute_CIs(rts);
 			db['%s_%s_%s_hf_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_hf_var_il'%(id,type,name)]=var(ils); db['%s_%s_%s_hf_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_hf_il_cis'%(id,type,name)]=compute_CIs(ils);
 			db['%s_%s_%s_hf_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_hf_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
+			db.sync();
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
@@ -155,6 +156,7 @@ def compute_HFTargetMatch(trial_matrix,id):
 				db['%s_%s_%s_hf_%s_mean_rt'%(id,type,name,mat)]=mean(rts); db['%s_%s_%s_hf_%s_var_rt'%(id,type,name,mat)]=var(rts); db['%s_%s_%s_hf_%s_median_rt'%(id,type,name,mat)]=median(rts); db['%s_%s_%s_hf_%s_rt_cis'%(id,type,name,mat)]=compute_CIs(rts);
 				db['%s_%s_%s_hf_%s_mean_il'%(id,type,name,mat)]=mean(ils); db['%s_%s_%s_hf_%s_var_il'%(id,type,name,mat)]=var(ils); db['%s_%s_%s_hf_%s_median_il'%(id,type,name,mat)]=median(ils); db['%s_%s_%s_hf_%s_il_cis'%(id,type,name,mat)]=compute_CIs(ils);
 				db['%s_%s_%s_hf_%s_pc'%(id,type,name,mat)]=pc(res); db['%s_%s_%s_hf_%s_pc_bs_sems'%(id,type,name,mat)] = compute_BS_SEM(res_matrix,'result');
+				db.sync();
 				if id=='agg':
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
@@ -227,6 +229,7 @@ def computeTTSimple(trial_matrix, id='agg'):
 			db['%s_%s_%s_mean_rt'%(id,type,mat)]=mean(rts); db['%s_%s_%s_var_rt'%(id,type,mat)]=var(rts); db['%s_%s_%s_median_rt'%(id,type,mat)]=median(rts); db['%s_%s_%s_rt_cis'%(id,type,mat)]=compute_CIs(rts);
 			db['%s_%s_%s_mean_il'%(id,type,mat)]=mean(ils); db['%s_%s_%s_var_il'%(id,type,mat)]=var(ils); db['%s_%s_%s_median_il'%(id,type,mat)]=median(ils); db['%s_%s_%s_il_cis'%(id,type,mat)]=compute_CIs(ils);
 			db['%s_%s_%s_pc'%(id,type,mat)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,mat)] = compute_BS_SEM(res_matrix,'result');
+			db.sync();
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
@@ -280,6 +283,7 @@ def computeNT(trial_matrix, id):
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_var_rt'%(id,type,name)]=var(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
 			db['%s_%s_%s_mean_il'%(id,type,name)]=mean(ils); db['%s_%s_%s_var_il'%(id,type,name)]=var(ils); db['%s_%s_%s_median_il'%(id,type,name)]=median(ils); #db['%s_%s_%s_il_cis'%(id,type,name)]=compute_CIs(ils); 
 			db['%s_%s_%s_pc'%(id,type,name)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix,'result');
+			db.sync();
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
@@ -354,6 +358,7 @@ def computeDist(trial_matrix, id):
 			db['%s_%s_dist_%s_mean_rt'%(id,type,nombre)]=mean(rts); db['%s_%s_dist_%s_var_rt'%(id,type,nombre)]=var(rts); db['%s_%s_dist_%s_median_rt'%(id,type,nombre)]=median(rts); 
 			db['%s_%s_dist_%s_mean_il'%(id,type,nombre)]=mean(ils); db['%s_%s_dist_%s_var_il'%(id,type,nombre)]=var(ils); db['%s_%s_dist_%s_median_il'%(id,type,nombre)]=median(ils); 
 			db['%s_%s_dist_%s_pc'%(id,type,nombre)]=pc(res); db['%s_%s_dist_%s_pc_bs_sems'%(id,type,nombre)] = compute_BS_SEM(res_matrix,'result');
+			db.sync();
 			if id=='agg':	
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
@@ -431,6 +436,7 @@ def computeDistHF(trial_matrix, id):
 				db['%s_%s_%s_hf_dist_%s_mean_rt'%(id,type,name,nombre)]=mean(rts); db['%s_%s_%s_hf_dist_%s_var_rt'%(id,type,name,nombre)]=var(rts); db['%s_%s_%s_hf_dist_%s_median_rt'%(id,type,name,nombre)]=median(rts); 
 				db['%s_%s_%s_hf_dist_%s_mean_il'%(id,type,name,nombre)]=mean(ils); db['%s_%s_%s_hf_dist_%s_var_il'%(id,type,name,nombre)]=var(ils); db['%s_%s_%s_hf_dist_%s_median_il'%(id,type,name,nombre)]=median(ils); 
 				db['%s_%s_%s_hf_dist_%s_pc'%(id,type,name,nombre)]=pc(res); db['%s_%s_%s_hf_dist_%s_pc_bs_sems'%(id,type,name,nombre)] = compute_BS_SEM(res_matrix,'result');
+				db.sync();
 				if id=='agg':	
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
