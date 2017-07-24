@@ -54,7 +54,7 @@ show();
 
 #proportion correct for NT
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.75,1.0,0.05)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['limegreen','mediumpurple']; ex=1;
 for c,type in zip(colors,['st','mt']):
@@ -119,7 +119,7 @@ show();
 
 #proportion correct for HF
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.05)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Discrimination','Detection']);
 colors=['dodgerblue','darkorange'];  ex=1;
 for hat,type,c in zip(['',''],['same','diff'],colors):
@@ -311,7 +311,7 @@ show();
 
 #proportion correct for HF by target types..
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.5)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
+ax1.set_ylim(0.75,1.000); ax1.set_yticks(arange(0.75,1.0,0.05)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
 ax1.set_xticklabels(['Different Shape','Same Shape']);  
 width=0.4; add=0;
 for h,targ_match in zip(['',''],['no_match','match']):  #['/','x']
