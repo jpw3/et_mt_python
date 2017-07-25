@@ -16,16 +16,16 @@ savepath = '/Users/jameswilmott/Documents/Python/et_mt/figures/'; #'/Users/james
 subject_data = shelve.open(shelvepath+'mt_data.db');
 db = subject_data; id = 'agg';
 
-# ## Create the plots and save them ####
-# #Note, all plots are means of aggregate data
-# #set parameters for plots
-# matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=30;
-# matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
-# matplotlib.rcParams['xtick.major.size']=10.0; matplotlib.rcParams['ytick.major.size']=10.0; #increase the length of the ticks
-# matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger than the default case
-# matplotlib.rcParams['hatch.color'] = 'black';
-# matplotlib.pyplot.rc('font',weight='bold');
-# 
+## Create the plots and save them ####
+#Note, all plots are means of aggregate data
+#set parameters for plots
+matplotlib.rcParams['ytick.labelsize']=20; matplotlib.rcParams['xtick.labelsize']=30;
+matplotlib.rcParams['xtick.major.width']=2.0; matplotlib.rcParams['ytick.major.width']=2.0;
+matplotlib.rcParams['xtick.major.size']=10.0; matplotlib.rcParams['ytick.major.size']=10.0; #increase the length of the ticks
+matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger than the default case
+matplotlib.rcParams['hatch.color'] = 'black';
+matplotlib.pyplot.rc('font',weight='bold');
+
 # # 0.0 number of targets data
 # fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
 # ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.5,2.8]);  ax1.set_xticks([1.2,2.2]); #ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Hemispheric Location of Targets',size=18,labelpad=40);		
@@ -230,7 +230,8 @@ for type in ['Discrim','Detect']:
 for type in ['Discrim','Detect']:
     colors=['dodgerblue','darkorange'];
     fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-    ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
+    ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.75,1.03,0.05));
+    ax1.set_xlim([0.5,3.8]);  ax1.set_xticks([1.2,2.2,3.2]);
     ax1.set_xticklabels(['3','5','7']);
     for dist,ex in zip([3,5,7],[1.0,2.0,3.0]):
         add = 0;
