@@ -398,6 +398,7 @@ def computeDist(trial_matrix, id):
 		print(det_pc_df.anova('pc',sub='id',wfactors=['distance']));
 	print "Finished computing distance data...";
 
+
 		
 def computeDistHF(trial_matrix, id):
 	if id=='agg':
