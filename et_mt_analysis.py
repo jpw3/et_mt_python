@@ -9,8 +9,7 @@ from scipy.io import loadmat #used to load .mat files in as dictionaries
 from scipy import stats
 from glob import glob #for use in searching for/ finding data files
 import random #general purpose
-from collections import namedtuple
-import pyvttbl as pt
+import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
@@ -51,16 +50,12 @@ def computeHF(trial_matrix,id):
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
-		score = namedtuple('score',['id','rt','task','hemifield']); #create a named tuple object for use in dataframe   'il','pc',
-		hf_df = pt.DataFrame();
-		disc_df = pt.DataFrame(); det_df = pt.DataFrame(); #create data frames for use in simple effects ANOVAs
-		simp_score = namedtuple('simp_score',['id','rt','hemifield']); #and create a named tuple for this..
-		pc_score = namedtuple('score',['id','pc','task','hemifield']); pc_simp_score = namedtuple('score',['id','pc','hemifield']);
-		pc_df = pt.DataFrame(); dis_pc_df = pt.DataFrame(); det_pc_df = pt.DataFrame();
+		data = pd.DataFrame(columns = ['sub_id','task','hemifield_match','mean_rt','pc','mean_il']);
 	else:
 		db=individ_subject_data;
 	#loop through each hemifield name and find the mean, median, and such
 	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
 	for type in ['Discrim','Detect']:
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
@@ -88,54 +83,24 @@ def computeHF(trial_matrix,id):
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-					pc_df.insert(pc_score(i,pc(res_scores),type,name)._asdict());
-					hf_df.insert(score(i,mean(r_scores),type,name)._asdict()); #,mean(i_scores),pc(res_scores)
-					if type=='Discrim': #append the sppropriate scores to the simple effects ANOVAs as well
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						disc_df.insert(simp_score(i,mean(r_scores),name)._asdict());
-						dis_pc_df.insert(pc_simp_score(i,p,name)._asdict());
-					elif type=='Detect':
-						det_df.insert(simp_score(i,mean(r_scores),name)._asdict());
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						det_pc_df.insert(pc_simp_score(i,p,name)._asdict());
-	if id=='agg':
-		print; print('##################### PRINTING OMNIBUS HEMIFIELD RELATION RT ANOVA RESULTS  #####################');
-		print(hf_df.anova('rt',sub='id',wfactors=['task','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING DISCRIMINATION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(disc_df.anova('rt',sub='id',wfactors=['hemifield']));		
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING DETECTION-TASK SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(det_df.anova('rt',sub='id',wfactors=['hemifield']));		
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING OMNIBUS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(pc_df.anova('pc',sub='id',wfactors=['task','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(dis_pc_df.anova('pc',sub='id',wfactors=['hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(det_pc_df.anova('pc',sub='id',wfactors=['hemifield']));
+					data.loc[index_counter] = [i,type,name,mean(r_scores),pc(res_scores),mean(i_scores)];
+					index_counter+=1;
+	db.sync();
+
+	data.to_csv(savepath+'task_hf_match.csv',index=False);
+
 	print "Finished computing hemifield data....";
 	
 def compute_HFTargetMatch(trial_matrix,id):
 	print 'Running hemifield analysis by target shape analysis:'; print;
 	if id=='agg':
 		db=subject_data;
-		score = namedtuple('score',['id','rt','target_match','HF']); #create a named tuple object for use in dataframe   'il','pc',
-		hf_df = pt.DataFrame();
-		match_df = pt.DataFrame(); no_match_df = pt.DataFrame(); #create data frames for use in simple effects ANOVAs
-		simp_score = namedtuple('simp_score',['id','rt','HF']); #and create a named tuple for this..
-		pc_score = namedtuple('score',['id','pc','target_match','HF']); pc_simp_score = namedtuple('score',['id','pc','HF']);
-		pc_df = pt.DataFrame(); no_match_pc_df = pt.DataFrame(); match_pc_df = pt.DataFrame();
+		data = pd.DataFrame(columns = ['sub_id','target_match','hemifield_match','mean_rt','pc','mean_il']);
 	else:
 		db=individ_subject_data;
 	#loop through each hemifield name and find the mean, median, and such
 	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
 	for type in ['Discrim']:
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
@@ -160,41 +125,12 @@ def compute_HFTargetMatch(trial_matrix,id):
 				if id=='agg':
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-						hf_df.insert(score(i,mean(r_scores),mat,name)._asdict()); #,mean(i_scores),pc(res_scores)
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						pc_df.insert(pc_score(i,p,mat,name)._asdict());
-						if mat=='match': #append the sppropriate scores to the simple effects ANOVAs as well
-							p = pc(res_scores);
-							if p==1.0:
-								p = p-0.000000000001; #failsafe against the incorrect calculation
-							match_pc_df.insert(pc_simp_score(i,p,name)._asdict());
-							match_df.insert(simp_score(i,mean(r_scores),name)._asdict());
-						elif mat=='no_match':
-							p = pc(res_scores);
-							if p==1.0:
-								p = p-0.000000000001; #failsafe against the incorrect calculation
-							no_match_pc_df.insert(pc_simp_score(i,p,name)._asdict());
-							no_match_df.insert(simp_score(i,mean(r_scores),name)._asdict());
-	if id=='agg':
-		print; print('##################### PRINTING TARGETS MATCH OR NOT HEMIFIELD RELATION OMNIBUS RT ANOVA RESULTS  #####################');		
-		print(hf_df.anova('rt',sub='id',wfactors=['target_match','HF']));
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING TARGET MATCH HEMIFIELD RELATION SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(match_df.anova('rt',sub='id',wfactors=['HF']));		
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING TARGET DOESN"T MATCH HEMIFIELD RELATION SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(no_match_df.anova('rt',sub='id',wfactors=['HF']));		
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING OMNIBUS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(pc_df.anova('pc',sub='id',wfactors=['target_match','HF']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING TARGET MATCH SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(match_pc_df.anova('pc',sub='id',wfactors=['HF']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING TARGET DOESN"T MATCH SIMPLE EFFECTS HEMIFIELD RELATION PC ANOVA REESULTS ##############################'; print ;
-		print(no_match_pc_df.anova('pc',sub='id',wfactors=['HF']));
+						data.loc[index_counter] = [i,mat,name,mean(r_scores),pc(res_scores),mean(i_scores)];
+						index_counter+=1;
+	db.sync();
+	
+	data.to_csv(savepath+'target_match_hf_match.csv',index=False);
+
 	print "Finished computing target's match by hemifield relation data...";
 
 
@@ -202,10 +138,6 @@ def computeTTSimple(trial_matrix, id='agg'):
 	print 'Running hemifield analysis by target shape analysis for the simple effect of yes match vs. no match:'; print;
 	if id=='agg':
 		db=subject_data;
-		score = namedtuple('score',['id','rt','target_match']); #create a named tuple object for use in dataframe   'il','pc',
-		df = pt.DataFrame();
-		pc_df = pt.DataFrame();
-		pc_score = namedtuple('score',['id','pc','target_match']);
 	else:
 		db=individ_subject_data;
 	#loop through each hemifield name and find the mean, median, and such
@@ -230,21 +162,7 @@ def computeTTSimple(trial_matrix, id='agg'):
 			db['%s_%s_%s_mean_il'%(id,type,mat)]=mean(ils); db['%s_%s_%s_var_il'%(id,type,mat)]=var(ils); db['%s_%s_%s_median_il'%(id,type,mat)]=median(ils); db['%s_%s_%s_il_cis'%(id,type,mat)]=compute_CIs(ils);
 			db['%s_%s_%s_pc'%(id,type,mat)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,mat)] = compute_BS_SEM(res_matrix,'result');
 			db.sync();
-			if id=='agg':
-				#append all the datae for each subject together in the dataframe for use in ANOVA
-				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-					df.insert(score(i,mean(r_scores),mat)._asdict()); #,mean(i_scores),pc(res_scores)
-					p = pc(res_scores);
-					if p==1.0:
-						p = p-0.000000000001; #failsafe against the incorrect calculation
-					pc_df.insert(pc_score(i,p,mat)._asdict());
-	if id=='agg':
-		print; print('##################### PRINTING TARGETS MATCH ONLY RT ANOVA RESULTS  #####################');		
-		print(df.anova('rt',sub='id',wfactors=['target_match']));
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING TARGETS MATCH ONLY PC ANOVA RESULTS  #####################');		
-		print(pc_df.anova('pc',sub='id',wfactors=['target_match']));
-		raw_input("Press ENTER to continue...");	
+
 	print "Finished computing targets match simple data...";
 	
 
@@ -253,15 +171,11 @@ def computeNT(trial_matrix, id):
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
-		score = namedtuple('score',['id','rt','task','nr_targets']); #create a named tuple object for use in dataframe   'il','pc',
-		nt_df = pt.DataFrame();
-		disc_df = pt.DataFrame(); det_df = pt.DataFrame(); #create data frames for use in simple effects ANOVAs
-		simp_score = namedtuple('simp_score',['id','rt','nr_targets']); #and create a named tuple for this..
-		pc_score = namedtuple('score',['id','pc','task','nr_targets']); pc_simp_score = namedtuple('score',['id','pc','nr_targets']);
-		pc_df = pt.DataFrame(); dis_pc_df = pt.DataFrame(); det_pc_df = pt.DataFrame();
+		data = pd.DataFrame(columns = ['sub_id','task','nr_targets','mean_rt','pc','mean_il']);
 	else:
 		db=individ_subject_data;
 	trials = [tee for person in trial_matrix for tee in person]; #get all the trials across all subjects together to perform data analysis on
+	index_counter = 0;
 	for type in ['Discrim','Detect']:
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix]; #list of subject trials; for use in SEM calculation
@@ -287,56 +201,22 @@ def computeNT(trial_matrix, id):
 			if id=='agg':
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-					if type=='Discrim': #append the sppropriate scores to the simple effects ANOVAs as well
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						disc_df.insert(simp_score(i,mean(r_scores),n)._asdict());
-						dis_pc_df.insert(pc_simp_score(i,p,n)._asdict());
-					elif type=='Detect':
-						det_df.insert(simp_score(i,mean(r_scores),n)._asdict());
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						det_pc_df.insert(pc_simp_score(i,p,n)._asdict());
-					if n==0: #cut out 0 scores because there is no target absent in discrimination
-						continue;
-					nt_df.insert(score(i,mean(r_scores),type,n)._asdict()); #,mean(i_scores),pc(res_scores)
-					pc_df.insert(pc_score(i,pc(res_scores),type,n)._asdict());
+					data.loc[index_counter] = [i,type,n,mean(r_scores),pc(res_scores),mean(i_scores)];
+					index_counter+=1;
 
-	if id=='agg':
-		print; print('##################### PRINTING OMNIBUS NR TARGETS ANOVA RESULTS  #####################');
-		print(nt_df.anova('rt',sub='id',wfactors=['task','nr_targets']));		
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING DISCRIMINATION-TASK NR TARGETS SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(disc_df.anova('rt',sub='id',wfactors=['nr_targets']));		
-		raw_input("Press ENTER to continue...");
-		print; print('##################### PRINTING DETECTION-TASK NR TARGETS SIMPLE EFFECTS ANOVA RESULTS  #####################');
-		print(det_df.anova('rt',sub='id',wfactors=['nr_targets']));		
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING OMNIBUS NR TARGETS PC ANOVA REESULTS ##############################'; print ;
-		print(pc_df.anova('pc',sub='id',wfactors=['task','nr_targets']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS NR TARGETS PC ANOVA REESULTS ##############################'; print ;
-		print(dis_pc_df.anova('pc',sub='id',wfactors=['nr_targets']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS NR TARGETS PC ANOVA REESULTS ##############################'; print ;
-		print(det_pc_df.anova('pc',sub='id',wfactors=['nr_targets']));
+	#write the csv file
+	data.to_csv(savepath+'nr_targets.csv',index=False); 
+
 	print 'Finished computing number of target data...'
 
 def computeDist(trial_matrix, id):
 	if id=='agg':
-		score = namedtuple('score',['id','rt','task','distance']); #create a named tuple object for use in dataframe
-		simp_score = namedtuple('score',['id','rt','distance']);
-		df = pt.DataFrame(); dis_df = pt.DataFrame(); det_df = pt.DataFrame();
-		pc_score = namedtuple('score',['id','pc','task','distance']); simp_pc_score = namedtuple('score',['id','pc','distance']);
-		pc_df = pt.DataFrame(); dis_pc_df = pt.DataFrame(); det_pc_df = pt.DataFrame(); 
-	#get appropriate database to store data
-	if id=='agg':
+		data = pd.DataFrame(columns = ['sub_id','task','distance','mean_rt','pc','mean_il']);
 		db=subject_data;
 	else:
 		db=individ_subject_data;
 	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
 	#cycle through each type of task
 	for type in ['Discrim','Detect']:
 		t = [tee for tee in trials if ((tee.block_type==type)&(tee.nr_targets==2))]; #segment the relevant trials
@@ -362,58 +242,24 @@ def computeDist(trial_matrix, id):
 			if id=='agg':	
 				#append all the datae for each subject together in the dataframe for use in ANOVA
 				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-					df.insert(score(i,mean(r_scores),type,dist)._asdict());
-					pc_df.insert(pc_score(i,pc(res_scores),type,dist)._asdict());
-					#append data to the simple-effects DataFrames
-					if type=='Discrim':
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						dis_df.insert(simp_score(i,mean(r_scores),dist)._asdict());
-						dis_pc_df.insert(simp_pc_score(i,p,dist)._asdict());
-					elif type=='Detect':
-						p = pc(res_scores);
-						if p==1.0:
-							p = p-0.000000000001; #failsafe against the incorrect calculation
-						det_df.insert(simp_score(i,mean(r_scores),dist)._asdict());
-						det_pc_df.insert(simp_pc_score(i,p,dist)._asdict());
-	
-	#print the ANOVA tables
-	if id=='agg':
-		print ; print '##################### PRINTING OMNIBUS DISTANCE RT ANOVA REESULTS ##############################'; print ;
-		print(df.anova('rt',sub='id',wfactors=['task','distance']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE RT ANOVA REESULTS ##############################'; print ;
-		print(dis_df.anova('rt',sub='id',wfactors=['distance']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE RT ANOVA REESULTS ##############################'; print ;
-		print(det_df.anova('rt',sub='id',wfactors=['distance']));
-		print ; print '##################### PRINTING OMNIBUS DISTANCE PC ANOVA REESULTS ##############################'; print ;
-		print(pc_df.anova('pc',sub='id',wfactors=['task','distance']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE PC ANOVA REESULTS ##############################'; print ;
-		print(dis_pc_df.anova('pc',sub='id',wfactors=['distance']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE PC ANOVA REESULTS ##############################'; print ;
-		print(det_pc_df.anova('pc',sub='id',wfactors=['distance']));
+					data.loc[index_counter] = [i,type,dist,mean(r_scores),pc(res_scores),mean(i_scores)];
+					index_counter+=1;
+
+	#write the csv file
+	data.to_csv(savepath+'task_distance.csv',index=False); 	
+
 	print "Finished computing distance data...";
 
 
 		
 def computeDistHF(trial_matrix, id):
 	if id=='agg':
-		score = namedtuple('score',['id','rt','task','distance','hemifield']); #create a named tuple object for use in dataframe   'il','pc',
-		simp_score = namedtuple('score',['id','rt','distance','hemifield']);
-		hf_df = pt.DataFrame();
-		dis_df = pt.DataFrame(); det_df = pt.DataFrame();
-		pc_score = namedtuple('score',['id','pc','task','distance','hemifield']); simp_pc_score = namedtuple('score',['id','pc','distance','hemifield']);
-		pc_df = pt.DataFrame(); dis_pc_df = pt.DataFrame(); det_pc_df = pt.DataFrame(); 
-	#get appropriate database to store data
-	if id=='agg':
+		data = pd.DataFrame(columns = ['sub_id','task','distance','hemifield_match','mean_rt','pc','mean_il']);
 		db=subject_data;
 	else:
 		db=individ_subject_data;
 	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
 	#cycle through each type of task
 	for type in ['Discrim','Detect']:
 		#cycle throught the different distances
@@ -441,88 +287,14 @@ def computeDistHF(trial_matrix, id):
 				if id=='agg':	
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-						hf_df.insert(score(i,mean(r_scores),type,dist,name)._asdict()); #,mean(i_scores),pc(res_scores)
-						pc_df.insert(pc_score(i,pc(res_scores),type,dist,name)._asdict());
-						if type=='Discrim':
-							p = pc(res_scores);
-							if p==1.0:
-								p = p-0.000000000001; #failsafe against the incorrect calculation
-							dis_df.insert(simp_score(i,mean(r_scores),dist,name)._asdict());
-							dis_pc_df.insert(simp_pc_score(i,p,dist,name)._asdict());
-						elif type=='Detect':
-							p = pc(res_scores);
-							if p==1.0:
-								p = p-0.000000000001; #failsafe against the incorrect calculation
-							det_df.insert(simp_score(i,mean(r_scores),dist,name)._asdict());
-							det_pc_df.insert(simp_pc_score(i,p,dist,name)._asdict());
-	if id=='agg':
-		print ; print '##################### PRINTING OMNIBUS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################'; print ;
-		print(hf_df.anova('rt',sub='id',wfactors=['task','distance','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################'; print ;
-		print(dis_df.anova('rt',sub='id',wfactors=['distance','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE BY HEMIFIELD RT ANOVA REESULTS ##############################'; print ;
-		print(det_df.anova('rt',sub='id',wfactors=['distance','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING OMNIBUS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################'; print ;
-		print(pc_df.anova('pc',sub='id',wfactors=['task','distance','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DISCRIMINATION SIMPLE EFFECTS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################'; print ;
-		print(dis_pc_df.anova('pc',sub='id',wfactors=['distance','hemifield']));
-		raw_input("Press ENTER to continue...");
-		print ; print '##################### PRINTING DETECTION SIMPLE EFFECTS DISTANCE BY HEMIFIELD PC ANOVA REESULTS ##############################'; print ;
-		print(det_pc_df.anova('pc',sub='id',wfactors=['distance','hemifield']));		
+						data.loc[index_counter] = [i,type,dist,name,mean(r_scores),pc(res_scores),mean(i_scores)];
+						index_counter+=1;
+					
+	#write the csv file
+	data.to_csv(savepath+'task_distance_hf_match.csv',index=False); 				
+					
 	print "Finished computing distance by hemifield relation data...";
 		
-# def computeTTDist(trial_matrix,id):
-# 	print "Started the function...";
-# 	#function to compute the RT difference between same and different target types wth diatnce factored in for discrimination tasks
-# 	if id=='agg':
-# 		db=subject_data;
-# 		score = namedtuple('score',['id','rt','targets_match','hemifield_match','distance']); #create a named tuple object for use in dataframe   'il','pc',
-# 		df = pt.DataFrame();
-# 	else:
-# 		db=individ_subject_data;
-# 	#loop through for each discrimination task condition with two targets checking if the target types are the same
-# 	trials = [tee for person in trial_matrix for tee in person];	
-# 	t = [tee for tee in trials if (tee.block_type=='Discrim')&(tee.nr_targets==2)]; #segment the relevant trials
-# 	t_matrix = [[tee for tee in trs if (tee.block_type=='Discrim')&(tee.nr_targets==2)] for trs in trial_matrix];
-# 	for match,m in zip(['yes_match','no_match'],[1,0]): #cycle through whether the targets match or not
-# 		struct = [[[[] for i in range(3)] for p in range(3)] for j in range(2)];
-# 		individ_struct = [[[[[] for k in range(len(ids))] for i in range(3)] for p in range(3)] for j in range(2)];
-# 		for hf_match,hf in zip(['diff','same'],[0,1]): #go through same or different hf
-# 			en=0;
-# 			for dist,n in zip(['3','5','7'],[3,5,7]): #go through the distances  ,'d3' ,3
-# 				#partition the respective statistics
-# 				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];
-# 				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];
-# 				res_matrix = [[tee.result for tee in ts if((tee.target_types[0]==tee.target_types[1])==m)&(tee.same_hf==hf)&(tee.t_dist==n)] for ts in t_matrix];				
-# 				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
-# 				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
-# 				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
-# 				rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; res=[s for v in res_matrix for s in v]; #collect the aggregate rt, ils, and pc
-# 				if len(rts)==0:
-# 					1/0
-# 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
-# 				#save the data into th structure as needed. use hf and n variables to do so, respectively
-# 				[struct[hf][en-1][0].append(o) for o in rts]; [struct[hf][en-1][1].append(z) for z in ils]; [struct[hf][en-1][2].append(em) for em in res];
-# 				[individ_struct[hf][en-1][0][y].append(e) for y,u in enumerate(rt_matrix) for e in u]; [individ_struct[hf][en-1][1][y].append(e) for y,u in enumerate(il_matrix) for e in u]; [individ_struct[hf][en-1][2][y].append(e) for y,u in enumerate(res_matrix) for e in u];
-# 				db['%s_Discrim_%s_%s_hf_%s_rt_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(rt_matrix,'time'); db['%s_Discrim_%s_%s_hf_%s_il_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(il_matrix,'time');
-# 				db['%s_Discrim_%s_%s_hf_%s_mean_rt'%(id,match,hf_match,dist)]=mean(rts); db['%s_Discrim_%s_%s_hf_%s_var_rt'%(id,match,hf_match,dist)]=var(rts); db['%s_Discrim_%s_%s_hf_%s_median_rt'%(id,match,hf_match,dist)]=median(rts); db['%s_Discrim_%s_%s_hf_%s_rt_cis'%(id,match,hf_match,dist)]=compute_CIs(rts);
-# 				db['%s_Discrim_%s_%s_hf_%s_mean_il'%(id,match,hf_match,dist)]=mean(ils); db['%s_Discrim_%s_%s_hf_%s_var_il'%(id,match,hf_match,dist)]=var(ils); db['%s_Discrim_%s_%s_hf_%s_median_il'%(id,match,hf_match,dist)]=median(ils); db['%s_Discrim_%s_%s_hf_%s_il_cis'%(id,match,hf_match,dist)]=compute_CIs(ils);
-# 				db['%s_Discrim_%s_%s_hf_%s_pc'%(id,match,hf_match,dist)]=pc(res); db['%s_Discrim_%s_%s_hf_%s_pc_bs_sems'%(id,match,hf_match,dist)]=compute_BS_SEM(res_matrix,'result');
-# 				print "Saved %s %s %s %s data to database..."%(id,match,hf_match,dist);
-# 				#append rts to the dataframe
-# 				if id=='agg':
-# 					for i,scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix):
-# 						df.insert(score(i,mean(scores),match,hf_match,n)._asdict());
-# 				en+=1;
-# 	if id=='agg':		
-# 		print(df.anova('rt',sub='id',wfactors=['targets_match','hemifield_match','distance']));
-# 		raw_input("Press ENTER to continue...");
-# 	print "Finished ctarget type data...";
-
 
 def compute_BS_SEM(data_matrix, type):
     #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
