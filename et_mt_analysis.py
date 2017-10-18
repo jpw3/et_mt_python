@@ -92,6 +92,7 @@ def computeHF(trial_matrix,id):
 
 	print "Finished computing hemifield data....";
 	
+	
 def compute_HFTargetMatch(trial_matrix,id):
 	print 'Running hemifield analysis by target shape analysis:'; print;
 	if id=='agg':
