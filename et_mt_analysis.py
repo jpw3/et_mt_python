@@ -32,12 +32,12 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
-	computeNT(trials,id);
-	computeHF(trials,id);
-	computeDist(trials,id);
-	computeDistHF(trials,id);
-	#computeTTDist(trials,id);
-	compute_HFTargetMatch(trials,id);
+	# computeNT(trials,id);
+	# computeHF(trials,id);
+	# computeDist(trials,id);
+	# computeDistHF(trials,id);
+	# #computeTTDist(trials,id);
+	# compute_HFTargetMatch(trials,id);
 	computeTTSimple(trials,id);
 	#return trials; #for testing here
 
@@ -140,10 +140,12 @@ def computeTTSimple(trial_matrix, id='agg'):
 	print 'Running hemifield analysis by target shape analysis for the simple effect of yes match vs. no match:'; print;
 	if id=='agg':
 		db=subject_data;
+		data = pd.DataFrame(columns = ['sub_id','targets_match','mean_rt','pc','mean_il']);
 	else:
 		db=individ_subject_data;
 	#loop through each hemifield name and find the mean, median, and such
 	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
 	for type in ['Discrim']:
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
@@ -164,7 +166,14 @@ def computeTTSimple(trial_matrix, id='agg'):
 			db['%s_%s_%s_mean_il'%(id,type,mat)]=mean(ils); db['%s_%s_%s_var_il'%(id,type,mat)]=var(ils); db['%s_%s_%s_median_il'%(id,type,mat)]=median(ils); db['%s_%s_%s_il_cis'%(id,type,mat)]=compute_CIs(ils);
 			db['%s_%s_%s_pc'%(id,type,mat)]=pc(res); db['%s_%s_%s_pc_bs_sems'%(id,type,mat)] = compute_BS_SEM(res_matrix,'result');
 			db.sync();
-
+			if id=='agg':
+				#append all the datae for each subject together in the dataframe for use in ANOVA
+				for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+					data.loc[index_counter] = [i,mat,mean(r_scores),pc(res_scores),mean(i_scores)];
+					index_counter+=1;
+	#write the csv file
+	data.to_csv(savepath+'target_shapes_match.csv',index=False);
+	
 	print "Finished computing targets match simple data...";
 	
 
