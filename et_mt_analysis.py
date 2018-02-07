@@ -12,9 +12,9 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
-savepath = '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/';
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+savepath = '/Users/jameswilmott/Documents/Python/et_mt/data/';'/Users/james/Documents/Python/et_mt/data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -32,7 +32,7 @@ def getStats(id='agg'):
 	else:
 		blocks=[loadAllBlocks(id)]; #return as a list for use in get_Trials function
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
-	# computeNT(trials,id);
+	computeNT(trials,id);
 	# computeHF(trials,id);
 	# computeDist(trials,id);
 	# computeDistHF(trials,id);
@@ -130,8 +130,8 @@ def compute_HFTargetMatch(trial_matrix,id):
 						data.loc[index_counter] = [i,mat,name,mean(r_scores),pc(res_scores),mean(i_scores)];
 						index_counter+=1;
 	db.sync();
-	
-	data.to_csv(savepath+'target_match_hf_match.csv',index=False);
+	if id=='agg':
+		data.to_csv(savepath+'target_match_hf_match.csv',index=False);
 
 	print "Finished computing target's match by hemifield relation data...";
 
@@ -172,7 +172,8 @@ def computeTTSimple(trial_matrix, id='agg'):
 					data.loc[index_counter] = [i,mat,mean(r_scores),pc(res_scores),mean(i_scores)];
 					index_counter+=1;
 	#write the csv file
-	data.to_csv(savepath+'target_shapes_match.csv',index=False);
+	if id=='agg':
+		data.to_csv(savepath+'target_shapes_match.csv',index=False);
 	
 	print "Finished computing targets match simple data...";
 	
@@ -216,7 +217,8 @@ def computeNT(trial_matrix, id):
 					index_counter+=1;
 
 	#write the csv file
-	data.to_csv(savepath+'nr_targets.csv',index=False); 
+	if id=='agg':
+		data.to_csv(savepath+'nr_targets.csv',index=False); 
 
 	print 'Finished computing number of target data...'
 
