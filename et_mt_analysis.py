@@ -12,8 +12,8 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Users/james/Documents/MATLAB/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
 savepath = '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -34,10 +34,10 @@ def getStats(id='agg'):
 	trials=getTrials(blocks); #should return a a list of lists, with each inner list containg a subject's trials
 	computeNT(trials,id);
 	# computeHF(trials,id);
-	# computeDist(trials,id);
+	computeDist(trials,id);
 	# computeDistHF(trials,id);
 	# #computeTTDist(trials,id);
-	# compute_HFTargetMatch(trials,id);
+	compute_HFTargetMatch(trials,id);
 	computeTTSimple(trials,id);
 	#return trials; #for testing here
 
@@ -236,9 +236,9 @@ def computeDist(trial_matrix, id):
 		t_matrix = [[tee for tee in trs if ((tee.block_type==type)&(tee.nr_targets==2))] for trs in trial_matrix];
 		#cycle throught the different distances
 		for nombre,dist in zip(['3','5','7'],[3,5,7]):
-			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.t_dist==dist)] for ts in t_matrix]; #collect the rts
-			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.t_dist==dist)] for ts in t_matrix];
-			res_matrix = [[tee.result for tee in ts if(tee.t_dist==dist)] for ts in t_matrix];
+			all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix]; #collect the rts
+			all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix];
+			res_matrix = [[tee.result for tee in ts if(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix];
 			ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
