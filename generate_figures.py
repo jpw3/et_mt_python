@@ -30,22 +30,22 @@ matplotlib.pyplot.rc('font',weight='bold');
 
 #create an aggregate bar plot for detection and discrimination
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.7,4.1]); ax1.set_xticks([1,1.6,2.2,3.2,3.8]); #,4.4]);
-ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Number of Targets',size=18,labelpad=40);
-ax1.set_xticklabels(['Zero','One','Two','One','Two']);
+ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.7,2.1]); ax1.set_xticks([1.1,1.8]); #,4.4]);  1,1.6,2.2,3.2,3.8
+ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Task',size=18,labelpad=40);
+ax1.set_xticklabels(['Detect','Discrim']);
 col = 'gray';
 #detection task first
-ax1.bar(1,db['%s_Detect_abs_mean_rt'%(id)],color=col,width=0.4);
-ax1.errorbar(1,db['%s_Detect_abs_mean_rt'%(id)],yerr=[[db['%s_Detect_abs_rt_bs_sems'%(id)]],[db['%s_Detect_abs_rt_bs_sems'%(id)]]],color='black',lw=6.0);
-ax1.bar(1.6,db['%s_Detect_st_mean_rt'%(id)],color=col,width=0.4);
-ax1.errorbar(1.6,db['%s_Detect_st_mean_rt'%(id)],yerr=[[db['%s_Detect_st_rt_bs_sems'%(id)]],[db['%s_Detect_st_rt_bs_sems'%(id)]]],color='black',lw=6.0);
-ax1.bar(2.2,db['%s_Detect_mt_mean_rt'%(id)],color=col,width=0.4);
-ax1.errorbar(2.2,db['%s_Detect_mt_mean_rt'%(id)],yerr=[[db['%s_Detect_mt_rt_bs_sems'%(id)]],[db['%s_Detect_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0);
+ax1.bar(0.9,db['%s_Detect_abs_mean_rt'%(id)],color=col,width=0.175);
+ax1.errorbar(0.9,db['%s_Detect_abs_mean_rt'%(id)],yerr=[[db['%s_Detect_abs_rt_bs_sems'%(id)]],[db['%s_Detect_abs_rt_bs_sems'%(id)]]],color='black',lw=6.0);
+ax1.bar(1.1,db['%s_Detect_st_mean_rt'%(id)],color=col,width=0.175);
+ax1.errorbar(1.1,db['%s_Detect_st_mean_rt'%(id)],yerr=[[db['%s_Detect_st_rt_bs_sems'%(id)]],[db['%s_Detect_st_rt_bs_sems'%(id)]]],color='black',lw=6.0);
+ax1.bar(1.3,db['%s_Detect_mt_mean_rt'%(id)],color=col,width=0.175);
+ax1.errorbar(1.3,db['%s_Detect_mt_mean_rt'%(id)],yerr=[[db['%s_Detect_mt_rt_bs_sems'%(id)]],[db['%s_Detect_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0);
 #discrimination next
-ax1.bar(3.2,db['%s_Discrim_st_mean_rt'%(id)],color=col,width=0.4);
-ax1.errorbar(3.2,db['%s_Discrim_st_mean_rt'%(id)],yerr=[[db['%s_Discrim_st_rt_bs_sems'%(id)]],[db['%s_Discrim_st_rt_bs_sems'%(id)]]],color='black',lw=6.0);
-ax1.bar(3.8,db['%s_Discrim_mt_mean_rt'%(id)],color=col,width=0.4);
-ax1.errorbar(3.8,db['%s_Discrim_mt_mean_rt'%(id)],yerr=[[db['%s_Discrim_mt_rt_bs_sems'%(id)]],[db['%s_Discrim_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0);
+ax1.bar(1.7,db['%s_Discrim_st_mean_rt'%(id)],color=col,width=0.175);
+ax1.errorbar(1.7,db['%s_Discrim_st_mean_rt'%(id)],yerr=[[db['%s_Discrim_st_rt_bs_sems'%(id)]],[db['%s_Discrim_st_rt_bs_sems'%(id)]]],color='black',lw=6.0);
+ax1.bar(1.9,db['%s_Discrim_mt_mean_rt'%(id)],color=col,width=0.175);
+ax1.errorbar(1.9,db['%s_Discrim_mt_mean_rt'%(id)],yerr=[[db['%s_Discrim_mt_rt_bs_sems'%(id)]],[db['%s_Discrim_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0);
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
@@ -53,7 +53,7 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 filename = 'exp1B_nt_labeled';
 savefig(savepath+filename+'.png',dpi=400);
 #then get rid of labels and save as a .eps
-labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]=''; labels[3]=''; labels[4]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; labels[3]=''; labels[4]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 ax1.set_xticklabels(labels);
 ax1.set_yticklabels(['','','','','','','','','','','','','','']);
 ax1.set_ylabel(''); ax1.set_xlabel('');
@@ -65,22 +65,22 @@ show();
 
 #next plot it with markers and a line connecting the 
 fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.7,4.1]); ax1.set_xticks([1,1.6,2.2,3.2,3.8]); #,4.4]);
-ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Number of Targets',size=18,labelpad=40);
-ax1.set_xticklabels(['Zero','One','Two','One','Two']);
+ax1.set_ylim(450,750); ax1.set_yticks(arange(500,801,100)); ax1.set_xlim([0.7,2.1]); ax1.set_xticks([1.1,1.8]); #,4.4]);
+ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Task',size=18,labelpad=40);
+ax1.set_xticklabels(['Detect','Discrim']);
 #detection task first
 #ax1.plot([1,1.6,2.2],[db['%s_Detect_abs_mean_rt'%(id)],db['%s_Detect_st_mean_rt'%(id)],db['%s_Detect_mt_mean_rt'%(id)]],ls = 'solid',color='black',marker = 'o', markersize = 14);
-ax1.plot(1,db['%s_Detect_abs_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
-ax1.errorbar(1,db['%s_Detect_abs_mean_rt'%(id)],yerr=[[db['%s_Detect_abs_rt_bs_sems'%(id)]],[db['%s_Detect_abs_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.plot(1.6,db['%s_Detect_st_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
-ax1.errorbar(1.6,db['%s_Detect_st_mean_rt'%(id)],yerr=[[db['%s_Detect_st_rt_bs_sems'%(id)]],[db['%s_Detect_st_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.plot(2.2,db['%s_Detect_mt_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
-ax1.errorbar(2.2,db['%s_Detect_mt_mean_rt'%(id)],yerr=[[db['%s_Detect_mt_rt_bs_sems'%(id)]],[db['%s_Detect_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.0,db['%s_Detect_abs_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.0,db['%s_Detect_abs_mean_rt'%(id)],yerr=[[db['%s_Detect_abs_rt_bs_sems'%(id)]],[db['%s_Detect_abs_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.1,db['%s_Detect_st_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.1,db['%s_Detect_st_mean_rt'%(id)],yerr=[[db['%s_Detect_st_rt_bs_sems'%(id)]],[db['%s_Detect_st_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.2,db['%s_Detect_mt_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.2,db['%s_Detect_mt_mean_rt'%(id)],yerr=[[db['%s_Detect_mt_rt_bs_sems'%(id)]],[db['%s_Detect_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
 #discrimination next
-ax1.plot(3.2,db['%s_Discrim_st_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
-ax1.errorbar(3.2,db['%s_Discrim_st_mean_rt'%(id)],yerr=[[db['%s_Discrim_st_rt_bs_sems'%(id)]],[db['%s_Discrim_st_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.plot(3.8,db['%s_Discrim_mt_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
-ax1.errorbar(3.8,db['%s_Discrim_mt_mean_rt'%(id)],yerr=[[db['%s_Discrim_mt_rt_bs_sems'%(id)]],[db['%s_Discrim_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.75,db['%s_Discrim_st_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.75,db['%s_Discrim_st_mean_rt'%(id)],yerr=[[db['%s_Discrim_st_rt_bs_sems'%(id)]],[db['%s_Discrim_st_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.85,db['%s_Discrim_mt_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.85,db['%s_Discrim_mt_mean_rt'%(id)],yerr=[[db['%s_Discrim_mt_rt_bs_sems'%(id)]],[db['%s_Discrim_mt_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
@@ -88,7 +88,7 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 filename = 'exp1B_nt_marker_labeled';
 savefig(savepath+filename+'.png',dpi=400);
 #then get rid of labels and save as a .eps
-labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]=''; labels[3]=''; labels[4]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]='';# labels[2]=''; labels[3]=''; labels[4]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 ax1.set_xticklabels(labels);
 ax1.set_yticklabels(['','','','','','','','','','','','','','']);
 ax1.set_ylabel(''); ax1.set_xlabel('');
@@ -97,35 +97,35 @@ savefig(savepath+filename+'.eps',dpi=400);
 show();
 
 
-#now plot the distance data
-fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
-ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); 
-ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Inter-target distance, number of stimulus positions',size=18,labelpad=40);
-ax1.set_xticklabels(['1','2','3']);
-#detection first
-ax1.plot([1,1.6,2.2],[db['%s_Detect_dist_3_mean_rt'%(id)],db['%s_Detect_dist_5_mean_rt'%(id)],db['%s_Detect_dist_7_mean_rt'%(id)]],ls = 'solid',lw=5,color='black',marker = 'o', markersize = 14);
-ax1.errorbar(1,db['%s_Detect_dist_3_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_3_rt_bs_sems'%(id)]],[db['%s_Detect_dist_3_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.errorbar(1.6,db['%s_Detect_dist_5_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_5_rt_bs_sems'%(id)]],[db['%s_Detect_dist_5_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.errorbar(2.2,db['%s_Detect_dist_7_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_7_rt_bs_sems'%(id)]],[db['%s_Detect_dist_7_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-#then discrimination
-ax1.plot([1,1.6,2.2],[db['%s_Discrim_dist_3_mean_rt'%(id)],db['%s_Discrim_dist_5_mean_rt'%(id)],db['%s_Discrim_dist_7_mean_rt'%(id)]],ls = (0, (5, 10)),lw=5,color='black',marker = 'o', markersize = 14);
-ax1.errorbar(1,db['%s_Discrim_dist_3_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_3_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_3_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.errorbar(1.6,db['%s_Discrim_dist_5_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_5_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_5_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.errorbar(2.2,db['%s_Discrim_dist_7_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_7_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_7_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
-ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
-ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
-ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
-#save the labeled figure as a .png	
-filename = 'exp1B_distance_labeled';
-savefig(savepath+filename+'.png',dpi=400);
-#then get rid of labels and save as a .eps
-labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]='';  #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-ax1.set_xticklabels(labels);
-ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-ax1.set_ylabel(''); ax1.set_xlabel('');
-filename = 'exp1B_distance';
-savefig(savepath+filename+'.eps',dpi=400);
-show();
+# #now plot the distance data
+# fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
+# ax1.set_ylim(350,800); ax1.set_yticks(arange(400,850,100)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); 
+# ax1.set_ylabel('Response Time',size=18); ax1.set_xlabel('Inter-target distance, number of stimulus positions',size=18,labelpad=40);
+# ax1.set_xticklabels(['1','2','3']);
+# #detection first
+# ax1.plot([1,1.6,2.2],[db['%s_Detect_dist_3_mean_rt'%(id)],db['%s_Detect_dist_5_mean_rt'%(id)],db['%s_Detect_dist_7_mean_rt'%(id)]],ls = 'solid',lw=5,color='black',marker = 'o', markersize = 14);
+# ax1.errorbar(1,db['%s_Detect_dist_3_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_3_rt_bs_sems'%(id)]],[db['%s_Detect_dist_3_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# ax1.errorbar(1.6,db['%s_Detect_dist_5_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_5_rt_bs_sems'%(id)]],[db['%s_Detect_dist_5_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# ax1.errorbar(2.2,db['%s_Detect_dist_7_mean_rt'%(id)],yerr=[[db['%s_Detect_dist_7_rt_bs_sems'%(id)]],[db['%s_Detect_dist_7_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# #then discrimination
+# ax1.plot([1,1.6,2.2],[db['%s_Discrim_dist_3_mean_rt'%(id)],db['%s_Discrim_dist_5_mean_rt'%(id)],db['%s_Discrim_dist_7_mean_rt'%(id)]],ls = (0, (5, 10)),lw=5,color='black',marker = 'o', markersize = 14);
+# ax1.errorbar(1,db['%s_Discrim_dist_3_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_3_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_3_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# ax1.errorbar(1.6,db['%s_Discrim_dist_5_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_5_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_5_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# ax1.errorbar(2.2,db['%s_Discrim_dist_7_mean_rt'%(id)],yerr=[[db['%s_Discrim_dist_7_rt_bs_sems'%(id)]],[db['%s_Discrim_dist_7_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+# ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+# ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+# ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+# #save the labeled figure as a .png	
+# filename = 'exp1B_distance_labeled';
+# savefig(savepath+filename+'.png',dpi=400);
+# #then get rid of labels and save as a .eps
+# labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]='';  #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+# ax1.set_xticklabels(labels);
+# ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+# ax1.set_ylabel(''); ax1.set_xlabel('');
+# filename = 'exp1B_distance';
+# savefig(savepath+filename+'.eps',dpi=400);
+# show();
 
 
 
