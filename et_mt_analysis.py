@@ -12,9 +12,9 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
+datapath = '/Volumes/WORK_HD/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
 shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
-savepath = '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+savepath = '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -134,6 +134,7 @@ def compute_HFTargetMatch(trial_matrix,id):
 		data.to_csv(savepath+'target_match_hf_match.csv',index=False);
 
 	print "Finished computing target's match by hemifield relation data...";
+
 
 
 def computeTTSimple(trial_matrix, id='agg'):
@@ -264,6 +265,46 @@ def computeDist(trial_matrix, id):
 	print "Finished computing distance data...";
 
 
+def compute_TTxdist(trial_matrix, id):
+	if id=='agg':
+		db=subject_data;
+		data = pd.DataFrame(columns = ['sub_id','target_match','distance','mean_rt','pc']);
+	else:
+		db=individ_subject_data;
+	#loop through each hemifield name and find the mean, median, and such
+	trials = [tee for person in trial_matrix for tee in person];
+	index_counter = 0;
+	for type in ['Discrim']:
+		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
+		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+		for took,mat in zip([0,1],['no_match','match']): #loop through same vs. different
+			#cycle throught the different distances
+			for nombre,dist in zip(['3','5','7'],[3,5,7]):
+				res=[tee.result for tee in t if ((tee.target_types[0]==tee.target_types[1])==took)&(tee.t_dist==dist)&(tee.nr_targets==2)]; #gets the rts, ils, and results for the relevant data 
+				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==took)&(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix];
+				all_il_matrix = [[tee.initiation_latency for tee in ts if(tee.result==1)&((tee.target_types[0]==tee.target_types[1])==took)&(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix];
+				res_matrix = [[tee.result for tee in ts if((tee.target_types[0]==tee.target_types[1])==took)&(tee.t_dist==dist)&(tee.nr_targets==2)] for ts in t_matrix];
+				ind_rt_sds=[std(are) for are in all_rt_matrix]; ind_il_sds=[std(eye) for eye in all_il_matrix]; #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
+				rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; 
+				if len(rts)==0:
+					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+				#if it wasn't an empty array, compute and save relevant data
+				db['%s_%s_%s_%s_rt_bs_sems'%(id,type,dist,mat)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_%s_il_bs_sems'%(id,type,dist,mat)] = compute_BS_SEM(il_matrix,'time');
+				db['%s_%s_%s_%s_mean_rt'%(id,type,dist,mat)]=mean(rts); db['%s_%s_%s_%s_var_rt'%(id,type,dist,mat)]=var(rts); db['%s_%s_%s_%s_median_rt'%(id,type,dist,mat)]=median(rts); db['%s_%s_%s_%s_rt_cis'%(id,type,dist,mat)]=compute_CIs(rts);
+				db['%s_%s_%s_%s_mean_il'%(id,type,dist,mat)]=mean(ils); db['%s_%s_%s_%s_var_il'%(id,type,dist,mat)]=var(ils); db['%s_%s_%s_%s_median_il'%(id,type,dist,mat)]=median(ils); db['%s_%s_%s_%s_il_cis'%(id,type,dist,mat)]=compute_CIs(ils);
+				db['%s_%s_%s_%s_pc'%(id,type,dist,mat)]=pc(res); db['%s_%s_%s_%s_pc_bs_sems'%(id,type,dist,mat)] = compute_BS_SEM(res_matrix,'result');
+				db.sync();
+				if id=='agg':
+					#append all the datae for each subject together in the dataframe for use in ANOVA
+					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
+						data.loc[index_counter] = [i,mat,dist,mean(r_scores),pc(res_scores),];
+						index_counter+=1;
+	db.sync();
+	if id=='agg':
+		data.to_csv(savepath+'target_match_distance.csv',index=False);	
+	
 		
 def computeDistHF(trial_matrix, id):
 	if id=='agg':
