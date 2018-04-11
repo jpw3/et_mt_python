@@ -299,7 +299,7 @@ def compute_TTxdist(trial_matrix, id):
 				if id=='agg':
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					for i,r_scores,i_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,il_matrix,res_matrix):
-						data.loc[index_counter] = [i,mat,dist,mean(r_scores),pc(res_scores),];
+						data.loc[index_counter] = [i,mat,nombre,mean(r_scores),pc(res_scores),];
 						index_counter+=1;
 	db.sync();
 	if id=='agg':
