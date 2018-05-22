@@ -12,9 +12,9 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Volumes/WORK_HD/data/et_mt_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #
-shelvepath =  '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
-savepath = '/Users/james/Documents/Python/et_mt/data/'; #'/Users/jameswilmott/Documents/Python/et_mt/data/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/et_multi_targets/'; #'/Volumes/WORK_HD/data/et_mt_data/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
+savepath = '/Users/jameswilmott/Documents/Python/et_mt/data/'; #'/Users/james/Documents/Python/et_mt/data/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'mt_data');
@@ -46,6 +46,51 @@ def getIndividStats():
 		getStats(id);
 	print "Completed individual subject analysis!";
 	
+	
+def compute_ResponseRepetition(block_matrix, id):	
+	#analyzes NBack for the different trial types broken down by what the actual GIVEN response was (e.g., what response was given on the previous trial and what was given the curren trial)	
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	type = 'Discrim';
+	for trial_types, name in zip([-1, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp']):
+		for prev_trial_types, prev_name in zip([-1, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp']):	
+			for prev_cong, bool in zip(['congruent','incongruent'],[1,0]):
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
+				index_counter=0;		
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if (b.block_type!=type):
+							continue;
+						for i in arange(0,len(b.trials)):
+							#first trial can't have an nback
+							if (i==0)&(b.trials[i].same_hf==trial_types):						
+								foo='bar';
+							elif ((b.trials[i-1].same_hf==prev_trial_types))&(b.trials[i].same_hf==trial_types)&((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool)&(b.trials[i].selected_type > 0):								
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);		
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0
+				db['%s_%s_%s_%s_prev_trialtype_%s_actualresponse_mean_rt'%(id,type,name,prev_name,prev_cong)]=mean(rts); db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_median_rt'%(id,type,name,prev_name,prev_cong)]=median(rts);
+				db['%s_%s_%s_%s_prev_trialtype_%s_actualresponse_var_rt'%(id,type,name,prev_name,prev_cong)]=var(rts);
+				db['%s_%s_%s_%s_prev_trialtype_%s_actualresponse_pc'%(id,type,name,prev_name,prev_cong)]=pc(res);
+				db.sync();
+				if id=='agg':
+					db['%s_%s_%s_%s_prev_trialtype_%s_actualresponse_rt_bs_sems'%(id,type,name,prev_name,prev_cong)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_%s_%s_%s_prev_trialtype_%s_actualresponse_pc_bs_sems'%(id,type,name,prev_name,prev_cong)]=compute_BS_SEM(res_matrix, 'result');
+
+	db.sync();	
+	
+	
+
 def computeHF(trial_matrix,id):
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
