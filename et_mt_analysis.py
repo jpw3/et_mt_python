@@ -54,8 +54,8 @@ def compute_ResponseRepetition(block_matrix, id):
 	else:
 		db=individ_subject_data;
 	type = 'Discrim';
-	for trial_types, name in zip([-1, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp']):
-		for prev_trial_types, prev_name in zip([-1, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp']):	
+	for trial_types, name, nrt in zip([0, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp'],[1,2,2]):
+		for prev_trial_types, prev_name, prev_nrt in zip([0, 1, 0],['one_target','cong_percept_cong_resp','incong_percept_incong_resp'],[1,2,2]):	
 			for prev_cong, bool in zip(['congruent','incongruent'],[1,0]):
 				all_rt_matrix = [[] for su in block_matrix];
 				all_res_matrix = [[] for su in block_matrix];					
@@ -68,7 +68,9 @@ def compute_ResponseRepetition(block_matrix, id):
 							#first trial can't have an nback
 							if (i==0)&(b.trials[i].same_hf==trial_types):						
 								foo='bar';
-							elif ((b.trials[i-1].same_hf==prev_trial_types))&(b.trials[i].same_hf==trial_types)&((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool)&(b.trials[i].selected_type > 0):								
+							elif ((b.trials[i-1].target_types[0]==b.trials[i-1].target_types[1])==prev_trial_types)&(b.trials[i-1].nr_targets==prev_nrt)& \
+							((b.trials[i].target_types[0]==b.trials[i].target_types[1])==trial_types)&(b.trials[i].nr_targets==nrt) \
+							&((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool)&(b.trials[i].selected_type > 0):									
 								if b.trials[i].result==1:										
 									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
 								all_res_matrix[subj_nr].append(b.trials[i].result);		
@@ -250,6 +252,13 @@ def computeNT(trial_matrix, id):
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; 
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; res=[io for lo in res_matrix for io in lo];
+			
+			if (type=='Detect')&(n == 0):
+				poss = array([len([tee.response_time for tee in ts if ((tee.nr_targets==n)&(tee.block_type==type))]) for ts in trial_matrix]);
+				excluded = poss - array([len(gub) for gub in rt_matrix]);
+				1/0
+			
+			
 			#compute and save the relevant data
 			db['%s_%s_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_il_bs_sems'%(id,type,name)] = compute_BS_SEM(il_matrix,'time');
 			db['%s_%s_%s_mean_rt'%(id,type,name)]=mean(rts); db['%s_%s_%s_var_rt'%(id,type,name)]=var(rts); db['%s_%s_%s_median_rt'%(id,type,name)]=median(rts); #db['%s_%s_%s_rt_cis'%(id,type,name)]=compute_CIs(rts); 
