@@ -26,7 +26,32 @@ matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger tha
 matplotlib.rcParams['hatch.color'] = 'black';
 matplotlib.pyplot.rc('font',weight='bold');
 
+#plot the same vs different target match data as a marker plot for the Psychonomics poster
 
+fig = figure(figsize = (12.8,7.64)); ax1=gca(); #grid(True);
+ax1.set_ylim(450,750); ax1.set_yticks(arange(500,801,100)); ax1.set_xlim([0.7,1.7]); ax1.set_xticks([0.95,1.45]); #,4.4]);
+ax1.set_ylabel('Reaction Time',size=18); ax1.set_xlabel('Target shapes match',size=18,labelpad=40);
+ax1.set_xticklabels(['Same','Different']);
+ax1.plot(0.95,db['%s_Discrim_match_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(0.95,db['%s_Discrim_match_mean_rt'%(id)],yerr=[[db['%s_Discrim_match_rt_bs_sems'%(id)]],[db['%s_Discrim_match_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.plot(1.45,db['%s_Discrim_no_match_mean_rt'%(id)],color='black',marker = 'o', markersize = 14);
+ax1.errorbar(1.45,db['%s_Discrim_no_match_mean_rt'%(id)],yerr=[[db['%s_Discrim_no_match_rt_bs_sems'%(id)]],[db['%s_Discrim_no_match_rt_bs_sems'%(id)]]],color='black',lw=6.0, capsize=9, capthick=5);
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+#save the labeled figure as a .png	
+filename = 'EXP1_TSM_MARKER_labeled';
+savefig(savepath+filename+'.png',dpi=400);
+#then get rid of labels and save as a .eps
+labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]='';
+ax1.set_xticklabels(labels);
+ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+ax1.set_ylabel(''); ax1.set_xlabel('');
+filename = 'EXP1_TSM_MARKER';
+savefig(savepath+filename+'.eps',dpi=400);
+show();
+
+1/0
 
 ### Plot the previous trial response repetition analyses here
 
