@@ -239,6 +239,7 @@ def computeNT(trial_matrix, id):
 	for type in ['Discrim','Detect']:
 		t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix]; #list of subject trials; for use in SEM calculation
+		
 		#loop through the possible number of targets, calculating RT and pc stats as I go
 		for n,name in zip([1,2,0],['st','mt','abs']):
 			if ((type=='Discrim')&(n==0)): #impossible condition
@@ -253,7 +254,7 @@ def computeNT(trial_matrix, id):
 			il_matrix=[[i for i in individ_ils if (i>=(mean(individ_ils)-(3*ind_il_sd)))&(i<=(mean(individ_ils)+(3*ind_il_sd)))] for individ_ils,ind_il_sd in zip(all_il_matrix,ind_il_sds)];
 			rts = [r for y in rt_matrix for r in y]; ils = [i for l in il_matrix for i in l]; res=[io for lo in res_matrix for io in lo];
 			
-			if (type=='Detect')&(n == 0):
+			if (type=='Discrim')&(n == 2):
 				poss = array([len([tee.response_time for tee in ts if ((tee.nr_targets==n)&(tee.block_type==type))]) for ts in trial_matrix]);
 				excluded = poss - array([len(gub) for gub in rt_matrix]);
 				1/0
